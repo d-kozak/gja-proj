@@ -1,5 +1,6 @@
-package cz.vutbr.fit.gja.proj3.server.user;
+package cz.vutbr.fit.gja.proj3.server.user.boundary;
 
+import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import lombok.Getter;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -26,6 +27,6 @@ public class UserController {
     public String save() {
         userRepository.save(user);
         user = new User();
-        return "/product-list.xhtml?faces-redirect=true";
+        return "/user-list.xhtml?faces-redirect=true";
     }
 }

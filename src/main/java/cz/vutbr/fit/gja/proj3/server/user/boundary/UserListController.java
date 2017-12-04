@@ -1,5 +1,6 @@
-package cz.vutbr.fit.gja.proj3.server.user;
+package cz.vutbr.fit.gja.proj3.server.user.boundary;
 
+import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import lombok.Getter;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
