@@ -1,5 +1,7 @@
 package cz.vutbr.fit.gja.proj3.server.task.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +25,10 @@ public class Task {
     @OrderColumn
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<Command> commands;
+
+    @ManyToMany
+    @JsonIgnore
+    private List<User> users;
 
     @Override
     public String toString() {

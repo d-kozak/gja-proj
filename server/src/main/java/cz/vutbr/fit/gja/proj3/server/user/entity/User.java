@@ -1,14 +1,13 @@
 package cz.vutbr.fit.gja.proj3.server.user.entity;
 
+import cz.vutbr.fit.gja.proj3.server.task.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,5 +24,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Task> tasks;
 
 }

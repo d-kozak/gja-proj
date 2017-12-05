@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/tasks")
 @Log
-public class TaskController {
+public class TaskRestController {
 
     private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository) {
+    public TaskRestController(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
