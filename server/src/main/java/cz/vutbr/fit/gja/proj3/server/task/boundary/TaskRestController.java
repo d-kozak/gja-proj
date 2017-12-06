@@ -25,7 +25,6 @@ public class TaskRestController {
     public List<Task> get() {
         log.info("called");
         List<Task> all = taskRepository.findAll();
-        all.forEach(task -> task.getCommands());
         return all;
     }
 }

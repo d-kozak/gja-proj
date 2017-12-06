@@ -8,45 +8,55 @@ import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import lombok.extern.java.Log;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
+@Service
 @Log
-@Transactional
 public class DemoTaskLoader {
 
-    @Bean
-    CommandLineRunner addTasks(TaskRepository taskRepository, UserRepository userRepository) {
-        return (param) -> {
-            log.info("adding demo tasks");
-            // could be simpler with constructors, just an example of the builder API
-            Task newTask = Task.builder()
-                               .name("Cook")
-                               .commands(Arrays.asList(Command.builder()
-                                                              .commandText("go to kitchen")
-                                                              .build(),
-                                       Command.builder()
-                                              .commandText("start cooking")
-                                              .build(),
-                                       Command.builder()
-                                              .commandText("finish cooking")
-                                              .build()))
-                               .build();
 
-            newTask.getCommands()
-                   .forEach(command -> command.setTask(newTask));
-            taskRepository.save(newTask);
-            List<User> users = userRepository.findAll();
-            if (!users.isEmpty()) {
-                User user = users.get(0);
-                user.getTasks()
-                    .add(newTask);
-                userRepository.save(user);
-            }
+    @Bean
+    CommandLineRunner addTasks(TaskRepository taskRepository, UserRepository userRepository, PlatformTransactionManager transactionManager) {
+        return (param) -> {
+            log.info(DemoTaskLoader.class.getSimpleName() + ": adding demo tasks");
+            // transaction template necessary to tun the code in a transaction
+            TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+            transactionTemplate.execute((status) -> {
+                Task task = createDummyTask();
+                task.getCommands()
+                    .forEach(command -> command.setTask(task));
+                taskRepository.save(task);
+                List<User> users = userRepository.findAll();
+                if (!users.isEmpty()) {
+                    User user = users.get(0);
+                    user.getTasks()
+                        .add(task);
+                    userRepository.save(user);
+                }
+                return null;
+            });
         };
     }
+
+    private Task createDummyTask() {
+        // could be simpler with constructors, just an example of the builder API
+        return Task.builder()
+                   .name("Cook")
+                   .commands(Arrays.asList(Command.builder()
+                                                  .commandText("go to kitchen")
+                                                  .build(),
+                           Command.builder()
+                                  .commandText("start cooking")
+                                  .build(),
+                           Command.builder()
+                                  .commandText("finish cooking")
+                                  .build()))
+                   .build();
+    }
 }
+

@@ -25,7 +25,7 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Task> tasks;
 
 }
