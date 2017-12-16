@@ -1,6 +1,6 @@
 package cz.vutbr.fit.gja.proj3.node.executiontask.control;
 
-import cz.vutbr.fit.gja.proj3.node.executiontask.entity.ExecutionTask;
+import cz.vutbr.fit.gja.proj3.executiontask.entity.ExecutionTaskDto;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 @Service
 @Log
 public class TaskExecutor {
-    private ExecutionTask executionTask;
+    private ExecutionTaskDto executionTask;
     private ProcessBuilder processBuilder;
 
     private Process taskExecutor;
     private ProcessOutputReader processOutputReader;
 
 
-    public void start(ExecutionTask executionTask) throws IOException {
+    public void start(ExecutionTaskDto executionTask) throws IOException {
         this.executionTask = executionTask;
         ArrayList<String> command = new ArrayList<>(executionTask.getArguments());
         command.add(0, executionTask.getCommand());
