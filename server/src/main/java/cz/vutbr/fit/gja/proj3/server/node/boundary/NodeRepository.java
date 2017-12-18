@@ -1,0 +1,18 @@
+package cz.vutbr.fit.gja.proj3.server.node.boundary;
+
+import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
+import org.hibernate.Hibernate;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+public interface NodeRepository extends JpaRepository<Node, Long> {
+
+    @Transactional
+    default List<Node> findAllEagerfetch() {
+        List<Node> all = findAll();
+        all.forEach(node -> Hibernate.initialize(node.getTasks()));
+        return all;
+    }
+}

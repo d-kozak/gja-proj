@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns="http://www.w3.org/1999/xhtml">
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
+        <p:layout>
+            <p:layoutUnit position="west" resizable="true" maxSize="300">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:panel style="border: none">
+                        <p:dataTable id="table" var="node" value="#{nodeController.nodes}"
+                                     selectionMode="single" selection="#{nodeController.selectedNode}"
+                                     rowKey="#{node.id}">
+                            <p:ajax event="rowSelect" listener="#{nodeController.onRowSelect}"
+                                    update=":form:msgs,mainPanel"/>
+                            <p:column>
+                                <f:facet name="header">Nodes</f:facet>
+                                <h:outputText value="#{node.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton value="Add new " onclick="PF('addNode').show()"/>
+                    </p:panel>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" resizable="true">
+                <p:panel id="mainPanel" style="border: none">
+
+                    <p:dialog header="Add new node" widgetVar="addNode">
+                        <h:form id="newNodeDetails">
+                            <p:panelGrid columns="1" style="border: none">
+                                <p:outputLabel for="newNodeName" value="Name: "/>
+                                <p:inputText id="newNodeName" value="#{nodeController.newNode.name}"/>
+                                <p:outputLabel for="newNodeUrl" value="Url: "/>
+                                <p:inputText id="newNodeUrl" value="#{nodeController.newNode.url}"/>
+
+                                <h:commandButton value="Add" action="#{nodeController.addNewNode}"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <h2>Node #{nodeController.selectedNode.name}</h2>
+
+
+                    <h:form id="nodeDetails">
+                        <p:panelGrid columns="1" style="border: none">
+                            <p:outputLabel for="name" value="Name: "/>
+                            <p:inputText id="name" value="#{nodeController.selectedNode.name}"/>
+                            <p:outputLabel for="url" value="Url: "/>
+                            <p:inputText id="url" value="#{nodeController.selectedNode.url}"/>
+
+                            <h:commandButton value="Save" action="#{nodeController.update}"/>
+                        </p:panelGrid>
+                    </h:form>
+
+
+                    <h:form id="nodeTasks">
+                        <p:dataTable id="nodeTasksTable" var="task" value="#{nodeController.selectedNode.tasks}"
+                                     selectionMode="single" selection="#{nodeController.selectedTask}"
+                                     rowKey="#{task.id}">
+                            <p:column>
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{task.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+            </p:layoutUnit>
+        </p:layout>
+    </ui:define>
+</ui:composition>
+</html>

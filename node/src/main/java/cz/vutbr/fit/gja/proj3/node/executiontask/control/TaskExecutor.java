@@ -1,7 +1,7 @@
 package cz.vutbr.fit.gja.proj3.node.executiontask.control;
 
-import cz.vutbr.fit.gja.proj3.executiontask.entity.ExecutionTask;
-import cz.vutbr.fit.gja.proj3.executiontask.entity.TaskUnit;
+import cz.vutbr.fit.gja.proj3.common.executiontask.entity.ExecutionTask;
+import cz.vutbr.fit.gja.proj3.common.executiontask.entity.TaskUnit;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 

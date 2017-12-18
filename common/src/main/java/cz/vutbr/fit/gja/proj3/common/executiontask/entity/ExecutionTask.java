@@ -1,4 +1,4 @@
-package cz.vutbr.fit.gja.proj3.executiontask.entity;
+package cz.vutbr.fit.gja.proj3.common.executiontask.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

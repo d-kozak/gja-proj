@@ -1,6 +1,7 @@
 package cz.vutbr.fit.gja.proj3.server.task.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,9 @@ public class Task {
     @ManyToMany
     @JsonIgnore
     private List<User> users;
+
+    @ManyToOne
+    private Node node;
 
     @Override
     public String toString() {

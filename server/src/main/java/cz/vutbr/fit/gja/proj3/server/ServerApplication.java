@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.faces.webapp.FacesServlet;
@@ -14,6 +15,7 @@ import java.util.EnumSet;
 
 @SpringBootApplication
 @EnableTransactionManagement
+@EnableAsync
 public class ServerApplication {
 
     public static void main(String[] args) {

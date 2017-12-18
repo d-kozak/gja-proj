@@ -1,15 +1,15 @@
-package cz.vutbr.fit.gja.proj3.executiontask.control;
+package cz.vutbr.fit.gja.proj3.common.executiontask.control;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = CommandValidator.class)
+@Constraint(validatedBy = DirectoryValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CommandConstraint {
-    String message() default "This command is not valid";
+public @interface DirectoryConstraint {
+    String message() default "Invalid directory";
 
     Class<?>[] groups() default {};
 
