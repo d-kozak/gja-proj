@@ -52,6 +52,8 @@
                             <p:inputText id="name" value="#{nodeController.selectedNode.name}"/>
                             <p:outputLabel for="url" value="Url: "/>
                             <p:inputText id="url" value="#{nodeController.selectedNode.url}"/>
+                            <h:outputText value="Active: "/>
+                            <p:selectBooleanCheckbox value="#{nodeController.selectedNode.active}"/>
 
                             <h:commandButton value="Save" action="#{nodeController.update}"/>
                         </p:panelGrid>
