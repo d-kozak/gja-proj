@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns="http://www.w3.org/1999/xhtml">
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:panel header="Task list">
+                <p:dataTable id="table" var="task" value="#{taskController.tasks}" selectionMode="single"
+                             selection="#{taskController.selectedTask}" rowKey="#{task.id}">
+                    <p:ajax event="rowSelect" listener="#{taskController.onRowSelect}" update=":form:msgs,taskForm"/>
+                    <p:ajax event="rowUnselect" listener="#{taskController.onRowUnselect}"
+                            update=":form:msgs,taskForm"/>
+                    <f:facet name="header">
+                        Tasks
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{task.name}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+        <h:form id="taskForm">
+            <p:panel header="Task details">
+                <h:panelGrid columns="1">
+                    <p:outputLabel for="login" value="Name: "/>
+                    <p:inputText id="login" value="#{taskController.selectedTask.name}"/>
+
+                    <h:commandButton value="Save" action="#{taskController.save}"/>
+                </h:panelGrid>
+            </p:panel>
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

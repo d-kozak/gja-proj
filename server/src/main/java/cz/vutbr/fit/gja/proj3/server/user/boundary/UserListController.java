@@ -34,4 +34,5 @@ public class UserListController {
     public void loadData() {
         users = userRepository.findAll();
     }
+
 }

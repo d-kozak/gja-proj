@@ -24,7 +24,7 @@ public class Task {
 
     @OrderColumn
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
-    private List<Command> commands;
+    private List<PartialTask> partialTasks;
 
     @ManyToMany
     @JsonIgnore
@@ -35,7 +35,7 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", commands=" + commands +
+                ", partialTasks=" + partialTasks +
                 '}';
     }
 }

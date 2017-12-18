@@ -1,6 +1,6 @@
 package cz.vutbr.fit.gja.proj3.node.executiontask.boundary;
 
-import cz.vutbr.fit.gja.proj3.executiontask.entity.ExecutionTaskDto;
+import cz.vutbr.fit.gja.proj3.executiontask.entity.ExecutionTask;
 import cz.vutbr.fit.gja.proj3.node.executiontask.control.TaskExecutor;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ExecutionTaskController {
     }
 
     @PostMapping
-    public String start(@RequestBody @Valid ExecutionTaskDto executionTask, BindingResult binding) {
+    public String start(@RequestBody @Valid ExecutionTask executionTask, BindingResult binding) {
         if (binding.hasErrors()) {
             return "error: " + binding.getAllErrors();
         }
