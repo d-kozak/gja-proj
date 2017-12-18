@@ -24,6 +24,8 @@ public class Node {
     private String url;
     private String name;
 
+    private boolean active = true;
+
     @OneToMany(mappedBy = "node")
     private List<Task> tasks;
 }

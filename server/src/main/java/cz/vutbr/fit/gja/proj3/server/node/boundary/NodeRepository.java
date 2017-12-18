@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface NodeRepository extends JpaRepository<Node, Long> {
 
+    List<Node> findAllByActiveIsTrue();
+
     @Transactional
     default List<Node> findAllEagerfetch() {
         List<Node> all = findAll();
