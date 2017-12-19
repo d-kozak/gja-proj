@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,5 +28,8 @@ public class User {
 
     @ManyToMany
     private List<Task> tasks;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles;
 
 }

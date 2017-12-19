@@ -29,7 +29,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
+                .antMatchers("/register",
+                        "/javax.faces.resource/**",
+                        "/primefaces_resource/**",
+                        "/css/**",
+                        "/images/**",
+                        "/resources/**")
+                .permitAll()
                 .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/appLogin")
+                .usernameParameter("app_username")
+                .passwordParameter("app_password")
+//                .successForwardUrl("/")
+                .failureUrl("/login")
+                .and()
+                .logout()
+                .logoutUrl("/appLogout")
+                .logoutSuccessUrl("/login")
                 .permitAll();
     }
 
