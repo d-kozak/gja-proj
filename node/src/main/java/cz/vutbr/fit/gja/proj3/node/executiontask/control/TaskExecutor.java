@@ -11,7 +11,6 @@ import java.util.ArrayList;
 @Service
 @Log
 public class TaskExecutor {
-    private ExecutionTask executionTask;
     private ProcessBuilder processBuilder;
 
     private Process taskExecutor;
@@ -19,7 +18,6 @@ public class TaskExecutor {
 
 
     public void start(ExecutionTask executionTask) throws IOException {
-        this.executionTask = executionTask;
         for (TaskUnit taskUnit : executionTask.getTaskUnits()) {
             ArrayList<String> command = new ArrayList<>(taskUnit.getArguments());
             command.add(0, taskUnit.getCommand());
@@ -39,6 +37,7 @@ public class TaskExecutor {
                 break;
             } finally {
                 processOutputReader.interrupt();
+                processOutputReader.close();
             }
         }
     }
@@ -71,6 +70,15 @@ public class TaskExecutor {
                     interrupt();
                     break;
                 }
+            }
+        }
+
+        public void close() {
+            try {
+                inputReader.close();
+                errorReader.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

@@ -1,6 +1,5 @@
 package cz.vutbr.fit.gja.proj3.server.node.control;
 
-import cz.vutbr.fit.gja.proj3.server.node.boundary.NodeEchoService;
 import cz.vutbr.fit.gja.proj3.server.node.boundary.NodeRepository;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import lombok.extern.java.Log;

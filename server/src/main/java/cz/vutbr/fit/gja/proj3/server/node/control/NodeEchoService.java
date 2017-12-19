@@ -1,4 +1,4 @@
-package cz.vutbr.fit.gja.proj3.server.node.boundary;
+package cz.vutbr.fit.gja.proj3.server.node.control;
 
 import cz.vutbr.fit.gja.proj3.common.node.entity.NodeReply;
 import cz.vutbr.fit.gja.proj3.common.node.entity.NodeRequest;

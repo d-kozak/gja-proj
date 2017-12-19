@@ -1,5 +1,6 @@
 package cz.vutbr.fit.gja.proj3.server.node.boundary;
 
+import cz.vutbr.fit.gja.proj3.server.node.control.NodeEchoService;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import cz.vutbr.fit.gja.proj3.server.task.entity.Task;
 import lombok.extern.java.Log;
@@ -49,7 +50,7 @@ public class NodeController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        nodes = nodeRepository.findAllEagerfetch();
+        nodes = nodeRepository.findAllEagerFetch();
     }
 
     public String update() {
