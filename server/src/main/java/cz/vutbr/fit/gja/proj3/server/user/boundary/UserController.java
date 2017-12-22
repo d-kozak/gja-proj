@@ -7,6 +7,7 @@ import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
@@ -18,23 +19,25 @@ import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 @Scope(value = "session")
 @Component(value = "userController")
 @ELBeanName(value = "userController")
-@Join(path = "/user", to = "/user-form.jsf")
+@Join(path = "/admin/user/new", to = "/user-form.jsf")
 
 @ViewScoped
 @ManagedBean(name = "userController")
 public class UserController {
-
-
     @Getter
     private User user = new User();
     private final CustomUserDetailsService customUserDetailsService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserController(CustomUserDetailsService customUserDetailsService) {
+    public UserController(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
         this.customUserDetailsService = customUserDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String save() {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (customUserDetailsService.saveUser(user)) {
             log.info("user registered successfully");
             user = new User();

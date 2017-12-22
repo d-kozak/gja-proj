@@ -16,7 +16,7 @@ import java.util.List;
 @Scope(value = "session")
 @Component(value = "userList")
 @ELBeanName(value = "userList")
-@Join(path = "/", to = "/user-list.jsf")
+@Join(path = "/admin/user", to = "/user-list.jsf")
 public class UserListController {
 
     private final UserRepository userRepository;
