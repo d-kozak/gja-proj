@@ -29,7 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/register",
+                .antMatchers(
+                        "/hello",
+                        "/register",
                         "/javax.faces.resource/**",
                         "/primefaces_resource/**",
                         "/css/**",
