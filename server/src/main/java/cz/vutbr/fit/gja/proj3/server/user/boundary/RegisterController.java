@@ -14,6 +14,8 @@ import javax.faces.bean.ViewScoped;
 import java.util.Collections;
 import java.util.HashSet;
 
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
+
 @Log
 @Scope(value = "session")
 @Component(value = "registerController")
@@ -51,8 +53,9 @@ public class RegisterController {
             log.info("user registered successfully");
             return "/login.xhtml?faces-redirect=true";
         } else {
+            showError("Login already taken");
             log.severe("registration failed");
-            return "/register.xhtml?faces-redirect=true";
+            return null;
         }
     }
 

@@ -1,5 +1,6 @@
 package cz.vutbr.fit.gja.proj3.server;
 
+import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.servlet.RewriteFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import javax.faces.webapp.FacesServlet;
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 
+@Log
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling

@@ -16,15 +16,16 @@
             <div class="ui-g-12">
                 <p:toolbar>
                     <f:facet name="left">
-                        <p:button href="/" value="List of users"/>
-                        <p:button href="/node" value="Nodes"/>
-                        <p:button href="/user" value="New user"/>
-                        <p:button href="/task" value="Tasks"/>
+                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/" value="List of users"/>
+                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/user" value="New user"/>
+                        <p:button rendered="${not request.isUserInRole('ROLE_ADMIN')}" href="/node" value="Nodes"/>
+                        <p:button rendered="${not request.isUserInRole('ROLE_ADMIN')}" href="/task" value="Tasks"/>
                         <p:button href="/logout" value="Logout"/>
                     </f:facet>
                 </p:toolbar>
             </div>
             <div class="ui-g-12">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
                 <ui:insert name="content"/>
             </div>
         </div>

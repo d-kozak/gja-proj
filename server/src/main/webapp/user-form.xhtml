@@ -18,6 +18,12 @@
                     <p:outputLabel for="surname" value="Last name: "/>
                     <p:inputText id="surname" value="#{userController.user.lastName}"/>
 
+                    <p:outputLabel for="password" value="Password: "/>
+                    <p:password id="password" match="passwordCheck" value="#{userController.user.password}"/>
+
+                    <p:outputLabel for="passwordCheck" value="Password again: "/>
+                    <p:password id="passwordCheck"/>
+
                     <h:commandButton value="Save" action="#{userController.save}"/>
                 </h:panelGrid>
             </p:panel>
