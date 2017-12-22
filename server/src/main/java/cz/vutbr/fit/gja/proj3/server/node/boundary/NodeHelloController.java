@@ -2,6 +2,7 @@ package cz.vutbr.fit.gja.proj3.server.node.boundary;
 
 import cz.vutbr.fit.gja.proj3.common.node.entity.NodeReply;
 import cz.vutbr.fit.gja.proj3.common.node.entity.NodeRequest;
+import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,11 @@ public class NodeHelloController {
 
     @PostMapping
     public NodeReply post(@RequestBody NodeRequest nodeRequest) {
-        // TODO send all necessary information from the node
-//        nodeRepository.save();
-        log.info("called with " + nodeRequest);
+        Node node = new Node();
+        node.setName(nodeRequest.getDetails());
+        node.setUrl(nodeRequest.getDetails());
+        nodeRepository.save(node);
+        log.info("saving node: " + node);
         return new NodeReply(true);
     }
 }
