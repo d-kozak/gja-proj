@@ -8,37 +8,63 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <ui:composition template="layout-main.xhtml">
     <ui:define name="content">
-        <h:form id="form">
-            <p:growl id="msgs" showDetail="true"/>
-            <p:panel header="Task list">
-                <p:dataTable id="table" var="task" value="#{taskController.tasks}" selectionMode="single"
-                             selection="#{taskController.selectedTask}" rowKey="#{task.id}">
-                    <p:ajax event="rowSelect" listener="#{taskController.onRowSelect}" update=":form:msgs,taskForm"/>
-                    <p:ajax event="rowUnselect" listener="#{taskController.onRowUnselect}"
-                            update=":form:msgs,taskForm"/>
-                    <f:facet name="header">
-                        Tasks
-                    </f:facet>
-                    <p:column>
-                        <f:facet name="header">Name</f:facet>
-                        <h:outputText value="#{task.name}"/>
-                    </p:column>
-                </p:dataTable>
-            </p:panel>
-        </h:form>
-        <h:form id="taskForm">
-            <p:panel header="Task details">
-                <h:panelGrid columns="1">
-                    <p:outputLabel for="login" value="Name: "/>
-                    <p:inputText id="login" value="#{taskController.selectedTask.name}"/>
+        <p:layout>
+            <p:layoutUnit position="west" resizable="true" maxSize="300">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:panel style="border: none">
+                        <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
+                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}"
+                                     rowKey="#{task.id}">
+                            <p:ajax event="rowSelect" listener="#{taskController.onRowSelect}"
+                                    update=":form:msgs,mainPanel"/>
+                            <p:column>
+                                <f:facet name="header">Tasks</f:facet>
+                                <h:outputText value="#{task.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton value="Add new " onclick="PF('addTask').show()"/>
+                    </p:panel>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" resizable="true">
+                <p:panel id="mainPanel" style="border: none">
 
-                    <h:commandButton value="Save" action="#{taskController.save}"/>
-                </h:panelGrid>
-            </p:panel>
-            <input type="hidden"
-                   name="${_csrf.parameterName}"
-                   value="${_csrf.token}"/>
-        </h:form>
+                    <p:dialog header="Add new task" widgetVar="addTask">
+                        <h:form id="newTaskDetails">
+                            <p:panelGrid columns="1" style="border: none">
+                                <p:outputLabel for="newNodeName" value="Name: "/>
+                                <p:inputText id="newNodeName" value="#{taskController.newTask.name}"/>
+                                <h:commandButton value="Add" action="#{taskController.addNewTask}"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <h2>Task #{taskController.selectedProcessingTask.name}</h2>
+
+
+                    <h:form id="taskDetails">
+                        <p:panelGrid columns="1" style="border: none">
+                            <p:outputLabel for="name" value="Name: "/>
+                            <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}"/>
+
+                            <p:dataTable id="taskUnitTable" var="taskUnit"
+                                         value="#{taskController.selectedProcessingTask.processingTaskUnits}"
+                                         selectionMode="single" selection="#{taskController.selectedProcessingTaskUnit}"
+                                         rowKey="#{taskUnit.id}">
+                                <p:ajax event="rowSelect" listener="#{taskController.onRowSelectTaskUnit}"
+                                        update=":form:msgs,mainPanel"/>
+                                <p:column>
+                                    <f:facet name="header">Command</f:facet>
+                                    <h:outputText value="#{taskUnit.command}"/>
+                                </p:column>
+                            </p:dataTable>
+                            <h:commandButton value="Save" action="#{taskController.update}"/>
+                        </p:panelGrid>
+                    </h:form>
+                </p:panel>
+            </p:layoutUnit>
+        </p:layout>
     </ui:define>
 </ui:composition>
 </html>

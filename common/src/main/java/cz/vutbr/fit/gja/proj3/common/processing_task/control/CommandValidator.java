@@ -1,4 +1,4 @@
-package cz.vutbr.fit.gja.proj3.common.executiontask.control;
+package cz.vutbr.fit.gja.proj3.common.processing_task.control;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

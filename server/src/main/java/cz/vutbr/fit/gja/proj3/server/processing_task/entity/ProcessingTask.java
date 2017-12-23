@@ -1,4 +1,4 @@
-package cz.vutbr.fit.gja.proj3.server.task.entity;
+package cz.vutbr.fit.gja.proj3.server.processing_task.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
@@ -12,20 +12,24 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class Task {
+public class ProcessingTask {
 
     @Id
     @GeneratedValue
     private long id;
+
     private String name;
 
     @OrderColumn
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
-    private List<PartialTask> partialTasks;
+    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL)
+    private List<ProcessingTaskUnit> processingTaskUnits;
+
+    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.DETACH)
+    private List<ProcessingTaskResult> processingTaskResults;
 
     @ManyToMany
     @JsonIgnore
@@ -36,10 +40,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "ProcessingTask{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", partialTasks=" + partialTasks +
+                ", processingTaskUnits=" + processingTaskUnits +
                 '}';
     }
 }

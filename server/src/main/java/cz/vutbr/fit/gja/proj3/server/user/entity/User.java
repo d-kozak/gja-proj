@@ -1,6 +1,6 @@
 package cz.vutbr.fit.gja.proj3.server.user.entity;
 
-import cz.vutbr.fit.gja.proj3.server.task.entity.Task;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class User {
     private String lastName;
 
     @ManyToMany
-    private List<Task> tasks;
+    private List<ProcessingTask> processingTasks;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;

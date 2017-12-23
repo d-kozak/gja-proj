@@ -1,7 +1,7 @@
 package cz.vutbr.fit.gja.proj3.node.executiontask.control;
 
-import cz.vutbr.fit.gja.proj3.common.executiontask.entity.ExecutionTask;
-import cz.vutbr.fit.gja.proj3.common.executiontask.entity.TaskUnit;
+import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskDTO;
+import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskUnitDTO;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,12 @@ public class TaskExecutor {
     private ProcessOutputReader processOutputReader;
 
 
-    public void start(ExecutionTask executionTask) throws IOException {
-        for (TaskUnit taskUnit : executionTask.getTaskUnits()) {
-            ArrayList<String> command = new ArrayList<>(taskUnit.getArguments());
-            command.add(0, taskUnit.getCommand());
+    public void start(ProcessingTaskDTO processingTaskDTO) throws IOException {
+        for (ProcessingTaskUnitDTO processingTaskUnitDTO : processingTaskDTO.getProcessingTaskUnitDTOS()) {
+            ArrayList<String> command = new ArrayList<>(processingTaskUnitDTO.getArguments());
+            command.add(0, processingTaskUnitDTO.getCommand());
             processBuilder = new ProcessBuilder(command);
-            processBuilder.directory(new File(taskUnit.getDirectory()));
+            processBuilder.directory(new File(processingTaskUnitDTO.getDirectory()));
 
 
             taskExecutor = processBuilder.start();

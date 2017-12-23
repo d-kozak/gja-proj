@@ -14,7 +14,7 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
     @Transactional
     default List<Node> findAllEagerFetch() {
         List<Node> all = findAll();
-        all.forEach(node -> Hibernate.initialize(node.getTasks()));
+        all.forEach(node -> Hibernate.initialize(node.getProcessingTasks()));
         return all;
     }
 }

@@ -1,6 +1,6 @@
-package cz.vutbr.fit.gja.proj3.server.task.boundary;
+package cz.vutbr.fit.gja.proj3.server.processing_task.boundary;
 
-import cz.vutbr.fit.gja.proj3.server.task.entity.Task;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +22,9 @@ public class TaskRestController {
     }
 
     @GetMapping
-    public List<Task> get() {
+    public List<ProcessingTask> get() {
         log.info("called");
-        List<Task> all = taskRepository.findAll();
+        List<ProcessingTask> all = taskRepository.findAll();
         return all;
     }
 }

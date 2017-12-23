@@ -61,8 +61,9 @@
 
 
                     <h:form id="nodeTasks">
-                        <p:dataTable id="nodeTasksTable" var="task" value="#{nodeController.selectedNode.tasks}"
-                                     selectionMode="single" selection="#{nodeController.selectedTask}"
+                        <p:dataTable id="nodeTasksTable" var="task"
+                                     value="#{nodeController.selectedNode.processingTasks}"
+                                     selectionMode="single" selection="#{nodeController.selectedProcessingTask}"
                                      rowKey="#{task.id}">
                             <p:column>
                                 <f:facet name="header">Name</f:facet>

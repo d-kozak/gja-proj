@@ -2,7 +2,7 @@ package cz.vutbr.fit.gja.proj3.server.node.boundary;
 
 import cz.vutbr.fit.gja.proj3.server.node.control.NodeEchoService;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
-import cz.vutbr.fit.gja.proj3.server.task.entity.Task;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -38,7 +38,7 @@ public class NodeController {
 
     private Node newNode = new Node();
 
-    private Task selectedTask;
+    private ProcessingTask selectedProcessingTask;
 
     @Autowired
     public NodeController(NodeRepository nodeRepository, NodeEchoService nodeEchoService) {
@@ -106,12 +106,12 @@ public class NodeController {
         this.selectedNode = selectedNode;
     }
 
-    public Task getSelectedTask() {
-        return selectedTask;
+    public ProcessingTask getSelectedProcessingTask() {
+        return selectedProcessingTask;
     }
 
-    public void setSelectedTask(Task selectedTask) {
-        this.selectedTask = selectedTask;
+    public void setSelectedProcessingTask(ProcessingTask selectedProcessingTask) {
+        this.selectedProcessingTask = selectedProcessingTask;
     }
 
     public Node getNewNode() {

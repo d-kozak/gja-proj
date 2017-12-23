@@ -1,6 +1,6 @@
 package cz.vutbr.fit.gja.proj3.server.node.entity;
 
-import cz.vutbr.fit.gja.proj3.server.task.entity.Task;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +27,5 @@ public class Node {
     private boolean active = true;
 
     @OneToMany(mappedBy = "node")
-    private List<Task> tasks;
+    private List<ProcessingTask> processingTasks;
 }
