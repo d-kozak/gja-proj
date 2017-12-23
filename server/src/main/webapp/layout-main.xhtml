@@ -16,6 +16,7 @@
             <div class="ui-g-12">
                 <p:toolbar>
                     <f:facet name="left">
+                        <p:button href="/" value="Dashboard"/>
                         <p:button rendered="${not request.isUserInRole('ROLE_ADMIN')}" href="/node" value="Nodes"/>
                         <p:button rendered="${not request.isUserInRole('ROLE_ADMIN')}" href="/task" value="Tasks"/>
                         <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/admin/user"
