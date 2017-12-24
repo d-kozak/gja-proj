@@ -4,19 +4,39 @@
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns="http://www.w3.org/1999/xhtml">
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition template="layout-unauthenticated.xhtml">
     <ui:define name="content">
-
-        <h:outputLabel value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
-
         <p:panel id="mainPanel" header="Login">
-            <form action="${request.contextPath}/appLogin" method="POST">
-                <h:outputLabel for="app_username" value="Enter UserName:"/>
-                <input name="app_username"/><br/><br/>
-                <h:outputLabel for="app_password" value="Enter Password:"/>
-                <input type="password" name="app_password"/> <br/><br/>
-                <input type="submit" value="Login"/>
+            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message and param['error'] == 1}">
+                <div class="ui-messages">
+                    <div class="ui-messages-error">
+                        <a href="#" class="ui-messages-close" onclick="$(this).parent().slideUp();window.history.pushState('', '', '/login');return false;">
+                            <span class="ui-icon ui-icon-close"></span>
+                        </a>
+                        <span class="ui-messages-error-icon"></span>
+                        <ul>
+                            <li>
+                                <span class="ui-messages-error-summary">Login failed!</span>
+                                <span class="ui-messages-error-detail">${SPRING_SECURITY_LAST_EXCEPTION.message}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </c:if>
+            <form action="#{request.contextPath}/appLogin" method="post">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="app_username" value="Login:" />
+                    <h:inputText id="app_username" required="true" />
+                    <h:outputLabel for="app_password" value="Password" />
+                    <h:inputSecret id="app_password" required="true" />
+                </h:panelGrid>
+                <h:panelGrid>
+                    <button type="submit" class="ui-button ui-widget ui-button-text-only">
+                            <span class="ui-button-text ui-c">Login</span>
+                    </button>
+                </h:panelGrid>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
         </p:panel>

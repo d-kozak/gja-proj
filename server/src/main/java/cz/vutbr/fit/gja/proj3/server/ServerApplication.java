@@ -14,12 +14,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
+import org.springframework.context.annotation.PropertySource;
 
 @Log
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
 @EnableAsync
+@PropertySource("classpath:local.properties")
 public class ServerApplication {
 
     public static void main(String[] args) {

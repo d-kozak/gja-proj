@@ -17,12 +17,10 @@
                 <p:toolbar>
                     <f:facet name="left">
                         <p:button href="/" value="Dashboard"/>
-                        <p:button rendered="${not request.isUserInRole('ROLE_ADMIN')}" href="/node" value="Nodes"/>
-                        <p:button rendered="${not request.isUserInRole('ROLE_ADMIN')}" href="/task" value="Tasks"/>
+                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/node" value="Nodes"/>
+                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/task" value="Tasks"/>
                         <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/admin/user"
-                                  value="List of users"/>
-                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/admin/user/new"
-                                  value="New user"/>
+                                  value="Users"/>
                         <p:button href="/logout" value="Logout"/>
                     </f:facet>
                 </p:toolbar>

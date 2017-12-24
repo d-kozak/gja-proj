@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers(
+                        "/login*",
                         "/hello",
                         "/register",
                         "/javax.faces.resource/**",
@@ -48,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/appLogin")
                 .usernameParameter("app_username")
                 .passwordParameter("app_password")
-//                .successForwardUrl("/")
-                .failureUrl("/login")
+                //.successForwardUrl("/admin")
+                .failureUrl("/login?error=1")
                 .and()
                 .logout()
                 .logoutUrl("/appLogout")
