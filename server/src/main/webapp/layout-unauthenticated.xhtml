@@ -12,18 +12,12 @@
         <title>KNOT app</title>
     </h:head>
     <h:body>
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:button href="/login" value="Login"/>
-                        <p:button href="/register" value="Register"/>
-                    </f:facet>
-                </p:toolbar>
-            </div>
-            <div class="ui-g-12">
-                <ui:insert name="content"/>
-            </div>
+        <p:tabMenu activeIndex="#{activeIndex}">
+            <p:menuitem value="Login" outcome="login" icon="fa fa-fw fa-key" />
+            <p:menuitem value="Register" outcome="register" icon="fa fa-fw fa-id-card-o" />
+        </p:tabMenu>
+        <div class="ui-g-12">
+            <ui:insert name="content"/>
         </div>
     </h:body>
 </f:view>

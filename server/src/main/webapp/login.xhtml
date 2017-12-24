@@ -7,6 +7,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition template="layout-unauthenticated.xhtml">
+    <ui:param name="activeIndex" value="0" />
     <ui:define name="content">
         <p:panel id="mainPanel" header="Login">
             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message and param['error'] == 1}">
@@ -32,11 +33,9 @@
                     <h:outputLabel for="app_password" value="Password" />
                     <h:inputSecret id="app_password" required="true" />
                 </h:panelGrid>
-                <h:panelGrid>
-                    <button type="submit" class="ui-button ui-widget ui-button-text-only">
-                            <span class="ui-button-text ui-c">Login</span>
-                    </button>
-                </h:panelGrid>
+                <button type="submit" class="ui-button ui-widget ui-button-text-only">
+                        <span class="ui-button-text ui-c">Login</span>
+                </button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
         </p:panel>
