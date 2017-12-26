@@ -11,7 +11,9 @@
     <ui:define name="content">
         <h:form id="form">
             <p:panel header="Users List">
-                <p:dataTable id="table" var="user" value="#{userListController.users}">
+                <p:dataTable id="table" var="user" value="#{userListController.users}"
+                             paginator="true" rows="25"  rowsPerPageTemplate="25,50,75"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <p:column>
                         <f:facet name="header">Login</f:facet>
                         <h:outputText value="#{user.login}"/>
