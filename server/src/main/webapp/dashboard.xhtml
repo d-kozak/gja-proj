@@ -6,6 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 <ui:composition template="layout-main.xhtml">
+    <ui:param name="activeIndex" value="0" />
     <ui:define name="content">
         <p:panel header="Dashboard">
             <p:dashboard model="#{dashboardController.model}" style="height:250px">
