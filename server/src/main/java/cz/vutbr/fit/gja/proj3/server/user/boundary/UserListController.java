@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Scope(value = "session")
-@Component(value = "userList")
-@ELBeanName(value = "userList")
+@Component(value = "userListController")
+@ELBeanName(value = "userListController")
 @Join(path = "/admin/user", to = "/user-list.jsf")
 public class UserListController {
 
@@ -33,6 +33,11 @@ public class UserListController {
     @IgnorePostback
     public void loadData() {
         users = userRepository.findAll();
+    }
+    
+    public String remove(User u) {
+        userRepository.delete(u);
+        return "/user-list.xhml?faces-redirect=true";
     }
 
 }

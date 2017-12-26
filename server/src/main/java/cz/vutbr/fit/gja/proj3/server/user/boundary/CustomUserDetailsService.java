@@ -2,6 +2,8 @@ package cz.vutbr.fit.gja.proj3.server.user.boundary;
 
 import cz.vutbr.fit.gja.proj3.server.user.entity.CustomUserPrincipal;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
+import java.util.Arrays;
+import java.util.HashSet;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +35,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userExists(user.getLogin())) {
             return false;
         }
+        
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<String>(Arrays.asList("ROLE_USER")));
+        }else{
+            user.getRoles().add("ROLE_USER");
+        }
+        
         user.setPassword(user.getPassword());
         log.info("saving new user " + user);
         userRepository.save(user);

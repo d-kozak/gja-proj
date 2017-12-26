@@ -3,7 +3,9 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui" xmlns="http://www.w3.org/1999/xhtml">
+      xmlns:p="http://primefaces.org/ui" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition template="layout-main.xhtml">
     <ui:define name="content">
         <h:form id="userForm">
@@ -22,7 +24,14 @@
                     <p:password id="password" match="passwordCheck" value="#{userController.user.password}" required="true" />
 
                     <p:outputLabel for="passwordCheck" value="Password again: "/>
-                    <p:password id="passwordCheck" required="true" />
+                    <p:password id="passwordCheck" required="true" value=""/>
+                    
+                    <p:outputLabel value="User roles" />
+                    <p:selectManyCheckbox id="roles" value="#{userController.user.roles}">
+                        <c:forEach var="role" items="#{userController.getConstRoles()}">
+                            <f:selectItem itemLabel="#{role.value}" itemValue="#{role.key}" itemDisabled="#{role.key == 'ROLE_USER'}" />
+                        </c:forEach>
+                    </p:selectManyCheckbox>
 
                     <p:commandButton value="Save" action="#{userController.save}" />
                 </h:panelGrid>
