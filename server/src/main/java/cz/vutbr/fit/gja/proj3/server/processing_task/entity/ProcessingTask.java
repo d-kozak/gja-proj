@@ -2,6 +2,7 @@ package cz.vutbr.fit.gja.proj3.server.processing_task.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
+import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,9 @@ public class ProcessingTask {
 
     @ManyToOne
     private Node node;
+    
+    @ManyToOne
+    private Project project;
 
     @Override
     public String toString() {

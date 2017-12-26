@@ -28,12 +28,12 @@
             </c:if>
             <form action="#{request.contextPath}/appLogin" method="post">
                 <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="app_username" value="Login:" />
-                    <h:inputText id="app_username" required="true" />
-                    <h:outputLabel for="app_password" value="Password" />
-                    <h:inputSecret id="app_password" required="true" />
+                    <p:outputLabel for="app_username" value="Login:" />
+                    <p:inputText id="app_username" />
+                    <p:outputLabel for="app_password" value="Password:" />
+                    <p:password id="app_password" />
                 </h:panelGrid>
-                <button type="submit" class="ui-button ui-widget ui-button-text-only">
+                <button type="submit" class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only">
                         <span class="ui-button-text ui-c">Login</span>
                 </button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
