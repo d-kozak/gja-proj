@@ -13,18 +13,13 @@
     </h:head>
     <h:body>
         <div class="ui-g">
-            <div class="ui-g-12">
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:button href="/" value="Dashboard"/>
-                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/node" value="Nodes"/>
-                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/task" value="Tasks"/>
-                        <p:button rendered="${request.isUserInRole('ROLE_ADMIN')}" href="/admin/user"
-                                  value="Users"/>
-                        <p:button href="/logout" value="Logout"/>
-                    </f:facet>
-                </p:toolbar>
-            </div>
+            <p:tabMenu activeIndex="#{activeIndex}">
+                <p:menuitem value="Dashboard" outcome="dashboard" icon="fa fa-fw fa-tachometer" />
+                <p:menuitem value="Nodes" outcome="node-list" icon="fa fa-fw fa-desktop" />
+                <p:menuitem value="Tasks" outcome="task-list" icon="fa fa-fw fa-tasks" />
+                <p:menuitem value="Users" outcome="user-list" icon="fa fa-fw fa-user" />
+                <p:menuitem value="Logout" outcome="dashboard" onclick="window.open('/logout','_self'); return false" icon="fa fa-fw fa-sign-out" />                
+            </p:tabMenu>
             <div class="ui-g-12">
                 <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
                 <ui:insert name="content"/>
