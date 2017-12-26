@@ -1,1 +1,13 @@
-body {background-color: red;}
+.ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-icon {
+    margin-right: 5px;
+    margin-top: 2px;
+}
+.ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .fa-tachometr {
+    padding-top: 2px;
+}
+.ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .fa-desktop {
+    padding-top: 2px;
+}
+.ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .fa-tasks {
+    margin-top: 3px;
+}
