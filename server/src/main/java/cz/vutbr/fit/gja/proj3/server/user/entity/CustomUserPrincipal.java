@@ -7,8 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 import static java.util.stream.Collectors.toList;
+import lombok.Getter;
 
 public class CustomUserPrincipal implements UserDetails {
+    @Getter
     private final User user;
 
     public CustomUserPrincipal(User user) {

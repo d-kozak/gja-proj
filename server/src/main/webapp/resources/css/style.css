@@ -11,3 +11,11 @@
 .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .fa-tasks {
     margin-top: 3px;
 }
+
+.center {
+    text-align: center;
+}
+
+.fright {
+    float: right !important;
+}

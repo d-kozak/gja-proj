@@ -13,21 +13,19 @@
         <h:outputStylesheet name="css/style.css" />
     </h:head>
     <h:body>
-        <h:outputStylesheet  />
-        <div class="ui-g">
-            <p:tabMenu activeIndex="#{activeIndex}">
-                <p:menuitem value="Dashboard" outcome="dashboard" icon="fa fa-fw fa-tachometer" />
-                <p:menuitem value="Projects" outcome="project-list" icon="fa fa-fw fa-stack-overflow" />
-                <p:menuitem value="Nodes" outcome="node-list" icon="fa fa-fw fa-desktop" />
-                <p:menuitem value="Tasks" outcome="task-list" icon="fa fa-fw fa-tasks" />
-                <p:menuitem value="Users" rendered="${request.isUserInRole('ROLE_ADMIN')}" outcome="user-list" icon="fa fa-fw fa-user" />
-                <p:menuitem value="Logout" outcome="dashboard" onclick="window.open('/logout','_self'); return false" icon="fa fa-fw fa-sign-out" />                
-            </p:tabMenu>
-            <div class="ui-g-12">
-                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-                <ui:insert name="content"/>
-            </div>
-        </div>
+    <h:outputStylesheet />
+        <p:tabMenu activeIndex="#{activeIndex}">
+            <p:menuitem value="Dashboard" outcome="dashboard" icon="fa fa-fw fa-tachometer" />
+            <p:menuitem value="Projects" outcome="project-list" icon="fa fa-fw fa-stack-overflow" />
+            <p:menuitem value="Nodes" outcome="node-list" icon="fa fa-fw fa-desktop" />
+            <p:menuitem value="Tasks" outcome="task-list" icon="fa fa-fw fa-tasks" />
+            <p:menuitem value="Users" rendered="${request.isUserInRole('ROLE_ADMIN')}" outcome="user-list" icon="fa fa-fw fa-users" />
+            <p:menuitem value="Logout" outcome="dashboard" onclick="window.open('/logout','_self'); return false" icon="fa fa-fw fa-sign-out" containerStyleClass="fright" />
+            <p:menuitem value="Logged in as #{mainController.loggedUser.login}" outcome="user-list" icon="fa fa-fw fa-user" containerStyleClass="fright" />
+        </p:tabMenu>
+        
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+        <ui:insert name="content"/>
     </h:body>
 </f:view>
 </html>
