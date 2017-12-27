@@ -14,6 +14,10 @@
     </h:head>
     <h:body>
     <h:outputStylesheet />
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+           <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+           <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+       </p:confirmDialog>
         <p:tabMenu activeIndex="#{activeIndex}">
             <p:menuitem value="Dashboard" outcome="dashboard" icon="fa fa-fw fa-tachometer" />
             <p:menuitem value="Projects" outcome="project-list" icon="fa fa-fw fa-stack-overflow" />
