@@ -34,4 +34,8 @@ public class GuiUtils {
     public static void showError(String header) {
         showError(header, "");
     }
+    
+    public static String getParam(String key) {
+        return (String)FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(key);
+    }
 }

@@ -1,6 +1,7 @@
 package cz.vutbr.fit.gja.proj3.server.user.boundary;
 
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.getParam;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import lombok.Setter;
 
 @Log
@@ -35,19 +38,43 @@ public class UserController {
     @Getter
     @Setter
     private User user = new User();
+    
     private final CustomUserDetailsService customUserDetailsService;
-
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    
+    @Getter
+    @Setter
+    private String id;
 
     @Autowired
-    public UserController(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
+    public UserController(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
     
     @PostConstruct
     public void init() {
         user.setRoles(new HashSet<String>(Arrays.asList("ROLE_USER")));
+    }
+    
+    public void onload() {
+        if (getParam("edit") == null) {
+            id = null;
+        }
+        
+        if (id != null) {
+            log.info("ID IS "+id);
+            long uid = Long.parseLong(id);
+            user = userRepository.findOne(uid);
+        }else{
+            if (user.getId() != 0) {
+                user = new User();
+                init();
+                log.info("null");
+            }
+        }
     }
 
     public String save() {

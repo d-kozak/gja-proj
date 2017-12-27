@@ -31,7 +31,12 @@
                     
                     <p:column styleClass="center">
                         <f:facet name="header">Actions</f:facet>
-                        <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{userListController.remove(user)}" ajax="false" />
+                        <p:button icon="fa fa-fw fa-pencil" title="Edit" outcome="user-form">
+                            <f:param name="edit" value="#{user.id}" />
+                        </p:button>
+                        <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{userListController.remove(user)}">
+                            <p:confirm header="Confirmation" message="Are you sure you want to remove this user?" icon="ui-icon-alert" />
+                        </p:commandButton>
                     </p:column>
 
                 </p:dataTable>
