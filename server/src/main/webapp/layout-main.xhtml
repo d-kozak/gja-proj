@@ -21,7 +21,7 @@
             <p:menuitem value="Tasks" outcome="task-list" icon="fa fa-fw fa-tasks" />
             <p:menuitem value="Users" rendered="${request.isUserInRole('ROLE_ADMIN')}" outcome="user-list" icon="fa fa-fw fa-users" />
             <p:menuitem value="Logout" outcome="dashboard" onclick="window.open('/logout','_self'); return false" icon="fa fa-fw fa-sign-out" containerStyleClass="fright" />
-            <p:menuitem value="Logged in as #{mainController.loggedUser.login}" outcome="user-list" icon="fa fa-fw fa-user" containerStyleClass="fright" />
+            <p:menuitem value="Logged in as #{mainController.loggedUser.login}" outcome="user-settings" icon="fa fa-fw fa-user" containerStyleClass="fright" />
         </p:tabMenu>
         
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />

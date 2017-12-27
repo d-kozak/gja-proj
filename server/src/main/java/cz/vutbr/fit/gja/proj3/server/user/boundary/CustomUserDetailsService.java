@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public boolean saveUser(User user) {
-        if (userExists(user.getLogin())) {
+        if (user.getId() == 0 && userExists(user.getLogin())) {
             return false;
         }
         
@@ -41,11 +41,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         }else{
             user.getRoles().add("ROLE_USER");
         }
-        
-        user.setPassword(user.getPassword());
-        log.info("saving new user " + user);
+
         userRepository.save(user);
+
         return true;
+    }
+    
+    public User getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     private boolean userExists(String login) {
