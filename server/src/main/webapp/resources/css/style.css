@@ -39,13 +39,13 @@
     left: calc(50% - 140px) !important;
 }
 
-#projectsForm {
+#projects {
     margin-top: 10px;
 }
-#projectsForm div {
+#projects div {
     padding: 0 !important;
 }
-#projectsForm div div {
+#projects div div {
     padding: 0 !important;
 }
 

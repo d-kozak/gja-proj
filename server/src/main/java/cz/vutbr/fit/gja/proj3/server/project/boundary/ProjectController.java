@@ -14,13 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,8 +60,7 @@ public class ProjectController {
     }
 
     public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("Project selected", ((Project) event.getObject()).getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        showInfo("Project selected: ", ((Project) event.getObject()).getName());
     }
 
     public String save() {
@@ -73,21 +71,19 @@ public class ProjectController {
 
     public void addNewProject() {
         if (newProject.getName().equals("")) {
-            
+            showError("Project name is required.");
+        }else{
+            projectRepository.save(newProject);
+            this.loadData();
+            showInfo("Project created: ", newProject.getName()); 
+            this.newProject = new Project();
         }
-        projectRepository.save(newProject);
-        FacesMessage msg = new FacesMessage("Project " + newProject.getName() + " created");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        this.newProject = new Project();
-        this.loadData();
-        //return "/project-list.xhml?faces-redirect=true";
     }
 
     public void update() {
         projectRepository.save(selectedProject);
-        String message = "Project " + selectedProject.getName() + " updated";
-        log.info(message);
-        showInfo(message);
+        this.loadData();
+        showInfo("Project updated.");
     }
     
     public void remove(Project p) {
@@ -96,6 +92,6 @@ public class ProjectController {
         }
         projectRepository.delete(p);
         this.loadData();
-        // return "/project-list.xhml?faces-redirect=true";
+        showInfo("Project removed.");
     }
 }

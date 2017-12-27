@@ -15,13 +15,12 @@
                     <p:panel header="Create new project">
                         <h:panelGrid columns="2" cellpadding="5">
                             <p:inputText id="newProjectName" value="#{projectController.newProject.name}"/>
-                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" action="#{projectController.addNewProject}" ajax="true" update="projectsForm" />
+                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" action="#{projectController.addNewProject}" ajax="true" update="projects, newProjectForm" />
                         </h:panelGrid>
                     </p:panel>
                 </h:form>
                 
-                <h:form id="projectsForm">
-                    <p:growl id="msgs" showDetail="true"/>
+                <h:form id="projects">
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="project" value="#{projectController.projects}"
                                      selectionMode="single" selection="#{projectController.selectedProject}"
@@ -35,7 +34,7 @@
                             </p:column>
                             
                             <p:column>
-                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{projectController.remove(project)}" ajax="true" update="projectsForm, projectDetails" />
+                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{projectController.remove(project)}" ajax="true" update="projects, projectDetails" />
                             </p:column>
                             
                         </p:dataTable>
@@ -45,13 +44,12 @@
             <p:layoutUnit position="center" resizable="true">
                 <p:panel style="border: none;">
                     <h2>Selected project: #{projectController.selectedProject.name}</h2>
-                    <h:form id="projectDetails">
-                        <p:panelGrid columns="1" style="border: none">
+                    <h:form id="projectDetails" style="border: none;">
+                        <h:panelGrid columns="3" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{projectController.selectedProject.name}"/>
-
-                            <p:commandButton value="Save" action="#{projectController.update}"/>
-                        </p:panelGrid>
+                            <p:commandButton value="Save" action="#{projectController.update}" ajax="true" update="projects"/>
+                        </h:panelGrid>
                     </h:form>
                 </p:panel>
             </p:layoutUnit>
