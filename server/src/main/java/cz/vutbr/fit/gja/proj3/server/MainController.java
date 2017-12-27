@@ -2,6 +2,7 @@ package cz.vutbr.fit.gja.proj3.server;
 
 import cz.vutbr.fit.gja.proj3.server.user.entity.CustomUserPrincipal;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
+import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -27,6 +28,6 @@ public class MainController {
     
     @PostConstruct
     public void init() {
-        loggedUser = (User)((CustomUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        loggedUser = GuiUtils.getLoggedUser();
     }
 }

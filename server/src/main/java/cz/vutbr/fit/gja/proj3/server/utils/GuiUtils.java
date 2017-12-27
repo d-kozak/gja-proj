@@ -1,9 +1,16 @@
 package cz.vutbr.fit.gja.proj3.server.utils;
 
+import cz.vutbr.fit.gja.proj3.server.user.entity.CustomUserPrincipal;
+import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class GuiUtils {
+    
+    public static User getLoggedUser() {
+        return (User)((CustomUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+    }
 
     public static void showInfo(String header, String description) {
         FacesMessage msg = new FacesMessage(header, description);
