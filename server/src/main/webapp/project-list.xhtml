@@ -10,47 +10,47 @@
     <ui:param name="activeIndex" value="1" />
     <ui:define name="content">
         <p:layout>
-            <p:layoutUnit position="west" resizable="true" maxSize="300">
-                <h:form id="form">
+            <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
+                <h:form id="newProjectForm">
+                    <p:panel header="Create new project">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:inputText id="newProjectName" value="#{projectController.newProject.name}"/>
+                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" action="#{projectController.addNewProject}" ajax="true" update="projectsForm" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+                
+                <h:form id="projectsForm">
                     <p:growl id="msgs" showDetail="true"/>
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="project" value="#{projectController.projects}"
                                      selectionMode="single" selection="#{projectController.selectedProject}"
-                                     rowKey="#{project.id}">
-                            <p:ajax event="rowSelect" listener="#{projectController.onRowSelect}"
-                                    update=":form:msgs,mainPanel"/>
+                                     rowKey="#{project.id}" styleClass="projectTable">
+                            
+                            <p:ajax event="rowSelect" listener="#{projectController.onRowSelect}" update="projectDetails"/>
+                            
                             <p:column>
                                 <f:facet name="header">Projects</f:facet>
                                 <h:outputText value="#{project.name}"/>
                             </p:column>
+                            
+                            <p:column>
+                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{projectController.remove(project)}" ajax="true" update="projectsForm, projectDetails" />
+                            </p:column>
+                            
                         </p:dataTable>
-                        <p:commandButton value="Add new " onclick="PF('addProject').show()" update="table" />
                     </p:panel>
                 </h:form>
             </p:layoutUnit>
             <p:layoutUnit position="center" resizable="true">
-                <p:panel id="mainPanel" style="border: none">
-
-                    <p:dialog header="Add new project" widgetVar="addProject">
-                        <h:form id="newNodeDetails">
-                            <p:panelGrid columns="1" style="border: none">
-                                <p:outputLabel for="newProjectName" value="Name: "/>
-                                <p:inputText id="newProjectName" value="#{projectController.newProject.name}"/>
-
-                                <h:commandButton value="Add" action="#{projectController.addNewProject}"/>
-                            </p:panelGrid>
-                        </h:form>
-                    </p:dialog>
-
-                    <h2>Project #{projectCOntroller.selectedProject.name}</h2>
-
-
+                <p:panel style="border: none;">
+                    <h2>Selected project: #{projectController.selectedProject.name}</h2>
                     <h:form id="projectDetails">
                         <p:panelGrid columns="1" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{projectController.selectedProject.name}"/>
-                            
-                            <h:commandButton value="Save" action="#{projectController.update}"/>
+
+                            <p:commandButton value="Save" action="#{projectController.update}"/>
                         </p:panelGrid>
                     </h:form>
                 </p:panel>

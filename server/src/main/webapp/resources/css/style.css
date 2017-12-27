@@ -12,10 +12,47 @@
     margin-top: 3px;
 }
 
+.fa-trash {
+    margin-left: -10px !important;
+}
+
 .center {
     text-align: center;
 }
 
 .fright {
     float: right !important;
+}
+
+/* Projects */
+.projectTable th:nth-child(2) {
+    width: 40px;
+}
+.projectTable td:nth-child(1) {
+    border-right: none;
+}
+.projectTable td:nth-child(2) {
+    border-left: none;
+}
+.projectDialog {
+    top: 120px !important;
+    left: calc(50% - 140px) !important;
+}
+
+#projectsForm {
+    margin-top: 10px;
+}
+#projectsForm div {
+    padding: 0 !important;
+}
+#projectsForm div div {
+    padding: 0 !important;
+}
+
+#newProjectForm div div button {
+    height: 30px !important;
+    width: 35px !important;
+}
+#newProjectForm div div button span {
+    margin-left: -9px;
 }

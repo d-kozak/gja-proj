@@ -10,7 +10,6 @@ import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -61,35 +60,27 @@ public class ProjectController {
         projects = projectRepository.findAllEagerFetch();
     }
 
-
     public void onRowSelect(SelectEvent event) {
-        log.info("row select");
         FacesMessage msg = new FacesMessage("Project selected", ((Project) event.getObject()).getName());
-        FacesContext.getCurrentInstance()
-                    .addMessage(null, msg);
-    }
-
-    public void onRowUnselect(UnselectEvent event) {
-        log.info("row unselect");
-        FacesMessage msg = new FacesMessage("Project unselected", ((ProcessingTask) event.getObject()).getName());
-        FacesContext.getCurrentInstance()
-                    .addMessage(null, msg);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public String save() {
-        log.info("Saving");
         projectRepository.save(selectedProject);
         selectedProject = new Project();
         return "/project-list.xhtml?faces-redirect=true";
     }
 
     public void addNewProject() {
+        if (newProject.getName().equals("")) {
+            
+        }
         projectRepository.save(newProject);
-        String message = "Project " + newProject.getName() + " created";
-        showInfo(message);
-        log.info(message);
-        newProject = new Project();
+        FacesMessage msg = new FacesMessage("Project " + newProject.getName() + " created");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        this.newProject = new Project();
         this.loadData();
+        //return "/project-list.xhml?faces-redirect=true";
     }
 
     public void update() {
@@ -97,5 +88,14 @@ public class ProjectController {
         String message = "Project " + selectedProject.getName() + " updated";
         log.info(message);
         showInfo(message);
+    }
+    
+    public void remove(Project p) {
+        if (p == this.selectedProject) {
+            this.selectedProject = null;
+        }
+        projectRepository.delete(p);
+        this.loadData();
+        // return "/project-list.xhml?faces-redirect=true";
     }
 }
