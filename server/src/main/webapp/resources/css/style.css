@@ -43,6 +43,13 @@
     border-left: none;
 }
 
+.commands table th:nth-child(4) {
+    width: 35px !important;
+}
+.commands table th:nth-child(5) {
+    width: 40px !important;
+}
+
 .quickNewForm div div button {
     height: 30px !important;
     width: 35px !important;

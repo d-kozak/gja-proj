@@ -6,8 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
 import java.util.List;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Data
@@ -24,9 +27,8 @@ public class ProcessingTaskUnit {
 
     private String directory;
 
-    @ElementCollection
-    private List<String> arguments;
-
+    private String arguments;
+    
     @ManyToOne
     private ProcessingTask processingTask;
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Data

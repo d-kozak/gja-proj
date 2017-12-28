@@ -14,14 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
-import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
+import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
+import org.primefaces.event.RowEditEvent;
 
 @Log
 @Scope(value = "session")
@@ -33,15 +34,19 @@ import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 @ViewScoped
 public class TaskController {
 
-    private final TaskRepository taskRepository;
+    protected final TaskRepository taskRepository;
 
-    private List<ProcessingTask> processingTasks;
+    protected List<ProcessingTask> processingTasks;
 
-    private ProcessingTask selectedProcessingTask = new ProcessingTask();
-
-    private ProcessingTask newTask = new ProcessingTask();
-
-    private ProcessingTaskUnit selectedProcessingTaskUnit;
+    protected ProcessingTask selectedProcessingTask = new ProcessingTask();
+    protected ProcessingTaskUnit selectedProcessingTaskUnit = new ProcessingTaskUnit();
+ 
+    @Getter
+    @Setter
+    protected ProcessingTask newTask = new ProcessingTask();
+    @Getter
+    @Setter
+    protected ProcessingTaskUnit newTaskUnit = new ProcessingTaskUnit();
 
     @Autowired
     public TaskController(TaskRepository taskRepository) {
@@ -54,8 +59,12 @@ public class TaskController {
     public void loadData() {
         processingTasks = taskRepository.findAllFetchTaskUnits();
     }
-
-
+    
+    public void onRowEditTaskUnit(RowEditEvent event) {
+        this.taskRepository.save(selectedProcessingTask);
+        this.loadData();
+    }
+    
     public void onRowSelectTaskUnit(SelectEvent event) {
         showInfo("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
     }
@@ -63,13 +72,15 @@ public class TaskController {
     public void onRowSelect(SelectEvent event) {
         showInfo("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
     }
-
-    /*public String save() {
-        log.info("Saving");
+    
+    public void addCommand() {
+        newTaskUnit.setProcessingTask(selectedProcessingTask);
+        selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
         taskRepository.save(selectedProcessingTask);
-        selectedProcessingTask = new ProcessingTask();
-        return "/processing_task-list.xhtml?faces-redirect=true";
-    }*/
+        this.loadData();
+        showInfo("Command created.");
+        newTaskUnit = new ProcessingTaskUnit();
+    }
 
     public void addNewTask() {
         taskRepository.save(newTask);
@@ -89,7 +100,15 @@ public class TaskController {
         if (pt == this.selectedProcessingTask) {
             this.selectedProcessingTask = null;
         }
+        pt.getProcessingTaskUnits().clear();
         taskRepository.delete(pt);
+        this.loadData();
+    }
+    
+    public void removeTaskUnit(ProcessingTaskUnit ptu) {
+        showInfo("Command was removed from task.");
+        this.selectedProcessingTask.getProcessingTaskUnits().remove(ptu);
+        taskRepository.save(this.selectedProcessingTask);
         this.loadData();
     }
 
@@ -107,14 +126,6 @@ public class TaskController {
 
     public void setSelectedProcessingTask(ProcessingTask selectedProcessingTask) {
         this.selectedProcessingTask = selectedProcessingTask;
-    }
-
-    public ProcessingTask getNewTask() {
-        return newTask;
-    }
-
-    public void setNewTask(ProcessingTask newTask) {
-        this.newTask = newTask;
     }
 
     public ProcessingTaskUnit getSelectedProcessingTaskUnit() {
