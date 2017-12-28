@@ -6,34 +6,35 @@
       xmlns:p="http://primefaces.org/ui" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:metadata>
+        <f:viewParam id="id" name="id" value="#{userEditController.id}" />
+        <f:viewAction action="#{userEditController.onload}" />
+    </f:metadata>
 <ui:composition template="layout-main.xhtml">
     <ui:define name="content">
-        <h:form id="userForm">
-            <p:panel header="Create new user">
+        <h:form id="userEditForm">
+            <p:panel header="User Details for #{userEditController.user.login}">
                 <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="login" value="Login: "/>
-                    <p:inputText id="login" value="#{userController.user.login}" required="true" />
-
                     <p:outputLabel for="firstName" value="First name: "/>
-                    <p:inputText id="firstName" value="#{userController.user.firstName}" required="true" />
+                    <p:inputText id="firstName" value="#{userEditController.user.firstName}" required="true" />
 
                     <p:outputLabel for="surname" value="Last name: "/>
-                    <p:inputText id="surname" value="#{userController.user.lastName}" required="true" />
+                    <p:inputText id="surname" value="#{userEditController.user.lastName}" required="true" />
 
                     <p:outputLabel for="password" value="Password: "/>
-                    <p:password id="password" match="passwordCheck" value="#{userController.user.password}" required="true" />
+                    <p:password id="password" match="passwordCheck" value="#{userEditController.user.password}" />
 
                     <p:outputLabel for="passwordCheck" value="Password again: "/>
-                    <p:password id="passwordCheck" value="" required="true" />
+                    <p:password id="passwordCheck" value="" />
                     
                     <p:outputLabel value="User roles" />
-                    <p:selectManyCheckbox id="roles" value="#{userController.user.roles}">
-                        <c:forEach var="role" items="#{userController.getConstRoles()}">
+                    <p:selectManyCheckbox id="roles" value="#{userEditController.user.roles}">
+                        <c:forEach var="role" items="#{userEditController.getConstRoles()}">
                             <f:selectItem itemLabel="#{role.value}" itemValue="#{role.key}" itemDisabled="#{role.key == 'ROLE_USER'}" />
                         </c:forEach>
                     </p:selectManyCheckbox>
 
-                    <p:commandButton value="Save" action="#{userController.save}" />
+                    <p:commandButton value="Save" action="#{userEditController.update}" />
                 </h:panelGrid>
             </p:panel>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

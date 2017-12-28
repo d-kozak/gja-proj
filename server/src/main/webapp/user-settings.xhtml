@@ -12,24 +12,24 @@
             <p:panel header="User Settings">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="login" value="Login: "/>
-                    <p:inputText id="login" value="#{userController.user.login}" required="true" />
+                    <p:inputText id="login" value="#{userSettingsController.user.login}" required="true" />
 
                     <p:outputLabel for="firstName" value="First name: "/>
-                    <p:inputText id="firstName" value="#{userController.user.firstName}" required="true" />
+                    <p:inputText id="firstName" value="#{userSettingsController.user.firstName}" required="true" />
 
                     <p:outputLabel for="surname" value="Last name: "/>
-                    <p:inputText id="surname" value="#{userController.user.lastName}" required="true" />
+                    <p:inputText id="surname" value="#{userSettingsController.user.lastName}" required="true" />
                     
                     <p:outputLabel for="oldPassword" value="Old password: "/>
-                    <p:password id="oldPassword" value="#{userController.oldPassword}"/>
+                    <p:password id="oldPassword" value="#{userSettingsController.oldPassword}"/>
 
                     <p:outputLabel for="password" value="New password: "/>
-                    <p:password id="password" match="passwordCheck" value="#{userController.user.password}"/>
+                    <p:password id="password" match="passwordCheck" value="#{userSettingsController.user.password}"/>
 
                     <p:outputLabel for="passwordCheck" value="New password again: "/>
                     <p:password id="passwordCheck" value=""/>
 
-                    <p:commandButton value="Update" action="#{userController.update}" />
+                    <p:commandButton value="Update" action="#{userSettingsController.update}" />
                 </h:panelGrid>
             </p:panel>
         </h:form>

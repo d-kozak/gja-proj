@@ -18,14 +18,9 @@ import javax.faces.bean.ViewScoped;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import lombok.Setter;
 
 @Log
@@ -39,54 +34,35 @@ import lombok.Setter;
 public class UserController {
     @Getter
     @Setter
-    private User user = new User();
+    User user = new User();
     
     @Getter
     @Setter
     private String oldPassword;
-    private final CustomUserDetailsService customUserDetailsService;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     
-    @Getter
-    @Setter
-    private String id;
+    boolean oldPasswordRequired = true;
+    
+    private final CustomUserDetailsService customUserDetailsService;
+    final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserController(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.user = GuiUtils.getLoggedUser();
     }
     
     @PostConstruct
     public void init() {
         user.setRoles(new HashSet<String>(Arrays.asList("ROLE_USER")));
     }
-    
-    public void onload() {
-        if (getParam("edit") == null) {
-            id = null;
-        }
-        
-        if (id != null) {
-            log.info("ID IS "+id);
-            long uid = Long.parseLong(id);
-            user = userRepository.findOne(uid);
-        }else{
-            if (user.getId() != 0) {
-                user = new User();
-                init();
-                log.info("null");
-            }
-        }
-    }
 
     public String save() {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (customUserDetailsService.saveUser(user)) {
             log.info("user registered successfully");
+            showInfo("User created.");
             user = new User();
             init();
             return "/user-list.xhtml?faces-redirect=true";
@@ -98,36 +74,33 @@ public class UserController {
     }
     
     public void update() {
+        log.info("test");
         User oldUser = customUserDetailsService.getUserById(user.getId());
         
         if (!"".equals(user.getPassword())) {
-            log.info(oldUser.getPassword());
-            log.info(passwordEncoder.encode(oldPassword));
-            
-            if ("".equals(oldPassword)) {
-                showError("Old password is required for changing current one.");
-                return;
-            }
-            
-            if (!passwordEncoder.matches(oldPassword, oldUser.getPassword())) {
-                showError("Old passwords doesn\'t match");
-                log.severe("update failed");
-                return;
+            if (oldPasswordRequired) {
+                if ("".equals(oldPassword)) {
+                    showError("Old password is required for changing current one.");
+                    return;
+                }
+
+                if (!passwordEncoder.matches(oldPassword, oldUser.getPassword())) {
+                    showError("Old passwords doesn\'t match");
+                    log.severe("update failed");
+                    return;
+                }
             }
             
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        
-        if ("".equals(user.getPassword())) {
+        }else{
             user.setPassword(oldUser.getPassword());
         }
         
-        user.setId(oldUser.getId());
         if (customUserDetailsService.saveUser(user)) {
             log.info("user update successful");
-            showInfo("Update succesful");
+            showInfo("Update successful.");
         } else {
-            showError("Login already taken");
+            showError("User update failed.");
             log.severe("update failed");
         }
     }
