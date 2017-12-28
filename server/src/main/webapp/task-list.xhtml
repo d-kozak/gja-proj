@@ -7,64 +7,74 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns="http://www.w3.org/1999/xhtml">
 <ui:composition template="layout-main.xhtml">
-    <ui:param name="activeIndex" value="3" />
+    <ui:param name="activeIndex" value="2" />
     <ui:define name="content">
         <p:layout>
-            <p:layoutUnit position="west" resizable="true" maxSize="300">
-                <h:form id="form">
-                    <p:growl id="msgs" showDetail="true"/>
+            <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
+                
+                <h:form id="newTaskForm" styleClass="quickNewForm">
+                    <p:panel header="Create new task">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:inputText id="newTaskName" value="#{taskController.newTask.name}" required="true" requiredMessage="Task name is required."/>
+                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" action="#{taskController.addNewTask}" ajax="true" update="tasks, newTaskForm" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+                
+                <h:form id="tasks" styleClass="tableList">
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
                                      selectionMode="single" selection="#{taskController.selectedProcessingTask}"
                                      rowKey="#{task.id}">
-                            <p:ajax event="rowSelect" listener="#{taskController.onRowSelect}"
-                                    update=":form:msgs,mainPanel"/>
+                            
+                            <p:ajax event="rowSelect" listener="#{taskController.onRowSelect}" update="mainPanel"/>
+                            
                             <p:column>
                                 <f:facet name="header">Tasks</f:facet>
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
+                            
+                            <p:column>
+                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{taskController.remove(task)}" ajax="true" update="tasks">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to remove this task?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                            
                         </p:dataTable>
-                        <p:commandButton value="Add new " onclick="PF('addTask').show()"/>
                     </p:panel>
                 </h:form>
+                
             </p:layoutUnit>
+            
             <p:layoutUnit position="center" resizable="true">
+                
                 <p:panel id="mainPanel" style="border: none">
 
-                    <p:dialog header="Add new task" widgetVar="addTask">
-                        <h:form id="newTaskDetails">
-                            <p:panelGrid columns="1" style="border: none">
-                                <p:outputLabel for="newNodeName" value="Name: "/>
-                                <p:inputText id="newNodeName" value="#{taskController.newTask.name}"/>
-                                <h:commandButton value="Add" action="#{taskController.addNewTask}"/>
-                            </p:panelGrid>
-                        </h:form>
-                    </p:dialog>
-
-                    <h2>Task #{taskController.selectedProcessingTask.name}</h2>
-
-
-                    <h:form id="taskDetails">
-                        <p:panelGrid columns="1" style="border: none">
+                    <h2>Selected task: #{taskController.selectedProcessingTask.name}</h2>
+                    
+                    <h:form id="taskDetails" style="border: none;">
+                        <h:panelGrid columns="3" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}"/>
-
-                            <p:dataTable id="taskUnitTable" var="taskUnit"
+                        </h:panelGrid>
+                        <p:dataTable id="taskUnitTable" var="taskUnit"
                                          value="#{taskController.selectedProcessingTask.processingTaskUnits}"
                                          selectionMode="single" selection="#{taskController.selectedProcessingTaskUnit}"
-                                         rowKey="#{taskUnit.id}">
-                                <p:ajax event="rowSelect" listener="#{taskController.onRowSelectTaskUnit}"
-                                        update=":form:msgs,mainPanel"/>
-                                <p:column>
-                                    <f:facet name="header">Command</f:facet>
-                                    <h:outputText value="#{taskUnit.command}"/>
-                                </p:column>
-                            </p:dataTable>
-                            <h:commandButton value="Save" action="#{taskController.update}"/>
-                        </p:panelGrid>
+                                         rowKey="#{taskUnit.id}" style="margin-top: 10px;">
+                                
+                            <p:ajax event="rowSelect" listener="#{taskController.onRowSelectTaskUnit}" update="mainPanel"/>
+
+                            <p:column>
+                                <f:facet name="header">Command</f:facet>
+                                <h:outputText value="#{taskUnit.command}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:commandButton value="Update" action="#{taskController.update}" update="tasks" ajax="true" style="float: right; margin-top: 10px;"/>
                     </h:form>
                 </p:panel>
             </p:layoutUnit>
+            
         </p:layout>
     </ui:define>
 </ui:composition>

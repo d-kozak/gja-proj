@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 
 @Log
 @Scope(value = "session")
@@ -56,43 +57,40 @@ public class TaskController {
 
 
     public void onRowSelectTaskUnit(SelectEvent event) {
-
+        showInfo("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
     }
 
     public void onRowSelect(SelectEvent event) {
-        log.info("row select");
-        FacesMessage msg = new FacesMessage("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
-        FacesContext.getCurrentInstance()
-                    .addMessage(null, msg);
+        showInfo("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
     }
 
-    public void onRowUnselect(UnselectEvent event) {
-        log.info("row unselect");
-        FacesMessage msg = new FacesMessage("ProcessingTask unselected", ((ProcessingTask) event.getObject()).getName());
-        FacesContext.getCurrentInstance()
-                    .addMessage(null, msg);
-    }
-
-    public String save() {
+    /*public String save() {
         log.info("Saving");
         taskRepository.save(selectedProcessingTask);
         selectedProcessingTask = new ProcessingTask();
         return "/processing_task-list.xhtml?faces-redirect=true";
-    }
+    }*/
 
     public void addNewTask() {
         taskRepository.save(newTask);
-        String message = "Task " + newTask.getName() + " created";
-        showInfo(message);
-        log.info(message);
+        this.loadData();
+        showInfo("Task " + newTask.getName() + " created.");
         newTask = new ProcessingTask();
     }
 
     public void update() {
         taskRepository.save(selectedProcessingTask);
-        String message = "Task " + selectedProcessingTask.getName() + " updated";
-        log.info(message);
-        showInfo(message);
+        this.loadData();
+        showInfo("Task " + selectedProcessingTask.getName() + " updated.");
+    }
+    
+    public void remove(ProcessingTask pt) {
+        showInfo("Task " + pt.getName() + " removed.");
+        if (pt == this.selectedProcessingTask) {
+            this.selectedProcessingTask = null;
+        }
+        taskRepository.delete(pt);
+        this.loadData();
     }
 
     public List<ProcessingTask> getProcessingTasks() {
