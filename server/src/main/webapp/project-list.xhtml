@@ -11,22 +11,23 @@
     <ui:define name="content">
         <p:layout>
             <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
-                <h:form id="newProjectForm">
+                
+                <h:form id="newProjectForm" styleClass="quickNewForm">
                     <p:panel header="Create new project">
                         <h:panelGrid columns="2" cellpadding="5">
-                            <p:inputText id="newProjectName" value="#{projectController.newProject.name}"/>
+                            <p:inputText id="newProjectName" value="#{projectController.newProject.name}" required="true" requiredMessage="Project name is required." />
                             <p:commandButton icon="fa fa-fw fa-plus" title="Add" action="#{projectController.addNewProject}" ajax="true" update="projects, newProjectForm" />
                         </h:panelGrid>
                     </p:panel>
                 </h:form>
                 
-                <h:form id="projects">
+                <h:form id="projects" styleClass="tableList">
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="project" value="#{projectController.projects}"
                                      selectionMode="single" selection="#{projectController.selectedProject}"
                                      rowKey="#{project.id}" styleClass="projectTable">
                             
-                            <p:ajax event="rowSelect" listener="#{projectController.onRowSelect}" update="projectDetails"/>
+                            <p:ajax event="rowSelect" listener="#{projectController.onRowSelect}" update="mainPanel"/>
                             
                             <p:column>
                                 <f:facet name="header">Projects</f:facet>
@@ -34,25 +35,32 @@
                             </p:column>
                             
                             <p:column>
-                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{projectController.remove(project)}" ajax="true" update="projects, projectDetails" />
+                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{projectController.remove(project)}" ajax="true" update="projects, mainPanel">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to remove this project?" icon="ui-icon-alert" />
+                                </p:commandButton>
                             </p:column>
                             
                         </p:dataTable>
                     </p:panel>
                 </h:form>
+                
             </p:layoutUnit>
+            
             <p:layoutUnit position="center" resizable="true">
-                <p:panel style="border: none;">
+                
+                <p:panel id="mainPanel" style="border: none;">
                     <h2>Selected project: #{projectController.selectedProject.name}</h2>
-                    <h:form id="projectDetails" style="border: none;">
+                    <h:form style="border: none;">
                         <h:panelGrid columns="3" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{projectController.selectedProject.name}"/>
-                            <p:commandButton value="Save" action="#{projectController.update}" ajax="true" update="projects"/>
+                            <p:commandButton value="Update" action="#{projectController.update}" ajax="true" update="projects"/>
                         </h:panelGrid>
                     </h:form>
                 </p:panel>
+                
             </p:layoutUnit>
+            
         </p:layout>
     </ui:define>
 </ui:composition>

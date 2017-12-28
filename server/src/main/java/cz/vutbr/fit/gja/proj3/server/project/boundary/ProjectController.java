@@ -63,21 +63,11 @@ public class ProjectController {
         showInfo("Project selected: ", ((Project) event.getObject()).getName());
     }
 
-    public String save() {
-        projectRepository.save(selectedProject);
-        selectedProject = new Project();
-        return "/project-list.xhtml?faces-redirect=true";
-    }
-
     public void addNewProject() {
-        if (newProject.getName().equals("")) {
-            showError("Project name is required.");
-        }else{
-            projectRepository.save(newProject);
-            this.loadData();
-            showInfo("Project created: ", newProject.getName()); 
-            this.newProject = new Project();
-        }
+        projectRepository.save(newProject);
+        this.loadData();
+        showInfo("Project " + newProject.getName() + " created."); 
+        this.newProject = new Project();
     }
 
     public void update() {
@@ -87,11 +77,11 @@ public class ProjectController {
     }
     
     public void remove(Project p) {
+        showInfo("Project " + p.getName() + " removed.");
         if (p == this.selectedProject) {
             this.selectedProject = null;
         }
         projectRepository.delete(p);
         this.loadData();
-        showInfo("Project removed.");
     }
 }
