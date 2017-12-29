@@ -6,13 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Transactional
 public interface TaskRepository extends JpaRepository<ProcessingTask, Long> {
 
-    @Transactional
     default List<ProcessingTask> findAllFetchTaskUnits() {
         List<ProcessingTask> all = findAll();
-        // all.forEach(processingTask -> Hibernate.initialize(processingTask.getProcessingTaskUnits()));
+        //all.forEach(processingTask -> Hibernate.initialize(processingTask.getProcessingTaskUnits()));
         return all;
     }
 }
