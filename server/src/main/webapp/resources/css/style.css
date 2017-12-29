@@ -50,10 +50,10 @@
     width: 40px !important;
 }
 
-.quickNewForm div div button {
+.quickNewForm div div .ui-button-icon-only {
     height: 30px !important;
     width: 35px !important;
 }
-.quickNewForm div div button span {
+.quickNewForm div div .ui-button-icon-only span {
     margin-left: -9px;
 }

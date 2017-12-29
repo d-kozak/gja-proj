@@ -12,7 +12,7 @@
             <p:panel header="User Settings">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="login" value="Login: "/>
-                    <p:inputText id="login" value="#{userController.user.login}" required="true" />
+                    <p:inputText id="login" value="#{userController.user.login}" required="true" readonly="readonly"/>
 
                     <p:outputLabel for="firstName" value="First name: "/>
                     <p:inputText id="firstName" value="#{userController.user.firstName}" required="true" />
