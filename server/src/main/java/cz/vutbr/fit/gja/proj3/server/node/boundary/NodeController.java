@@ -64,17 +64,26 @@ public class NodeController {
     public void loadData() {
         nodes = nodeRepository.findAllEagerFetch();
     }
+    
+    public void checkAvailability() {
+        boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
+        if (!nodeRunning) {
+            showError("Node is not running."); 
+        } else {
+            showInfo("Node " + selectedNode.getName() + " is running.");
+        }
+    }
 
-    public String update() {
+    public void update() {
         log.info("called for node " + selectedNode);
         boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
         if (!nodeRunning) {
             log.severe("Node is not running.");
             showError("Node is not running."); 
-            return null;
         } else {
             nodeRepository.save(selectedNode);
-            return "/node-list.xhtml?faces-redirect=true";
+            this.loadData();
+            showInfo("Node " + selectedNode.getName() + " updated.");
         }
     }
 
