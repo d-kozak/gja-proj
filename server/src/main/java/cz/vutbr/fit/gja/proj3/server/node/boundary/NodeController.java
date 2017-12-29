@@ -3,6 +3,8 @@ package cz.vutbr.fit.gja.proj3.server.node.boundary;
 import cz.vutbr.fit.gja.proj3.server.node.control.NodeEchoService;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -20,6 +22,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Log
 @Scope(value = "session")
@@ -31,13 +35,21 @@ import java.util.List;
 public class NodeController {
     private final NodeRepository nodeRepository;
     private final NodeEchoService nodeEchoService;
-
+    
+    @Getter
+    @Setter
     private List<Node> nodes;
 
+    @Getter
+    @Setter
     private Node selectedNode = new Node();
 
+    @Getter
+    @Setter
     private Node newNode = new Node();
 
+    @Getter
+    @Setter
     private ProcessingTask selectedProcessingTask;
 
     @Autowired
@@ -54,71 +66,45 @@ public class NodeController {
     }
 
     public String update() {
-        nodeRepository.save(selectedNode);
-        return "/node-list.xhtml?faces-redirect=true";
+        log.info("called for node " + selectedNode);
+        boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
+        if (!nodeRunning) {
+            log.severe("Node is not running.");
+            showError("Node is not running."); 
+            return null;
+        } else {
+            nodeRepository.save(selectedNode);
+            return "/node-list.xhtml?faces-redirect=true";
+        }
     }
 
     public void addNewNode() {
-        log.info("called for node " + newNode);
-        FacesMessage msg = new FacesMessage("Sending echo to the node", "");
-        FacesContext.getCurrentInstance()
-                    .addMessage(null, msg);
+        showInfo("Sending echo to node. Please wait."); 
+        log.info("creating: "+newNode);
         boolean nodeRunning = nodeEchoService.isNodeRunning(newNode);
         if (!nodeRunning) {
-            log.severe("error");
-            FacesMessage errMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not add new node", "");
-            FacesContext.getCurrentInstance()
-                        .addMessage(null, errMsg);
-            RequestContext.getCurrentInstance()
-                          .execute("PF('addNode').show()");
+            log.severe("Node is not running.");
+            showError("Node is not running."); 
         } else {
-            log.info("success");
+            log.info("node running, saving "+newNode);
             nodeRepository.save(newNode);
-            selectedNode = newNode;
-            newNode = new Node();
-            FacesMessage okMsg = new FacesMessage("New node added", newNode.getName());
-            FacesContext.getCurrentInstance()
-                        .addMessage(null, okMsg);
-            log.info("Add new node finished");
+            log.info("node saved");
+            this.loadData();
+            showInfo("Node " + newNode.getName() + " created."); 
+            this.newNode = new Node();
         }
     }
 
     public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("Node selected", ((Node) event.getObject()).getName());
-        FacesContext.getCurrentInstance()
-                    .addMessage(null, msg);
+        showInfo("Node selected: ", ((Node) event.getObject()).getName());
     }
-
-
-    public List<Node> getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(List<Node> nodes) {
-        this.nodes = nodes;
-    }
-
-    public Node getSelectedNode() {
-        return selectedNode;
-    }
-
-    public void setSelectedNode(Node selectedNode) {
-        this.selectedNode = selectedNode;
-    }
-
-    public ProcessingTask getSelectedProcessingTask() {
-        return selectedProcessingTask;
-    }
-
-    public void setSelectedProcessingTask(ProcessingTask selectedProcessingTask) {
-        this.selectedProcessingTask = selectedProcessingTask;
-    }
-
-    public Node getNewNode() {
-        return newNode;
-    }
-
-    public void setNewNode(Node newNode) {
-        this.newNode = newNode;
+    
+    public void remove(Node n) {
+        showInfo("Node " + n.getName() + " removed.");
+        if (n == this.selectedNode) {
+            this.selectedNode = null;
+        }
+        nodeRepository.delete(n);
+        this.loadData();
     }
 }

@@ -10,39 +10,43 @@
     <ui:param name="activeIndex" value="3" />
     <ui:define name="content">
         <p:layout>
-            <p:layoutUnit position="west" resizable="true" maxSize="300">
-                <h:form id="form">
-                    <p:growl id="msgs" showDetail="true"/>
+            <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
+                <h:form id="newNodeForm" styleClass="quickNewForm">
+                    <p:panel header="Create new node">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <p:inputText id="newNodeName" value="#{nodeController.newNode.name}" placeholder="Name" required="true" requiredMessage="Node name is required." />
+                            <p:inputText id="newNodeUrl" value="#{nodeController.newNode.url}" placeholder="Url" required="true" requiredMessage="Node url is required." />
+                            <p:commandButton value="Add node" icon="fa fa-fw fa-plus" ajax="true" action="#{nodeController.addNewNode}" update="nodes, newNodeForm" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+                
+                <h:form id="nodes" styleClass="tableList">
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="node" value="#{nodeController.nodes}"
                                      selectionMode="single" selection="#{nodeController.selectedNode}"
-                                     rowKey="#{node.id}">
-                            <p:ajax event="rowSelect" listener="#{nodeController.onRowSelect}"
-                                    update=":form:msgs,mainPanel"/>
+                                     rowKey="#{node.id}" styleClass="projectTable">
+                            
+                            <p:ajax event="rowSelect" listener="#{nodeController.onRowSelect}" update="mainPanel"/>
+                            
                             <p:column>
                                 <f:facet name="header">Nodes</f:facet>
                                 <h:outputText value="#{node.name}"/>
                             </p:column>
+                            
+                            <p:column>
+                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{nodeController.remove(node)}" ajax="true" update="nodes, mainPanel">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to remove this node?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                            
                         </p:dataTable>
-                        <p:commandButton value="Add new " onclick="PF('addNode').show()"/>
                     </p:panel>
                 </h:form>
             </p:layoutUnit>
+            
             <p:layoutUnit position="center" resizable="true">
                 <p:panel id="mainPanel" style="border: none">
-
-                    <p:dialog header="Add new node" widgetVar="addNode">
-                        <h:form id="newNodeDetails">
-                            <p:panelGrid columns="1" style="border: none">
-                                <p:outputLabel for="newNodeName" value="Name: "/>
-                                <p:inputText id="newNodeName" value="#{nodeController.newNode.name}"/>
-                                <p:outputLabel for="newNodeUrl" value="Url: "/>
-                                <p:inputText id="newNodeUrl" value="#{nodeController.newNode.url}"/>
-
-                                <h:commandButton value="Add" action="#{nodeController.addNewNode}"/>
-                            </p:panelGrid>
-                        </h:form>
-                    </p:dialog>
 
                     <h2>Node #{nodeController.selectedNode.name}</h2>
 
