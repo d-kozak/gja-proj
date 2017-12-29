@@ -31,4 +31,13 @@ public class ProcessingTaskUnit {
     
     @ManyToOne
     private ProcessingTask processingTask;
+    
+    @Override
+    public String toString() {
+        return "ProcessingTaskUnit{" +
+                "id=" + id +
+                ", command='" + command + '\'' +
+                ", argument=" + arguments +
+                '}';
+    }
 }

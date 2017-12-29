@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Data
@@ -27,7 +29,8 @@ public class ProcessingTask {
     private String name;
 
     @OrderColumn
-    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
     private List<ProcessingTaskUnit> processingTaskUnits;
 
     @OneToMany(mappedBy = "processingTask", cascade = CascadeType.DETACH)

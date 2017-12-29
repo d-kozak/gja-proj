@@ -35,6 +35,7 @@ import org.primefaces.event.RowEditEvent;
 public class TaskController {
 
     protected final TaskRepository taskRepository;
+    protected final TaskUnitRepository taskUnitRepository;
 
     protected List<ProcessingTask> processingTasks;
 
@@ -49,15 +50,16 @@ public class TaskController {
     protected ProcessingTaskUnit newTaskUnit = new ProcessingTaskUnit();
 
     @Autowired
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, TaskUnitRepository taskUnitRepository) {
         this.taskRepository = taskRepository;
+        this.taskUnitRepository = taskUnitRepository;
     }
 
     @Deferred
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        processingTasks = taskRepository.findAllFetchTaskUnits();
+        processingTasks = taskRepository.findAll();
     }
     
     public void onRowEditTaskUnit(RowEditEvent event) {
@@ -74,8 +76,17 @@ public class TaskController {
     }
     
     public void addCommand() {
+        /*if (selectedProcessingTask != null) {
+            newTaskUnit.setProcessingTask(selectedProcessingTask);
+            taskUnitRepository.save(newTaskUnit);
+        }*/
         newTaskUnit.setProcessingTask(selectedProcessingTask);
         selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
+        
+        for (ProcessingTaskUnit ptu : selectedProcessingTask.getProcessingTaskUnits()) {
+            log.info(ptu.toString()); 
+        }
+       
         taskRepository.save(selectedProcessingTask);
         this.loadData();
         showInfo("Command created.");
@@ -90,6 +101,9 @@ public class TaskController {
     }
 
     public void update() {
+        for (ProcessingTaskUnit ptu: selectedProcessingTask.getProcessingTaskUnits()) {
+            log.info(ptu.getCommand());
+        }
         taskRepository.save(selectedProcessingTask);
         this.loadData();
         showInfo("Task " + selectedProcessingTask.getName() + " updated.");
@@ -100,13 +114,13 @@ public class TaskController {
         if (pt == this.selectedProcessingTask) {
             this.selectedProcessingTask = null;
         }
-        pt.getProcessingTaskUnits().clear();
         taskRepository.delete(pt);
         this.loadData();
     }
     
     public void removeTaskUnit(ProcessingTaskUnit ptu) {
         showInfo("Command was removed from task.");
+        this.taskUnitRepository.delete(ptu);
         this.selectedProcessingTask.getProcessingTaskUnits().remove(ptu);
         taskRepository.save(this.selectedProcessingTask);
         this.loadData();
