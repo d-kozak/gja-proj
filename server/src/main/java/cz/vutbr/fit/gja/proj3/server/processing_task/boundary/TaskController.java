@@ -20,8 +20,11 @@ import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
+import javax.persistence.EntityManagerFactory;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.primefaces.event.RowEditEvent;
 
 @Log
@@ -36,6 +39,7 @@ public class TaskController {
 
     protected final TaskRepository taskRepository;
     protected final TaskUnitRepository taskUnitRepository;
+    protected final SessionFactory hibernateSession;
 
     protected List<ProcessingTask> processingTasks;
 
@@ -50,9 +54,15 @@ public class TaskController {
     protected ProcessingTaskUnit newTaskUnit = new ProcessingTaskUnit();
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, TaskUnitRepository taskUnitRepository) {
+    public TaskController(TaskRepository taskRepository, TaskUnitRepository taskUnitRepository, EntityManagerFactory factory) {
         this.taskRepository = taskRepository;
         this.taskUnitRepository = taskUnitRepository;
+        
+        
+        if (factory.unwrap(SessionFactory.class) == null){
+            throw new NullPointerException("factory is not a hibernate factory");
+        }
+        this.hibernateSession = factory.unwrap(SessionFactory.class);
     }
 
     @Deferred
@@ -76,19 +86,19 @@ public class TaskController {
     }
     
     public void addCommand() {
-        /*if (selectedProcessingTask != null) {
-            newTaskUnit.setProcessingTask(selectedProcessingTask);
-            taskUnitRepository.save(newTaskUnit);
-        }*/
+        log.info("--- BEFORE ---");
+        for (ProcessingTaskUnit ptu : selectedProcessingTask.getProcessingTaskUnits()) {
+            log.info(ptu.toString());
+        }
         newTaskUnit.setProcessingTask(selectedProcessingTask);
         selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
-        
+        selectedProcessingTask = taskRepository.save(selectedProcessingTask);
+        taskRepository.flush();
+        log.info("--- AFTER ---");
         for (ProcessingTaskUnit ptu : selectedProcessingTask.getProcessingTaskUnits()) {
-            log.info(ptu.toString()); 
+            log.info(ptu.toString());
         }
-       
-        taskRepository.save(selectedProcessingTask);
-        this.loadData();
+        
         showInfo("Command created.");
         newTaskUnit = new ProcessingTaskUnit();
     }

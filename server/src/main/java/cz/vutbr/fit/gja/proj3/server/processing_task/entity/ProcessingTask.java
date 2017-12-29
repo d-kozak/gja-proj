@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,9 +30,9 @@ public class ProcessingTask {
     private String name;
 
     @OrderColumn
-    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    private List<ProcessingTaskUnit> processingTaskUnits;
+    private List<ProcessingTaskUnit> processingTaskUnits = new ArrayList<>();
 
     @OneToMany(mappedBy = "processingTask", cascade = CascadeType.DETACH)
     private List<ProcessingTaskResult> processingTaskResults;
