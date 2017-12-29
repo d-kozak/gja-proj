@@ -33,7 +33,7 @@
                         </c:forEach>
                     </p:selectManyCheckbox>
 
-                    <p:commandButton value="Save" action="#{userController.save}" />
+                    <p:commandButton value="Save" action="#{userController.save()}" />
                 </h:panelGrid>
             </p:panel>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

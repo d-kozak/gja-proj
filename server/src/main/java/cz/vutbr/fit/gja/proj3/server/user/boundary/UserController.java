@@ -1,8 +1,6 @@
 package cz.vutbr.fit.gja.proj3.server.user.boundary;
 
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
-import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.getParam;
-import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -74,8 +72,7 @@ public class UserController {
     }
     
     public void update() {
-        log.info("test");
-        User oldUser = customUserDetailsService.getUserById(user.getId());
+        User oldUser = userRepository.findOne(user.getId());
         
         if (!"".equals(user.getPassword())) {
             if (oldPasswordRequired) {

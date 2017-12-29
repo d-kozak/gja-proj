@@ -26,7 +26,7 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
     private List<ProcessingTask> processingTasks;
 
     @ElementCollection(fetch = FetchType.EAGER)

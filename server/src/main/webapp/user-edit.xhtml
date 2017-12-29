@@ -29,12 +29,13 @@
                     
                     <p:outputLabel value="User roles" />
                     <p:selectManyCheckbox id="roles" value="#{userEditController.user.roles}">
+                        <f:attribute name="collectionType" value="java.util.HashSet" />
                         <c:forEach var="role" items="#{userEditController.getConstRoles()}">
                             <f:selectItem itemLabel="#{role.value}" itemValue="#{role.key}" itemDisabled="#{role.key == 'ROLE_USER'}" />
                         </c:forEach>
                     </p:selectManyCheckbox>
 
-                    <p:commandButton value="Save" action="#{userEditController.update}" />
+                    <p:commandButton value="Save" action="#{userEditController.update()}" />
                 </h:panelGrid>
             </p:panel>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

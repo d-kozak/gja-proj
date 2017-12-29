@@ -48,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
     
     public User getUserById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.findOne(id);
     }
 
     private boolean userExists(String login) {

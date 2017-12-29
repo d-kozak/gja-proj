@@ -33,9 +33,8 @@ public class ProcessingTask {
     @OneToMany(mappedBy = "processingTask", cascade = CascadeType.DETACH)
     private List<ProcessingTaskResult> processingTaskResults;
 
-    @ManyToMany
-    @JsonIgnore
-    private List<User> users;
+    @ManyToOne
+    private User user;
 
     @ManyToOne
     private Node node;
