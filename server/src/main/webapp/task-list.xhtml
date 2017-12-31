@@ -20,13 +20,13 @@
                             <p:autoComplete id="project" dropdown="true" 
                                             value="#{taskController.newTask.project}" completeMethod="#{taskController.projectList}"
                                             var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}"
-                                            placeholder="Project" 
+                                            placeholder="Project" forceSelection="true"
                                             required="true" requiredMessage="Project for task is required." />
                             
                             <p:autoComplete id="node" dropdown="true" 
                                             value="#{taskController.newTask.node}" completeMethod="#{taskController.nodeList}"
                                             var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" 
-                                            placeholder="Node" 
+                                            placeholder="Node" forceSelection="true" 
                                             required="true" requiredMessage="Node for task is required." />
                             
                             <p:commandButton icon="fa fa-fw fa-plus" title="Add" value="Add task" 
@@ -48,7 +48,7 @@
                             </p:column>
                             
                             <p:column>
-                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{taskController.remove(task)}" ajax="true" update="tasks">
+                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{taskController.remove(task)}" ajax="true" update="tasks, mainPanel">
                                     <p:confirm header="Confirmation" message="Are you sure you want to remove this task?" icon="ui-icon-alert" />
                                 </p:commandButton>
                             </p:column>
