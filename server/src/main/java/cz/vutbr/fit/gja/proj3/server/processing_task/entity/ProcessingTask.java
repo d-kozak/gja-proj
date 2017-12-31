@@ -30,7 +30,7 @@ public class ProcessingTask {
     private String name;
 
     @OrderColumn
-    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<ProcessingTaskUnit> processingTaskUnits = new ArrayList<>();
 

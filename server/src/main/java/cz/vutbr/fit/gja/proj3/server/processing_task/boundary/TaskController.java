@@ -130,9 +130,8 @@ public class TaskController {
     
     public void removeTaskUnit(ProcessingTaskUnit ptu) {
         showInfo("Command was removed from task.");
-        this.taskUnitRepository.delete(ptu);
         this.selectedProcessingTask.getProcessingTaskUnits().remove(ptu);
-        taskRepository.save(this.selectedProcessingTask);
+        selectedProcessingTask = taskRepository.save(this.selectedProcessingTask);
         this.loadData();
     }
 
