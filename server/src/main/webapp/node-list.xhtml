@@ -27,7 +27,7 @@
                                      selectionMode="single" selection="#{nodeController.selectedNode}"
                                      rowKey="#{node.id}" styleClass="projectTable">
                             
-                            <p:ajax event="rowSelect" listener="#{nodeController.onRowSelect}" update="mainPanel"/>
+                            <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
                             <p:column>
                                 <f:facet name="header">Nodes</f:facet>
@@ -46,7 +46,7 @@
             </p:layoutUnit>
             
             <p:layoutUnit position="center" resizable="true">
-                <p:panel id="mainPanel" style="border: none">
+                <p:panel id="mainPanel" styleClass="containerMain #{nodeController.selectedNode.name == null ? 'hide' : ''}">
 
                     <h2>Node #{nodeController.selectedNode.name}</h2>
 

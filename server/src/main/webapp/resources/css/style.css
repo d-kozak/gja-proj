@@ -1,3 +1,10 @@
+.hide {
+    opacity: 0;
+}
+.containerMain {
+    border: none;
+}
+
 .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-icon {
     margin-right: 5px;
     margin-top: 2px;

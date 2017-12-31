@@ -27,7 +27,7 @@
                                      selectionMode="single" selection="#{projectController.selectedProject}"
                                      rowKey="#{project.id}" styleClass="projectTable">
                             
-                            <p:ajax event="rowSelect" listener="#{projectController.onRowSelect}" update="mainPanel"/>
+                            <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
                             <p:column>
                                 <f:facet name="header">Projects</f:facet>
@@ -48,7 +48,7 @@
             
             <p:layoutUnit position="center" resizable="true">
                 
-                <p:panel id="mainPanel" style="border: none;">
+                <p:panel id="mainPanel" styleClass="containerMain #{projectController.selectedProject.name == null ? 'hide' : ''}" >
                     <h2>Selected project: #{projectController.selectedProject.name}</h2>
                     <h:form style="border: none;">
                         <h:panelGrid columns="3" style="border: none">

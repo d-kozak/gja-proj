@@ -14,9 +14,23 @@
                 
                 <h:form id="newTaskForm" styleClass="quickNewForm">
                     <p:panel header="Create new task">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:inputText id="newTaskName" value="#{taskController.newTask.name}" required="true" requiredMessage="Task name is required."/>
-                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" action="#{taskController.addNewTask}" ajax="true" update="tasks, newTaskForm" />
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <p:inputText id="newTaskName" value="#{taskController.newTask.name}" required="true" placeholder="Name" requiredMessage="Task name is required."/>
+                            
+                            <p:autoComplete id="project" dropdown="true" 
+                                            value="#{taskController.newTask.project}" completeMethod="#{taskController.projectList}"
+                                            var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}"
+                                            placeholder="Project" 
+                                            required="true" requiredMessage="Project for task is required." />
+                            
+                            <p:autoComplete id="node" dropdown="true" 
+                                            value="#{taskController.newTask.node}" completeMethod="#{taskController.nodeList}"
+                                            var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" 
+                                            placeholder="Node" 
+                                            required="true" requiredMessage="Node for task is required." />
+                            
+                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" value="Add task" 
+                                             action="#{taskController.addNewTask}" ajax="true" update="tasks, newTaskForm" />
                         </h:panelGrid>
                     </p:panel>
                 </h:form>
@@ -24,10 +38,9 @@
                 <h:form id="tasks" styleClass="tableList">
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
-                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}"
-                                     rowKey="#{task.id}">
+                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}">
                             
-                            <p:ajax event="rowSelect" listener="#{taskController.onRowSelect}" update="mainPanel"/>
+                            <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
                             <p:column>
                                 <f:facet name="header">Tasks</f:facet>
@@ -48,65 +61,77 @@
             
             <p:layoutUnit position="center" resizable="true">
                 
-                <p:panel id="mainPanel" style="border: none">
+                <p:panel id="mainPanel" styleClass="containerMain #{taskController.selectedProcessingTask.name == null ? 'hide' : ''}" >
 
                     <h2>Selected task: #{taskController.selectedProcessingTask.name}</h2>
                     
-                    <h:form id="taskDetails" style="border: none;">
-                        <h:panelGrid columns="3" style="border: none">
+                    <h:form id="taskDetails" style="border: none; margin-bottom: 20px; border-bottom: solid black 1px; padding-bottom: 10px;">
+                        <h:panelGrid columns="2" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
-                            <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}"/>
+                            <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}" required="true" />
+                            
+                            <p:outputLabel for="project" value="Project: " />
+                            <p:autoComplete id="project" dropdown="true" 
+                                            value="#{taskController.selectedProcessingTask.project}" completeMethod="#{taskController.projectList}"
+                                            var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}" />
+                            
+                            <p:outputLabel for="node" value="Node: " />
+                            <p:autoComplete id="node" dropdown="true" 
+                                            value="#{taskController.selectedProcessingTask.node}" completeMethod="#{taskController.nodeList}"
+                                            var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" />
+                            
+                            <p:commandButton value="Update" action="#{taskController.update}" update="tasks" ajax="true" style="float: right; margin-top: 10px;"/>
                         </h:panelGrid>
-                        
-                        
+                    </h:form>
+                    
+                    <h:form>
                         <h:panelGrid columns="4" style="margin-top: 20px;">
-                            <p:inputText id="command" value="#{taskController.newTaskUnit.command}" placeholder="Command" />
-                            <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" placeholder="Arguments" />
                             <p:inputText id="directory" value="#{taskController.newTaskUnit.directory}" placeholder="Directory" />
+                            <p:inputText id="command" value="#{taskController.newTaskUnit.command}" placeholder="Command" required="true" />
+                            <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" placeholder="Arguments" />
                             <p:commandButton value="Add command" ajax="true" action="#{taskController.addCommand}" icon="fa fa-fw fa-plus" update="mainPanel" />
                         </h:panelGrid>
-                        
-                        <p:dataTable id="taskUnitTable" var="taskUnit"
-                                         value="#{taskController.selectedProcessingTask.processingTaskUnits}"
-                                         rowKey="#{taskUnit.id}" style="margin-top: 10px;" draggableRows="true" editable="true" styleClass="commands">
-                                
-                            
-                            <p:column headerText="Command">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{taskUnit.command}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="command" value="#{taskUnit.command}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            
-                            <p:column headerText="Arguments">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{taskUnit.arguments}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="arguments" value="#{taskUnit.arguments}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            
-                            <p:column headerText="Directory">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{taskUnit.directory}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="directory" value="#{taskUnit.directory}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>       
-                            
-                            <p:column>
-                                <p:rowEditor />
-                            </p:column>
-                            
-                            <p:column>
-                                <f:facet name="header"></f:facet>
-                                <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{taskController.removeTaskUnit(taskUnit)}" ajax="true" update="mainPanel">
-                                    <p:confirm header="Confirmation" message="Are you sure you want to remove this command from task?" icon="ui-icon-alert" />
-                                </p:commandButton>
-                            </p:column>
-                            
-                        </p:dataTable>
-                        
-                        <p:commandButton value="Update" action="#{taskController.update}" update="tasks" ajax="true" style="float: right; margin-top: 10px;"/>
                     </h:form>
+
+                    <p:dataTable id="taskUnitTable" var="taskUnit"
+                                     value="#{taskController.selectedProcessingTask.processingTaskUnits}"
+                                     rowKey="#{taskUnit.id}" style="margin-top: 10px;" draggableRows="true" editable="true" styleClass="commands">
+
+
+                        <p:column headerText="Command">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{taskUnit.command}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="command" value="#{taskUnit.command}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Arguments">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{taskUnit.arguments}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="arguments" value="#{taskUnit.arguments}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Directory">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{taskUnit.directory}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="directory" value="#{taskUnit.directory}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>       
+
+                        <p:column>
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header"></f:facet>
+                            <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{taskController.removeTaskUnit(taskUnit)}" ajax="true" update="mainPanel">
+                                <p:confirm header="Confirmation" message="Are you sure you want to remove this command from task?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                    
                 </p:panel>
             </p:layoutUnit>
             
