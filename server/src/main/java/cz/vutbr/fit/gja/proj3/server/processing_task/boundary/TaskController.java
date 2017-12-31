@@ -1,15 +1,18 @@
 package cz.vutbr.fit.gja.proj3.server.processing_task.boundary;
 
+import cz.vutbr.fit.gja.proj3.server.node.boundary.NodeRepository;
+import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTaskUnit;
+import cz.vutbr.fit.gja.proj3.server.project.boundary.ProjectRepository;
+import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
+import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
 import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,7 +26,6 @@ import java.util.ArrayList;
 import javax.persistence.EntityManagerFactory;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.primefaces.event.RowEditEvent;
 
@@ -38,33 +40,31 @@ import org.primefaces.event.RowEditEvent;
 public class TaskController {
 
     protected final TaskRepository taskRepository;
-    protected final TaskUnitRepository taskUnitRepository;
-    protected final SessionFactory hibernateSession;
+    protected final ProjectRepository projectRepository;
+    protected final NodeRepository nodeRepository;
 
+    @Getter @Setter
     protected List<ProcessingTask> processingTasks;
-
+    
+    @Getter @Setter
     protected ProcessingTask selectedProcessingTask = new ProcessingTask();
-    protected ProcessingTaskUnit selectedProcessingTaskUnit = new ProcessingTaskUnit();
- 
-    @Getter
-    @Setter
+    
+    @Getter @Setter
     protected ProcessingTask newTask = new ProcessingTask();
-    @Getter
-    @Setter
+    
+    @Getter @Setter
     protected ProcessingTaskUnit newTaskUnit = new ProcessingTaskUnit();
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, TaskUnitRepository taskUnitRepository, EntityManagerFactory factory) {
+    public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository, NodeRepository nodeRepository) {
         this.taskRepository = taskRepository;
-        this.taskUnitRepository = taskUnitRepository;
-        
-        
-        if (factory.unwrap(SessionFactory.class) == null){
-            throw new NullPointerException("factory is not a hibernate factory");
-        }
-        this.hibernateSession = factory.unwrap(SessionFactory.class);
+        this.projectRepository = projectRepository;
+        this.nodeRepository = nodeRepository;
     }
 
+    /**
+     * Loads processing tasks on page load.
+     */
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -77,33 +77,17 @@ public class TaskController {
         this.loadData();
     }
     
-    public void onRowSelectTaskUnit(SelectEvent event) {
-        showInfo("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
-    }
-
-    public void onRowSelect(SelectEvent event) {
-        showInfo("ProcessingTask selected", ((ProcessingTask) event.getObject()).getName());
-    }
-    
     public void addCommand() {
-        log.info("--- BEFORE ---");
-        for (ProcessingTaskUnit ptu : selectedProcessingTask.getProcessingTaskUnits()) {
-            log.info(ptu.toString());
-        }
         newTaskUnit.setProcessingTask(selectedProcessingTask);
         selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
         selectedProcessingTask = taskRepository.save(selectedProcessingTask);
-        taskRepository.flush();
-        log.info("--- AFTER ---");
-        for (ProcessingTaskUnit ptu : selectedProcessingTask.getProcessingTaskUnits()) {
-            log.info(ptu.toString());
-        }
-        
+        taskRepository.flush();        
         showInfo("Command created.");
         newTaskUnit = new ProcessingTaskUnit();
     }
 
     public void addNewTask() {
+        newTask.setUser(GuiUtils.getLoggedUser());
         taskRepository.save(newTask);
         this.loadData();
         showInfo("Task " + newTask.getName() + " created.");
@@ -111,9 +95,6 @@ public class TaskController {
     }
 
     public void update() {
-        for (ProcessingTaskUnit ptu: selectedProcessingTask.getProcessingTaskUnits()) {
-            log.info(ptu.getCommand());
-        }
         taskRepository.save(selectedProcessingTask);
         this.loadData();
         showInfo("Task " + selectedProcessingTask.getName() + " updated.");
@@ -134,28 +115,40 @@ public class TaskController {
         selectedProcessingTask = taskRepository.save(this.selectedProcessingTask);
         this.loadData();
     }
-
-    public List<ProcessingTask> getProcessingTasks() {
-        return processingTasks;
+    
+    /**
+     * Autocomplete for projects drop-down menu.
+     * @param query Searching query
+     * @return List of all projects; filtered if query is not empty
+     */
+    public List<Project> projectList(String query) {
+        List<Project> projects = this.projectRepository.findAll();
+        List<Project> filtered = new ArrayList<>();
+        
+        for (Project project : projects) {
+            if (project.getName().toLowerCase().startsWith(query)) {
+                filtered.add(project);
+            }
+        }
+        
+        return filtered;
     }
-
-    public void setProcessingTasks(List<ProcessingTask> processingTasks) {
-        this.processingTasks = processingTasks;
-    }
-
-    public ProcessingTask getSelectedProcessingTask() {
-        return selectedProcessingTask;
-    }
-
-    public void setSelectedProcessingTask(ProcessingTask selectedProcessingTask) {
-        this.selectedProcessingTask = selectedProcessingTask;
-    }
-
-    public ProcessingTaskUnit getSelectedProcessingTaskUnit() {
-        return selectedProcessingTaskUnit;
-    }
-
-    public void setSelectedProcessingTaskUnit(ProcessingTaskUnit selectedProcessingTaskUnit) {
-        this.selectedProcessingTaskUnit = selectedProcessingTaskUnit;
+    
+    /**
+     * Autocomplete for nodes drop-down menu.
+     * @param query Searching query
+     * @return List of all nodes; filtered if query is not empty
+     */
+    public List<Node> nodeList(String query) {
+        List<Node> nodes = this.nodeRepository.findAll();
+        List<Node> filtered = new ArrayList<>();
+        
+        for (Node node : nodes) {
+            if (node.getName().toLowerCase().startsWith(query)) {
+                filtered.add(node);
+            }
+        }
+        
+        return filtered;
     }
 }

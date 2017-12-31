@@ -59,10 +59,6 @@ public class ProjectController {
         projects = projectRepository.findAllEagerFetch();
     }
 
-    public void onRowSelect(SelectEvent event) {
-        showInfo("Project selected: ", ((Project) event.getObject()).getName());
-    }
-
     public void addNewProject() {
         projectRepository.save(newProject);
         this.loadData();

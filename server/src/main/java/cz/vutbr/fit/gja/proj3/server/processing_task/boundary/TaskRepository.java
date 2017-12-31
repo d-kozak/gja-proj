@@ -12,9 +12,4 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface TaskRepository extends JpaRepository<ProcessingTask, Long> {
 
-    default List<ProcessingTask> findAllFetchTaskUnits() {
-        List<ProcessingTask> all = findAll();
-        //all.forEach(processingTask -> Hibernate.initialize(processingTask.getProcessingTaskUnits()));
-        return all;
-    }
 }

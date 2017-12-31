@@ -25,4 +25,9 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private List<ProcessingTask> processingTasks;
+    
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

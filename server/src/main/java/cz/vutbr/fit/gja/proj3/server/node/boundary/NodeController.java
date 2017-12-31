@@ -11,16 +11,12 @@ import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -102,10 +98,6 @@ public class NodeController {
             showInfo("Node " + newNode.getName() + " created."); 
             this.newNode = new Node();
         }
-    }
-
-    public void onRowSelect(SelectEvent event) {
-        showInfo("Node selected: ", ((Node) event.getObject()).getName());
     }
     
     public void remove(Node n) {
