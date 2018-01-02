@@ -1,5 +1,5 @@
 function showMain() {
-    $('.containerMain').css('opacity', 1);
+    $('.containerMain').removeClass('hide');
 }
 
 $(document).ready(function(){

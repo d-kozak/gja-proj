@@ -1,9 +1,9 @@
 package cz.vutbr.fit.gja.proj3.server.processing_task.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
 import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
+import java.io.Serializable;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 
 @Entity
@@ -21,7 +20,7 @@ import org.hibernate.annotations.Fetch;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProcessingTask {
+public class ProcessingTask implements Serializable {
 
     @Id
     @GeneratedValue

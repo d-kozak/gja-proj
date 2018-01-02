@@ -1,5 +1,6 @@
 .hide {
     opacity: 0;
+    pointer-events: none;
 }
 .containerMain {
     border: none;
@@ -34,11 +35,8 @@
 .tableList {
     margin-top: 10px;
 }
-.tableList div {
-    padding: 0 !important;
-}
-.tableList div div {
-    padding: 0 !important;
+.tableList div.ui-panel-content {
+    padding: 0px !important;
 }
 .tableList table th:nth-child(2) {
     width: 40px;

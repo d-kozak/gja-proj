@@ -1,6 +1,7 @@
 package cz.vutbr.fit.gja.proj3.server.project.entity;
 
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,19 +12,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Project {
+public class Project implements Serializable {
     @Id
     @GeneratedValue
     private long id;
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ProcessingTask> processingTasks;
     
     @Override

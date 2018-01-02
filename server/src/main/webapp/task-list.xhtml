@@ -35,15 +35,21 @@
                     </p:panel>
                 </h:form>
                 
-                <h:form id="tasks" styleClass="tableList">
-                    <p:panel style="border: none">
+                <h:form id="tasks">
+                    <p:panel style="border: none" styleClass="tableList">
                         <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
-                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}">
+                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}"
+                                     filteredValue="#{taskController.filteredTasks}" widgetVar="tasksTable">
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
-                            <p:column>
-                                <f:facet name="header">Tasks</f:facet>
+                            <p:column filterBy="#{task.project}">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('tasksTable').filter()" >
+                                        <f:selectItem itemLabel="All projects" itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems value="#{taskController.projects}" />
+                                    </p:selectOneMenu>
+                                </f:facet>
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                             

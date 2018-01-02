@@ -23,10 +23,8 @@ import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
-import javax.persistence.EntityManagerFactory;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.SessionFactory;
 import org.primefaces.event.RowEditEvent;
 
 @Log
@@ -54,6 +52,9 @@ public class TaskController {
     
     @Getter @Setter
     protected ProcessingTaskUnit newTaskUnit = new ProcessingTaskUnit();
+    
+    @Getter @Setter
+    protected List<ProcessingTask> filteredTasks = new ArrayList<>();
 
     @Autowired
     public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository, NodeRepository nodeRepository) {
@@ -114,6 +115,15 @@ public class TaskController {
         this.selectedProcessingTask.getProcessingTaskUnits().remove(ptu);
         selectedProcessingTask = taskRepository.save(this.selectedProcessingTask);
         this.loadData();
+    }
+    
+    public List<Project> getProjects() {
+        List<Project> projects = this.projectRepository.findAll();
+        /*List<String> result = new ArrayList<>();
+        for (Project project : projects) {
+            result.add(project.getName());
+        }*/
+        return projects;
     }
     
     /**
