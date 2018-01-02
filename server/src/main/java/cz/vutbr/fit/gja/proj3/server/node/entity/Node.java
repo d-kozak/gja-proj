@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import javax.persistence.FetchType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Data
@@ -30,6 +32,6 @@ public class Node implements Serializable {
 
     private boolean active = true;
 
-    @OneToMany(mappedBy = "node", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "node")
     private List<ProcessingTask> processingTasks;
 }

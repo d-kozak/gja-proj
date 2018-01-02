@@ -26,7 +26,7 @@ public class Project implements Serializable {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProcessingTask> processingTasks;
     
     @Override

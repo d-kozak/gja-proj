@@ -1,7 +1,5 @@
 package cz.vutbr.fit.gja.proj3.server.project.boundary;
 
-import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
-import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -15,6 +13,11 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     default List<Project> findAllEagerFetch() {
         List<Project> all = findAll();
         all.forEach(project -> Hibernate.initialize(project.getProcessingTasks()));
+        all.forEach(
+            node -> node.getProcessingTasks().forEach(
+                    task -> Hibernate.initialize(task.getProcessingTaskUnits())
+            )
+        );
         return all;
     }
 }

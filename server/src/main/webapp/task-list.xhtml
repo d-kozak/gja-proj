@@ -14,7 +14,7 @@
     <ui:param name="activeIndex" value="2" />
     <ui:define name="content">
         <p:layout>
-            <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
+            <p:layoutUnit position="west" resizable="true" minSize="550" maxSize="550">
                 
                 <h:form id="newTaskForm" styleClass="quickNewForm">
                     <p:panel header="Create new task">
@@ -47,6 +47,12 @@
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <p:inputText id="globalFilter" onkeyup="PF('tasksTable').filter()" placeholder="Enter keyword"/>
+                                </p:outputPanel>
+                            </f:facet>
+                            
                             <p:column filterBy="#{task.project}">
                                 <f:facet name="filter">
                                     <p:selectOneMenu onchange="PF('tasksTable').filter()" >
@@ -57,11 +63,22 @@
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                             
+                            <p:column filterBy="#{task.node}">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('tasksTable').filter()" >
+                                        <f:selectItem itemLabel="All nodes" itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems value="#{taskController.nodes}" />
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:column>
+                            
                             <p:column>
                                 <p:commandButton icon="fa fa-fw fa-trash" title="Delete" action="#{taskController.remove(task)}" ajax="true" update="tasks, mainPanel">
                                     <p:confirm header="Confirmation" message="Are you sure you want to remove this task?" icon="ui-icon-alert" />
                                 </p:commandButton>
                             </p:column>
+                            
+                            <p:column filterBy="#{task.name}" filterMatchMode="contains" filterStyle="display:none;"> </p:column>
                             
                         </p:dataTable>
                     </p:panel>
@@ -107,7 +124,8 @@
                         <p:dataTable id="taskUnitTable" var="taskUnit"
                                          value="#{taskController.selectedProcessingTask.processingTaskUnits}"
                                          rowKey="#{taskUnit.id}" style="margin-top: 10px;" draggableRows="true" editable="true" styleClass="commands">
-
+                            
+                            <p:ajax event="rowEdit" listener="#{taskController.onRowEditTaskUnit}" update="taskUnitTable" />
 
                             <p:column headerText="Command">
                                 <p:cellEditor>
@@ -144,6 +162,7 @@
 
                         </p:dataTable>
                     </h:form>
+                    
                 </p:panel>
             </p:layoutUnit>
             
