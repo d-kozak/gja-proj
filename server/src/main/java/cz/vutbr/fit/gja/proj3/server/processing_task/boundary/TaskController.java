@@ -7,18 +7,24 @@ import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTaskUnit;
 import cz.vutbr.fit.gja.proj3.server.project.boundary.ProjectRepository;
 import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.java.Log;
+import org.hibernate.SessionFactory;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
@@ -40,6 +46,7 @@ public class TaskController {
     protected final TaskRepository taskRepository;
     protected final ProjectRepository projectRepository;
     protected final NodeRepository nodeRepository;
+    protected final TaskRestController taskRestController;
 
     @Getter @Setter
     protected List<ProcessingTask> processingTasks;
@@ -55,12 +62,14 @@ public class TaskController {
     
     @Getter @Setter
     protected List<ProcessingTask> filteredTasks = new ArrayList<>();
+    private Node selectedNode;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository, NodeRepository nodeRepository) {
+    public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository, NodeRepository nodeRepository, TaskRestController taskRestController) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
         this.nodeRepository = nodeRepository;
+        this.taskRestController = taskRestController;
     }
 
     /**
@@ -77,12 +86,12 @@ public class TaskController {
         this.taskRepository.save(selectedProcessingTask);
         this.loadData();
     }
-    
+
     public void addCommand() {
         newTaskUnit.setProcessingTask(selectedProcessingTask);
         selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
         selectedProcessingTask = taskRepository.save(selectedProcessingTask);
-        taskRepository.flush();        
+        taskRepository.flush();
         showInfo("Command created.");
         newTaskUnit = new ProcessingTaskUnit();
     }
@@ -118,14 +127,29 @@ public class TaskController {
     }
     
     public List<Project> getProjects() {
-        List<Project> projects = this.projectRepository.findAll();
-        /*List<String> result = new ArrayList<>();
-        for (Project project : projects) {
-            result.add(project.getName());
-        }*/
-        return projects;
+        return projectRepository.findAll();
     }
     
+    public void startTaskExecution() {
+        // TODO call this from the GUI
+        try {
+            log.info("called");
+            // TODO add real node selection
+            List<Node> allNodes = nodeRepository.findAll();
+            if (allNodes.isEmpty()) {
+                log.severe("No nodes!!");
+                return;
+            }
+            this.selectedNode = allNodes.get(0);
+
+            taskRestController.startTaskExecution(selectedProcessingTask, selectedNode);
+        } catch (Exception ex) {
+            log.severe("exception: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+
     /**
      * Autocomplete for projects drop-down menu.
      * @param query Searching query
@@ -143,7 +167,7 @@ public class TaskController {
         
         return filtered;
     }
-    
+
     /**
      * Autocomplete for nodes drop-down menu.
      * @param query Searching query

@@ -62,22 +62,20 @@ public class NodeController {
     }
     
     public void checkAvailability() {
-        boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
-        if (!nodeRunning) {
+        if (!nodeEchoService.isNodeRunning(selectedNode)) {
             showError("Node is not running."); 
-        } else {
+        }else{
             showInfo("Node " + selectedNode.getName() + " is running.");
         }
     }
 
     public void update() {
         log.info("called for node " + selectedNode);
-        boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
-        if (!nodeRunning) {
+        if (!nodeEchoService.isNodeRunning(selectedNode)) {
             log.severe("Node is not running.");
             showError("Node is not running."); 
-        } else {
-            nodeRepository.save(selectedNode);
+        }else{
+            selectedNode = nodeRepository.save(selectedNode);
             this.loadData();
             showInfo("Node " + selectedNode.getName() + " updated.");
         }
@@ -86,13 +84,13 @@ public class NodeController {
     public void addNewNode() {
         showInfo("Sending echo to node. Please wait."); 
         log.info("creating: "+newNode);
-        boolean nodeRunning = nodeEchoService.isNodeRunning(newNode);
-        if (!nodeRunning) {
+        
+        if (!nodeEchoService.isNodeRunning(newNode)) {
             log.severe("Node is not running.");
             showError("Node is not running."); 
-        } else {
+        }else{
             log.info("node running, saving "+newNode);
-            nodeRepository.save(newNode);
+            newNode = nodeRepository.save(newNode);
             log.info("node saved");
             this.loadData();
             showInfo("Node " + newNode.getName() + " created."); 

@@ -19,6 +19,8 @@ public class ProcessingTaskResult {
     @GeneratedValue
     private long id;
 
+    private TaskState taskState = TaskState.CREATED;
+
     @ManyToOne
     private ProcessingTask processingTask;
 

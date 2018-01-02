@@ -51,18 +51,16 @@
                     <h2>Node #{nodeController.selectedNode.name}</h2>
 
                     <h:form id="nodeDetails" style="border: none;">
-                        <h:panelGrid columns="2" style="border: none">
+                        <h:panelGrid columns="2" style="border: none" cellpadding="5">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{nodeController.selectedNode.name}"/>
                             <p:outputLabel for="url" value="Url: "/>
                             <p:inputText id="url" value="#{nodeController.selectedNode.url}"/>
-                            <h:outputText value="Active: "/>
-                            <p:selectBooleanCheckbox value="#{nodeController.selectedNode.active}"/>
                         </h:panelGrid>
                         
                         <p:commandButton value="Check node availability" style="margin-top: 10px;" icon="fa fa-fw fa-signal" action="#{nodeController.checkAvailability}" ajax="true" styleClass="ui-priority-primary"/>
                         
-                        <h2>Processing tasks</h2>
+                        <h2>Assigned tasks</h2>
                         
                         <p:dataTable id="nodeTasksTable" var="task"
                                      value="#{nodeController.selectedNode.processingTasks}"

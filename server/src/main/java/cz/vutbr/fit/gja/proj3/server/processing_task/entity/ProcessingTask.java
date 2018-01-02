@@ -5,15 +5,27 @@ import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import java.io.Serializable;
 import java.util.ArrayList;
+import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskDTO;
+import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskUnitDTO;
+import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
+import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
+import cz.vutbr.fit.gja.proj3.server.user.entity.User;
+import java.util.List;
+import static java.util.stream.Collectors.toList;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.util.List;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Data
@@ -41,9 +53,22 @@ public class ProcessingTask implements Serializable {
 
     @ManyToOne
     private Node node;
-    
+
     @ManyToOne
     private Project project;
+
+    public ProcessingTaskDTO toDTO() {
+        return ProcessingTaskDTO.builder()
+                                .id(getId())
+                                .processingTaskUnitDTOS(subtasksToDTOs())
+                                .build();
+    }
+
+    private List<ProcessingTaskUnitDTO> subtasksToDTOs() {
+        return processingTaskUnits.stream()
+                                  .map(ProcessingTaskUnit::toDTO)
+                                  .collect(toList());
+    }
 
     @Override
     public String toString() {

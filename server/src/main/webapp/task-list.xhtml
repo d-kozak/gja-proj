@@ -16,20 +16,20 @@
                     <p:panel header="Create new task">
                         <h:panelGrid columns="1" cellpadding="5">
                             <p:inputText id="newTaskName" value="#{taskController.newTask.name}" required="true" placeholder="Name" requiredMessage="Task name is required."/>
-                            
-                            <p:autoComplete id="project" dropdown="true" 
+
+                            <p:autoComplete id="project" dropdown="true"
                                             value="#{taskController.newTask.project}" completeMethod="#{taskController.projectList}"
                                             var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}"
                                             placeholder="Project" forceSelection="true"
                                             required="true" requiredMessage="Project for task is required." />
-                            
-                            <p:autoComplete id="node" dropdown="true" 
+
+                            <p:autoComplete id="node" dropdown="true"
                                             value="#{taskController.newTask.node}" completeMethod="#{taskController.nodeList}"
                                             var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" 
                                             placeholder="Node" forceSelection="true" 
                                             required="true" requiredMessage="Node for task is required." />
-                            
-                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" value="Add task" 
+
+                            <p:commandButton icon="fa fa-fw fa-plus" title="Add" value="Add task"
                                              action="#{taskController.addNewTask}" ajax="true" update="tasks, newTaskForm" />
                         </h:panelGrid>
                     </p:panel>
@@ -66,7 +66,6 @@
             </p:layoutUnit>
             
             <p:layoutUnit position="center" resizable="true">
-                
                 <p:panel id="mainPanel" styleClass="containerMain #{taskController.selectedProcessingTask.name == null ? 'hide' : ''}" >
 
                     <h2>Selected task: #{taskController.selectedProcessingTask.name}</h2>
@@ -75,23 +74,21 @@
                         <h:panelGrid columns="2" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}" required="true" />
-                            
+
                             <p:outputLabel for="project" value="Project: " />
-                            <p:autoComplete id="project" dropdown="true" 
+                            <p:autoComplete id="project" dropdown="true"
                                             value="#{taskController.selectedProcessingTask.project}" completeMethod="#{taskController.projectList}"
                                             var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}" forceSelection="true" 
                                             required="true" requiredMessage="Project for task is required." />
-                            
                             <p:outputLabel for="node" value="Node: " />
-                            <p:autoComplete id="node" dropdown="true" 
+                            <p:autoComplete id="node" dropdown="true"
                                             value="#{taskController.selectedProcessingTask.node}" completeMethod="#{taskController.nodeList}"
                                             var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" forceSelection="true" 
                                             required="true" requiredMessage="Node for task is required." />
-                            
                             <p:commandButton value="Update" action="#{taskController.update}" update="tasks" ajax="true" style="float: right; margin-top: 10px;"/>
                         </h:panelGrid>
                     </h:form>
-                    
+
                     <h:form>
                         <h:panelGrid columns="4" style="margin-top: 20px;">
                             <p:inputText id="directory" value="#{taskController.newTaskUnit.directory}" placeholder="Directory" />
@@ -125,7 +122,7 @@
                                 <f:facet name="output"><h:outputText value="#{taskUnit.directory}" /></f:facet>
                                 <f:facet name="input"><p:inputText id="directory" value="#{taskUnit.directory}" style="width:100%"/></f:facet>
                             </p:cellEditor>
-                        </p:column>       
+                        </p:column>
 
                         <p:column>
                             <p:rowEditor />
@@ -139,7 +136,7 @@
                         </p:column>
 
                     </p:dataTable>
-                    
+
                 </p:panel>
             </p:layoutUnit>
             

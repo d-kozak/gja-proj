@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/login*",
                         "/hello",
+                        "/api/task/**",
                         "/register",
                         "/javax.faces.resource/**",
                         "/primefaces_resource/**",

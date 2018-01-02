@@ -5,14 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProcessingTaskDTO {
-    private long id;
+public class OutputVerificationDTO {
+    @NotNull
+    private OutputType outputType;
 
-    private List<ProcessingTaskUnitDTO> processingTaskUnitDTOS;
+    private String outputDirectory = ".";
+
+    private List<String> expectedOutput;
 }

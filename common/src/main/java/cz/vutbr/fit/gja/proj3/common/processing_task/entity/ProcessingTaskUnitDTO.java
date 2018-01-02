@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +20,7 @@ public class ProcessingTaskUnitDTO {
     @DirectoryConstraint
     private String directory;
 
-    private List<String> arguments;
+    private String arguments;
+
+    private OutputVerificationDTO outputVerificationDTO;
 }

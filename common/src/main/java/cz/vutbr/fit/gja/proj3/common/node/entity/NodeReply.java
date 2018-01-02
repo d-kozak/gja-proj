@@ -9,4 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NodeReply {
     private boolean isOk;
+    private String description;
+
+    public NodeReply(boolean isOk) {
+        this.isOk = isOk;
+        this.description = "";
+    }
 }

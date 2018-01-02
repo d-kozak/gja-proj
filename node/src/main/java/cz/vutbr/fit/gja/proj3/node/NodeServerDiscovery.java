@@ -31,15 +31,20 @@ public class NodeServerDiscovery implements ApplicationListener<EmbeddedServletC
     @Bean
     public CommandLineRunner echoToServer() {
         return args -> {
-            String nodeUrl = InetAddress.getLocalHost()
-                                        .getHostAddress() + ":" + serverPort;
-            log.info(nodeUrl);
-            String fullUrl = serverUrl + "/hello";
-            log.info("Probing url: " + fullUrl);
-            RestTemplate restTemplate = new RestTemplate();
-            NodeRequest nodeRequest = new NodeRequest(nodeUrl);
-            NodeReply nodeReply = restTemplate.postForObject(fullUrl, nodeRequest, NodeReply.class);
-            log.info("received " + nodeReply);
+            try {
+                String nodeUrl = InetAddress.getLocalHost()
+                                            .getHostAddress() + ":" + serverPort;
+                log.info(nodeUrl);
+                String fullUrl = serverUrl + "/hello";
+                log.info("Probing url: " + fullUrl);
+                RestTemplate restTemplate = new RestTemplate();
+                NodeRequest nodeRequest = new NodeRequest(nodeUrl);
+                NodeReply nodeReply = restTemplate.postForObject(fullUrl, nodeRequest, NodeReply.class);
+                log.info("received " + nodeReply);
+            } catch (Exception ex) {
+                log.severe("exception: " + ex);
+                ex.printStackTrace();
+            }
         };
     }
 }
