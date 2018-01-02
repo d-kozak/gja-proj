@@ -12,21 +12,17 @@ import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import org.hibernate.SessionFactory;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
@@ -160,7 +156,11 @@ public class TaskController {
     }
     
     public List<Project> getProjects() {
-        return projectRepository.findAll();
+        return projectRepository.findAllEagerFetch();
+    }
+    
+    public List<Node> getNodes() {
+        return nodeRepository.findAllEagerFetch();
     }
     
     public void startTaskExecution() {
