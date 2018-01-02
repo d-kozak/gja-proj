@@ -79,7 +79,7 @@ public class TaskController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        processingTasks = taskRepository.findAll();
+        processingTasks = taskRepository.findAllEagerFetch();
     }
     
     public void onRowEditTaskUnit(RowEditEvent event) {

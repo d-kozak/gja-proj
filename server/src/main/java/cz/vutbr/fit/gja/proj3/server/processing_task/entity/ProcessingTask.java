@@ -41,7 +41,7 @@ public class ProcessingTask implements Serializable {
     private String name;
 
     @OrderColumn
-    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "processingTask", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<ProcessingTaskUnit> processingTaskUnits = new ArrayList<>();
 

@@ -15,15 +15,16 @@ import javax.faces.webapp.FacesServlet;
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Log
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
 @EnableAsync
+@EnableJpaRepositories
 @PropertySource("classpath:local.properties")
 public class ServerApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
     }

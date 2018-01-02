@@ -32,20 +32,16 @@ public class NodeController {
     private final NodeRepository nodeRepository;
     private final NodeEchoService nodeEchoService;
     
-    @Getter
-    @Setter
+    @Getter @Setter
     private List<Node> nodes;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private Node selectedNode = new Node();
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private Node newNode = new Node();
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private ProcessingTask selectedProcessingTask;
 
     @Autowired
@@ -82,7 +78,7 @@ public class NodeController {
             showError("Node is not running."); 
         }else{
             log.info("node running, saving "+newNode);
-            newNode = nodeRepository.save(newNode);
+            nodeRepository.save(newNode);
             log.info("node saved");
             this.loadData();
             showInfo("Node " + newNode.getName() + " created."); 

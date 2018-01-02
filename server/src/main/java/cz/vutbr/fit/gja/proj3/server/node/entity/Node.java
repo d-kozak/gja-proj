@@ -12,21 +12,24 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import javax.persistence.FetchType;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Node implements Serializable {
+    
     @Id
     @GeneratedValue
     private long id;
+    
     @NotNull
     private String url;
     private String name;
 
     private boolean active = true;
 
-    @OneToMany(mappedBy = "node")
+    @OneToMany(mappedBy = "node", fetch = FetchType.LAZY)
     private List<ProcessingTask> processingTasks;
 }
