@@ -34,6 +34,11 @@ public class NodeChecker {
                                                  .stream()
                                                  .filter(node -> !nodeEchoService.isNodeRunning(node))
                                                  .collect(toList());
+        
+        List<Node> activeNodes = nodeRepository.findAllByActiveIsFalse()
+                                                 .stream()
+                                                 .filter(node -> nodeEchoService.isNodeRunning(node))
+                                                 .collect(toList());
 
         if (!inactiveNodes.isEmpty()) {
             log.severe("\nFound inactive nodes: \n" + inactiveNodes.stream()
@@ -47,6 +52,20 @@ public class NodeChecker {
 
             log.severe("Nodes marked as inactive");
         }
+        
+        if (!activeNodes.isEmpty()) {
+            log.severe("\nFound active nodes: \n" + activeNodes.stream()
+                                                                   .map(Node::toString)
+                                                                   .collect(joining("\n")) + "\n");
+
+            activeNodes.forEach(node -> {
+                node.setActive(true);
+                nodeRepository.save(node);
+            });
+
+            log.severe("Nodes marked as active");
+        }
+        
         log.info("finished");
     }
 }

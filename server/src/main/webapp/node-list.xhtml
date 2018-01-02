@@ -25,11 +25,12 @@
                     <p:panel style="border: none">
                         <p:dataTable id="table" var="node" value="#{nodeController.nodes}"
                                      selectionMode="single" selection="#{nodeController.selectedNode}"
-                                     rowKey="#{node.id}" styleClass="projectTable">
+                                     rowKey="#{node.id}" styleClass="nodeTable"
+                                     paginator="true" rows="10">
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
-                            <p:column>
+                            <p:column filterBy="#{node.name}">
                                 <f:facet name="header">Nodes</f:facet>
                                 <h:outputText value="#{node.name}"/>
                             </p:column>
@@ -66,12 +67,19 @@
                         
                         <p:dataTable id="nodeTasksTable" var="task"
                                      value="#{nodeController.selectedNode.processingTasks}"
-                                     selectionMode="single" selection="#{nodeController.selectedProcessingTask}"
                                      rowKey="#{task.id}">
                             <p:column>
                                 <f:facet name="header">Name</f:facet>
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
+                            
+                            <p:column style="width: 60px; text-align: center;">
+                                <f:facet name="header">Link</f:facet>
+                                <p:button icon="fa fa-fw fa-external-link" title="Link" outcome="task-list">
+                                    <f:param name="id" value="#{task.id}" />
+                                </p:button>
+                            </p:column>
+                            
                         </p:dataTable>
 
                     </h:form>
