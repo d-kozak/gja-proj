@@ -79,12 +79,12 @@
                             <p:outputLabel for="project" value="Project: " />
                             <p:autoComplete id="project" dropdown="true" 
                                             value="#{taskController.selectedProcessingTask.project}" completeMethod="#{taskController.projectList}"
-                                            var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}" forceSelection="true" />
+                                            var="varProj" itemValue="#{varProj}" itemLabel="#{varProj.name}" converter="#{projectConverter}" forceSelection="true" required="true" />
                             
                             <p:outputLabel for="node" value="Node: " />
                             <p:autoComplete id="node" dropdown="true" 
                                             value="#{taskController.selectedProcessingTask.node}" completeMethod="#{taskController.nodeList}"
-                                            var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" forceSelection="true" />
+                                            var="varNode" itemValue="#{varNode}" itemLabel="#{varNode.name}" converter="#{nodeConverter}" forceSelection="true" required="true" />
                             
                             <p:commandButton value="Update" action="#{taskController.update}" update="tasks" ajax="true" style="float: right; margin-top: 10px;"/>
                         </h:panelGrid>
