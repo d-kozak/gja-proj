@@ -56,9 +56,11 @@
                             <p:inputText id="name" value="#{nodeController.selectedNode.name}"/>
                             <p:outputLabel for="url" value="Url: "/>
                             <p:inputText id="url" value="#{nodeController.selectedNode.url}"/>
+                            <h:outputText value="Active: "/>
+                            <p:selectBooleanCheckbox disabled="true" value="#{nodeController.selectedNode.active}"/>
                         </h:panelGrid>
                         
-                        <p:commandButton value="Check node availability" style="margin-top: 10px;" icon="fa fa-fw fa-signal" action="#{nodeController.checkAvailability}" ajax="true" styleClass="ui-priority-primary"/>
+                        <p:commandButton value="Update" action="#{nodeController.update}" update="nodes" ajax="true" style="margin-top: 10px;"/>
                         
                         <h2>Assigned tasks</h2>
                         
@@ -71,9 +73,7 @@
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                         </p:dataTable>
-                        
-                        
-                        <p:commandButton value="Update" action="#{nodeController.update}" update="nodes" ajax="true" style="float: right; margin-top: 10px;"/>
+
                     </h:form>
                     
                 </p:panel>
