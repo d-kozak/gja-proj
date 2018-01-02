@@ -140,7 +140,7 @@ public class TaskController {
                 log.severe("No nodes!!");
                 return;
             }
-            this.selectedNode = allNodes.get(0);
+            this.selectedNode = selectedProcessingTask.getNode();
 
             taskRestController.startTaskExecution(selectedProcessingTask, selectedNode);
         } catch (Exception ex) {
