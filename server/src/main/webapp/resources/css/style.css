@@ -62,3 +62,10 @@
 .quickNewForm div div .ui-button-icon-only span {
     margin-left: -9px;
 }
+
+.nodeTable th .ui-column-filter {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
