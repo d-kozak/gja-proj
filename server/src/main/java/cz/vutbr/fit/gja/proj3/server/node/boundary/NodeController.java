@@ -61,15 +61,6 @@ public class NodeController {
         nodes = nodeRepository.findAllEagerFetch();
     }
     
-    public void checkAvailability() {
-        boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
-        if (!nodeRunning) {
-            showError("Node is not running."); 
-        } else {
-            showInfo("Node " + selectedNode.getName() + " is running.");
-        }
-    }
-
     public void update() {
         log.info("called for node " + selectedNode);
         boolean nodeRunning = nodeEchoService.isNodeRunning(selectedNode);
