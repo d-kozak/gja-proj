@@ -48,11 +48,15 @@
     border-left: none;
 }
 
-.tableList table th:nth-child(n+3) {
+.tableList table th {
+    width: 30px;
+}
+
+.tableList table th:nth-child(n+4) {
     display: none;
     width: 0px;
 }
-.tableList table td:nth-child(n+3) {
+.tableList table td:nth-child(n+4) {
     display: none;
     width: 0px;
 }

@@ -53,23 +53,24 @@
                                 </p:outputPanel>
                             </f:facet>
                             
-                            <p:column filterBy="#{task.project}">
+                            <p:column filterBy="#{task.project}" filterMatchMode="exact">
                                 <f:facet name="filter">
                                     <p:selectOneMenu onchange="PF('tasksTable').filter()" >
                                         <f:selectItem itemLabel="All projects" itemValue="#{null}" noSelectionOption="true" />
-                                        <f:selectItems value="#{taskController.projects}" />
+                                        <f:selectItems var="project" value="#{taskController.projects}" itemLabel="#{project.name}" />
                                     </p:selectOneMenu>
                                 </f:facet>
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                             
-                            <p:column filterBy="#{task.node}">
+                            <p:column filterBy="#{task.node}" filterMatchMode="exact">
                                 <f:facet name="filter">
                                     <p:selectOneMenu onchange="PF('tasksTable').filter()" >
                                         <f:selectItem itemLabel="All nodes" itemValue="#{null}" noSelectionOption="true" />
-                                        <f:selectItems value="#{taskController.nodes}" />
+                                        <f:selectItems var="node" value="#{taskController.nodes}" itemValue="#{node}" itemLabel="#{node.name}" />
                                     </p:selectOneMenu>
                                 </f:facet>
+                                <h:outputText value="#{task.node.name}"/>
                             </p:column>
                             
                             <p:column>
