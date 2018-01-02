@@ -1,6 +1,7 @@
 package cz.vutbr.fit.gja.proj3.server.node.entity;
 
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Node {
+public class Node implements Serializable {
     @Id
     @GeneratedValue
     private long id;
