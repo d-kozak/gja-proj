@@ -1,4 +1,5 @@
 function showMain() {
+    
     $('.containerMain').removeClass('hide');
 }
 

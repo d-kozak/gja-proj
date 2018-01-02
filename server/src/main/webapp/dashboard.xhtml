@@ -9,13 +9,17 @@
     <ui:param name="activeIndex" value="0" />
     <ui:define name="content">
         <p:panel header="Dashboard">
-            <p:dashboard model="#{dashboardController.model}" style="height:250px">
+            <p:dashboard model="#{dashboardController.model}" style="height:250px" disabled="true">
                 <p:panel id="running_tasks" header="Currenty running tasks">
                    Some content here...
                 </p:panel>
 
                 <p:panel id="inactive_nodes" header="Inactive Nodes" style="margin-left: 10px">
-                    Nodes that didn't respond to probing.
+                    <p:dataTable value="#{dashboardController.inactiveNodes}" var="inode" tableStyle="width:auto">
+                        <p:column headerText="Name">
+                            <h:outputText value="#{inode.getName()}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:panel>                
         
                 <div style="clear:both" />

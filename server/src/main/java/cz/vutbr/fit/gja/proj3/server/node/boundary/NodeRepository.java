@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface NodeRepository extends JpaRepository<Node, Long> {
 
     List<Node> findAllByActiveIsTrue();
+    List<Node> findAllByActiveIsFalse();
 
     default List<Node> findAllEagerFetch() {
         List<Node> all = findAll();

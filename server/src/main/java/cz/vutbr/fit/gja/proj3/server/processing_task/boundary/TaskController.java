@@ -7,6 +7,8 @@ import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTaskUnit;
 import cz.vutbr.fit.gja.proj3.server.project.boundary.ProjectRepository;
 import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.getParam;
+import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -29,9 +31,11 @@ import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 @Log
 @Scope(value = "session")
@@ -62,6 +66,10 @@ public class TaskController {
     
     @Getter @Setter
     protected List<ProcessingTask> filteredTasks = new ArrayList<>();
+    
+    @Getter @Setter
+    protected String selectedId;
+    
     private Node selectedNode;
 
     @Autowired
@@ -80,6 +88,31 @@ public class TaskController {
     @IgnorePostback
     public void loadData() {
         processingTasks = taskRepository.findAllEagerFetch();
+    }
+    
+    public String onload() {
+        if (getParam("id") == null) 
+            selectedId = null;
+        
+        if (selectedId != null) {
+            Long id;
+            try {
+                id = Long.parseLong(selectedId);
+                selectedProcessingTask = processingTasks.stream()
+                    .filter(item -> item.getId() == id)
+                    .findAny()
+                .get();
+                return "task-list.xhtml?faces-redirect=true";
+            }catch (NumberFormatException ex) {
+                showError("Invalid task ID.");
+                return "task-list.xhtml?faces-redirect=true";
+            }catch (NoSuchElementException ex) {
+                showError("Task with that ID does not exist.");
+                return "task-list.xhtml?faces-redirect=true";
+            }
+        }
+        
+        return null;
     }
     
     public void onRowEditTaskUnit(RowEditEvent event) {

@@ -6,6 +6,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns="http://www.w3.org/1999/xhtml">
+    <f:metadata>
+        <f:viewParam id="id" name="id" value="#{taskController.selectedId}" />
+        <f:viewAction action="#{taskController.onload}" />
+    </f:metadata>
 <ui:composition template="layout-main.xhtml">
     <ui:param name="activeIndex" value="2" />
     <ui:define name="content">
