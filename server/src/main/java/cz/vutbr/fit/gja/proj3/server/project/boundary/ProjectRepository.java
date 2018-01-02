@@ -7,10 +7,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Transactional
+@Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    
-    @Transactional
     default List<Project> findAllEagerFetch() {
         List<Project> all = findAll();
         all.forEach(project -> Hibernate.initialize(project.getProcessingTasks()));
