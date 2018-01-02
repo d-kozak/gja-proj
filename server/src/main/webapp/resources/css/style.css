@@ -48,6 +48,15 @@
     border-left: none;
 }
 
+.tableList table th:nth-child(n+3) {
+    display: none;
+    width: 0px;
+}
+.tableList table td:nth-child(n+3) {
+    display: none;
+    width: 0px;
+}
+
 .commands table th:nth-child(4) {
     width: 35px !important;
 }
