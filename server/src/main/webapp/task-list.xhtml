@@ -39,15 +39,15 @@
                     </p:panel>
                 </h:form>
                 
-                <h:form>    
+                <h:form>  
                     <p:selectOneMenu value="#{taskController.filterProject}">
-                        <p:ajax listener="#{taskController.setFilter}" update="tasks" />
+                        <p:ajax event="change" listener="#{taskController.setFilter}" update="tasks" />
                         <f:selectItem itemLabel="All projects" itemValue="#{null}" noSelectionOption="true" />
-                        <f:selectItems var="project" value="#{taskController.projects}" itemLabel="#{project.name}" />
+                        <f:selectItems var="project" value="#{taskController.projects}" itemValue="#{project}" itemLabel="#{project.name}" />
                     </p:selectOneMenu>
                     
                     <p:selectOneMenu value="#{taskController.filterNode}">
-                        <p:ajax listener="#{taskController.setFilter}" update="tasks" />
+                        <p:ajax event="change" listener="#{taskController.setFilter}" update="tasks" />
                         <f:selectItem itemLabel="All nodes" itemValue="#{null}" noSelectionOption="true" />
                         <f:selectItems var="node" value="#{taskController.nodes}" itemValue="#{node}" itemLabel="#{node.name}" />
                     </p:selectOneMenu>

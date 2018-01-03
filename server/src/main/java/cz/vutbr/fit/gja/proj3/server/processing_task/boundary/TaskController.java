@@ -28,6 +28,7 @@ import java.util.List;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
@@ -91,7 +92,7 @@ public class TaskController {
             processingTasks = taskRepository.findAllEagerFetch();
     }
     
-    public void setFilter() {
+    public void setFilter(final AjaxBehaviorEvent event) {
         this.loadData();
     }
     
