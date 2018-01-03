@@ -31,7 +31,6 @@ import java.util.NoSuchElementException;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.event.SelectEvent;
 
 @Log
 @Scope(value = "session")
@@ -61,7 +60,9 @@ public class TaskController {
     protected ProcessingTaskUnit newTaskUnit = new ProcessingTaskUnit();
     
     @Getter @Setter
-    protected List<ProcessingTask> filteredTasks = new ArrayList<>();
+    protected Project filterProject;
+    @Getter @Setter
+    protected Node filterNode;
     
     @Getter @Setter
     protected String selectedId;
@@ -83,7 +84,15 @@ public class TaskController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        processingTasks = taskRepository.findAllEagerFetch();
+        if (filterProject != null) processingTasks = taskRepository.findAllByProject(filterProject); 
+        if (filterNode != null) processingTasks = taskRepository.findAllByNode(filterNode);
+        
+        if (filterProject == null && filterNode == null) 
+            processingTasks = taskRepository.findAllEagerFetch();
+    }
+    
+    public void setFilter() {
+        this.loadData();
     }
     
     public String onload() {
