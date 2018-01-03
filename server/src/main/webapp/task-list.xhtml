@@ -107,16 +107,23 @@
                             </h:form>
 
                             <h:form>
-                                <h:panelGrid columns="6" style="margin-top: 20px;">
-                                    <p:inputText id="directory" value="#{taskController.newTaskUnit.directory}" placeholder="Directory" />
-                                    <p:inputText id="command" value="#{taskController.newTaskUnit.command}" placeholder="Command" required="true" requiredMessage="Command is required." />
-                                    <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" placeholder="Arguments" />
-                                    <p:inputText id="indirectory" value="#{taskController.newTaskUnit.inputDirectory}" placeholder="Input files directory" />
-                                    <p:inputText id="infile" value="#{taskController.newTaskUnit.inputFileRegex}" placeholder="Input file regex" />
+                                <h:panelGrid columns="2" cellpadding="5" style="margin-top: 20px;">
+                                    <p:outputLabel for="directory" value="Directory:" />
+                                    <p:inputText id="directory" value="#{taskController.newTaskUnit.directory}" />
+                                    <p:outputLabel for="command" value="Command:" />
+                                    <p:inputText id="command" value="#{taskController.newTaskUnit.command}" required="true" requiredMessage="Command is required." />
+                                    <p:outputLabel for="arguments" value="Arguments:" />
+                                    <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" />
+                                    <p:outputLabel for="indirectory" value="Input files directory" />
+                                    <p:inputText id="indirectory" value="#{taskController.newTaskUnit.inputDirectory}" />
+                                    
+                                    <p:outputLabel for="infile" value="Input file regex:" />
+                                    <p:inputText id="infile" value="#{taskController.newTaskUnit.inputFileRegex}" />
+                                    
                                     <p:commandButton value="Add command" ajax="true" action="#{taskController.addCommand}" icon="fa fa-fw fa-plus" update="mainPanel" />
-                                    <p:tooltip id="argumentsTooltip" for="arguments" position="bottom" showEvent="focus" hideEvent="blur" >
-                                        To specify the input file argument, you can use the <code>{INPUT}</code> keyword.<br />
-                                        Example: <code>--infile {INPUT}</code>
+                                    <p:tooltip id="argumentsTooltip" for="arguments" position="right" showEvent="focus" hideEvent="blur" >
+                                        To specify the input file argument, you can use the <code>{input}</code> keyword.<br />
+                                        Example: <code>--infile {input}</code>
                                     </p:tooltip>
                                 </h:panelGrid>
                             </h:form>
