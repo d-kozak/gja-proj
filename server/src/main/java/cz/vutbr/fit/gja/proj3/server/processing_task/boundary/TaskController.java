@@ -1,9 +1,12 @@
 package cz.vutbr.fit.gja.proj3.server.processing_task.boundary;
 
+import cz.vutbr.fit.gja.proj3.common.processing_task.entity.OutputType;
 import cz.vutbr.fit.gja.proj3.server.node.boundary.NodeRepository;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.OutputVerification;
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
 import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTaskUnit;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.TaskState;
 import cz.vutbr.fit.gja.proj3.server.project.boundary.ProjectRepository;
 import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
@@ -24,6 +27,7 @@ import javax.faces.bean.ViewScoped;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -44,6 +48,7 @@ public class TaskController {
     protected final ProjectRepository projectRepository;
     protected final NodeRepository nodeRepository;
     protected final TaskRestController taskRestController;
+    protected final TaskService service;
 
     @Getter @Setter
     protected List<ProcessingTask> processingTasks;
@@ -75,11 +80,12 @@ public class TaskController {
     private Node selectedNode;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository, NodeRepository nodeRepository, TaskRestController taskRestController) {
+    public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository, NodeRepository nodeRepository, TaskRestController taskRestController, TaskService service) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
         this.nodeRepository = nodeRepository;
         this.taskRestController = taskRestController;
+        this.service = service;
     }
 
     /**
@@ -140,9 +146,11 @@ public class TaskController {
 
     public void addCommand() {
         newTaskUnit.setProcessingTask(selectedProcessingTask);
+        OutputVerification ov = new OutputVerification();
+        ov.setOutputType(OutputType.NO_CHECK);
+        newTaskUnit.setOutputVerification(ov);
         selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
-        selectedProcessingTask = taskRepository.save(selectedProcessingTask);
-        taskRepository.flush();
+        selectedProcessingTask = service.save(selectedProcessingTask);
         showInfo("Command created.");
         newTaskUnit = new ProcessingTaskUnit();
     }
@@ -173,7 +181,7 @@ public class TaskController {
     public void removeTaskUnit(ProcessingTaskUnit ptu) {
         showInfo("Command was removed from task.");
         this.selectedProcessingTask.getProcessingTaskUnits().remove(ptu);
-        selectedProcessingTask = taskRepository.save(this.selectedProcessingTask);
+        selectedProcessingTask = service.save(this.selectedProcessingTask);
         this.loadData();
     }
     
@@ -214,5 +222,9 @@ public class TaskController {
      */
     public List<Node> nodeList(String query) {        
         return nodes.stream().filter((node) -> (node.getName().toLowerCase().startsWith(query.toLowerCase()))).collect(Collectors.toList());
+    }
+    
+    public Map<TaskState, String> getConstStates() {
+        return TaskRepository.STATES;
     }
 }

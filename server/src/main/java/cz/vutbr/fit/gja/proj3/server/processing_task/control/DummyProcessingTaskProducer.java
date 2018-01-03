@@ -16,7 +16,7 @@ import java.util.List;
 @Configuration
 public class DummyProcessingTaskProducer {
 
-    @Bean
+    /*@Bean
     public CommandLineRunner produceDummyTasks(TaskRepository taskRepository) {
         return args -> {
             ProcessingTask processingTask = new ProcessingTask();
@@ -37,5 +37,5 @@ public class DummyProcessingTaskProducer {
             log.info("saving task " + processingTask);
             taskRepository.save(processingTask);
         };
-    }
+    }*/
 }

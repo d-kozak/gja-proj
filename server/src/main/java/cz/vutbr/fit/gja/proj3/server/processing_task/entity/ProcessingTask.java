@@ -46,7 +46,7 @@ public class ProcessingTask implements Serializable {
     private List<ProcessingTaskUnit> processingTaskUnits = new ArrayList<>();
 
     @OneToMany(mappedBy = "processingTask", cascade = CascadeType.DETACH)
-    private List<ProcessingTaskResult> processingTaskResults;
+    private List<ProcessingTaskResult> processingTaskResults = new ArrayList<>();
 
     @ManyToOne
     private User user;
