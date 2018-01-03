@@ -2,8 +2,14 @@
     opacity: 0;
     pointer-events: none;
 }
-.containerMain {
-    border: none;
+.ui-panel.containerMain {
+}
+
+footer.ui-widget {
+    font-size: 90%;
+    color: #777;
+    text-align: center;
+    padding: 15px;
 }
 
 .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-icon {
@@ -55,12 +61,7 @@
     width: 100% !important;
 }
 
-.commands table th:nth-child(4) {
-    width: 35px !important;
-}
-.commands table th:nth-child(5) {
-    width: 40px !important;
-}
+
 
 .quickNewForm div div .ui-button-icon-only {
     height: 30px !important;
@@ -83,4 +84,16 @@
 
 .filters .ui-selectonemenu {
     margin-right: 15px;
+}
+
+.clear {
+    clear: both;
+}
+
+.runTask {
+    margin-top: 5px;
+}
+
+.smallcol {
+    width: 45px !important;
 }

@@ -34,6 +34,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
 
 @Log
@@ -141,8 +142,12 @@ public class TaskController {
     }
     
     public void onRowEditTaskUnit(RowEditEvent event) {
-        this.taskRepository.save(selectedProcessingTask);
-        this.loadData();
+        updateSelectedTask();
+        showInfo("Task command updated.");
+    }
+    
+    public void onRowReorderTaskUnit(ReorderEvent event) {
+        updateSelectedTask();
     }
 
     public void addCommand() {
@@ -165,9 +170,13 @@ public class TaskController {
     }
 
     public void update() {
-        taskRepository.save(selectedProcessingTask);
-        this.loadData();
+        updateSelectedTask();
         showInfo("Task " + selectedProcessingTask.getName() + " updated.");
+    }
+    
+    private void updateSelectedTask() {
+        selectedProcessingTask = service.save(selectedProcessingTask);
+        this.loadData();
     }
     
     public void remove(ProcessingTask pt) {

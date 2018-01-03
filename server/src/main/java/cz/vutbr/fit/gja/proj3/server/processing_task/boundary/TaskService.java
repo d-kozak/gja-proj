@@ -26,6 +26,9 @@ public class TaskService {
         ProcessingTask ret = repository.save(task);
         repository.flush();
         Hibernate.initialize(ret.getProcessingTaskResults());
+        ret.getProcessingTaskResults().forEach(
+            result -> Hibernate.initialize(result.getProcessingTaskUnitResultList())
+        );
         return ret;
     }
     

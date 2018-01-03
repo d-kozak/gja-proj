@@ -3,6 +3,7 @@ package cz.vutbr.fit.gja.proj3.server;
 import cz.vutbr.fit.gja.proj3.server.user.entity.CustomUserPrincipal;
 import cz.vutbr.fit.gja.proj3.server.user.entity.User;
 import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
+import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -24,10 +25,11 @@ public class MainController {
     private User loggedUser;
     
     @Getter
-    private String test;
+    private int year;
     
     @PostConstruct
     public void init() {
         loggedUser = GuiUtils.getLoggedUser();
+        year = Calendar.getInstance().get(Calendar.YEAR);
     }
 }

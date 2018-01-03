@@ -30,7 +30,11 @@
         </p:tabMenu>
         
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-        <ui:insert name="content"/>
+        <ui:insert name="content" />
+        
+        <footer class="ui-widget">
+            ©<h:outputText value="#{mainController.year}" /> FIT, Brno University of Technology. All rights resereved. Created by Jiří Bašta, David Kozák, Pavel Hodoval, Tomáš Jínek.
+        </footer>
     </h:body>
 </f:view>
 </html>
