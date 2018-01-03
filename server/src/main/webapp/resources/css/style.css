@@ -48,6 +48,11 @@
     border-left: none;
 }
 
+.tableList table input.ui-column-filter {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
 .commands table th:nth-child(4) {
     width: 35px !important;
 }
