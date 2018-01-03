@@ -180,16 +180,19 @@
                         </p:tab>
                         
                         <p:tab title="Results">
-                            <p:dataTable value="#{taskController.selectedProcessingTask.processingTaskResults}" var="res" rowKey="#{res.id}">
+                            <p:dataTable value="#{taskController.selectedProcessingTask.processingTaskResults}" var="res" rowKey="#{res.id}"
+                                paginator="true" rows="40" 
+                                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                                 <p:columnGroup type="header">
                                     <p:row>
-                                        <p:column headerText="Result ID (State)" colspan="3" />
+                                        <p:column headerText="Result" colspan="7" />
                                     </p:row>
                                     <p:row>
                                         <p:column headerText="Command" />
+                                        <p:column headerText="Started" />
                                         <p:column headerText="Stete" />
-                                        <p:column headerText="Total Executions" />
-                                        <p:column headerText="Successful Executions" />
+                                        <p:column headerText="Executed" />
+                                        <p:column headerText="Succeeded" />
                                         <p:column headerText="Total Exec. Time" />
                                         <p:column headerText="Avg. Exec. Time" />
                                     </p:row>
@@ -197,19 +200,22 @@
                                 
                                 <p:subTable value="#{res.processingTaskUnitResultList}" var="resUnit">
                                     <f:facet name="header">
-                                        <h:outputText value="Result #{res.id} (#{taskController.constStates.get(res.taskState)})" />
+                                        <h:outputText value="Result ##{res.id}, started #{res.submittedAt} (#{taskController.constStates.get(res.taskState)})" />
                                     </f:facet>
                                     <p:column>
                                         <h:outputText value="#{resUnit.processingTaskUnit.command} #{resUnit.processingTaskUnit.arguments}" />
                                     </p:column>
                                     <p:column>
+                                        <h:outputText value="#{resUnit.startDate}" />
+                                    </p:column>
+                                    <p:column>
                                         <h:outputText value="#{taskController.constStates.get(resUnit.taskState)}" />
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="#{resUnit.totalExecutions}" />
+                                        <h:outputText value="#{resUnit.totalExecutions}" />×
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="#{resUnit.successfulExecutions}" />
+                                        <h:outputText value="#{resUnit.successfulExecutions}" />×
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="#{resUnit.totalExecutionTime}" />

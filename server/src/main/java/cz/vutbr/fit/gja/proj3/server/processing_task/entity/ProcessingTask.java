@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +47,7 @@ public class ProcessingTask implements Serializable {
     private List<ProcessingTaskUnit> processingTaskUnits = new ArrayList<>();
 
     @OneToMany(mappedBy = "processingTask", cascade = CascadeType.DETACH)
+    @OrderBy("id DESC")
     private List<ProcessingTaskResult> processingTaskResults = new ArrayList<>();
 
     @ManyToOne

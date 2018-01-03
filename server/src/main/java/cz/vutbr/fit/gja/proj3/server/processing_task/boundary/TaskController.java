@@ -208,8 +208,12 @@ public class TaskController {
             }
             this.selectedNode = selectedProcessingTask.getNode();
 
-            showInfo("Started task execution.");
-            taskRestController.startTaskExecution(selectedProcessingTask, selectedNode);
+            try {
+                showInfo("Started task execution.");
+                taskRestController.startTaskExecution(selectedProcessingTask, selectedNode);
+            }catch (Exception e) {
+                showError("Task execution failed.");
+            }
             
             loadData();
         } catch (Exception ex) {

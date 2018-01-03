@@ -9,8 +9,8 @@
 <ui:composition template="layout-main.xhtml">
     <ui:param name="activeIndex" value="3" />
     <ui:define name="content">
-        <p:layout>
-            <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-4 ui-lg-3">
                 <h:form id="newNodeForm" styleClass="quickNewForm">
                     <p:panel header="Create new node">
                         <h:panelGrid columns="1" cellpadding="5">
@@ -45,12 +45,10 @@
                         </p:dataTable>
                     </p:panel>
                 </h:form>
-            </p:layoutUnit>
+            </div>
             
-            <p:layoutUnit position="center" resizable="true">
-                <p:panel id="mainPanel" styleClass="containerMain #{nodeController.selectedNode.name == null ? 'hide' : ''}">
-
-                    <h2>Node #{nodeController.selectedNode.name}</h2>
+            <div class="ui-g-12 ui-md-8 ui-lg-9">
+                <p:panel id="mainPanel" styleClass="containerMain #{nodeController.selectedNode.name == null ? 'hide' : ''}" header="Node: #{nodeController.selectedNode.name}">
 
                     <h:form id="nodeDetails" style="border: none;">
                         <h:panelGrid columns="2" style="border: none" cellpadding="5">
@@ -86,8 +84,8 @@
                     </h:form>
                     
                 </p:panel>
-            </p:layoutUnit>
-        </p:layout>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
 </html>

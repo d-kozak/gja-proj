@@ -9,9 +9,8 @@
 <ui:composition template="layout-main.xhtml">
     <ui:param name="activeIndex" value="1" />
     <ui:define name="content">
-        <p:layout>
-            <p:layoutUnit position="west" resizable="true" minSize="250" maxSize="350">
-                
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-4 ui-lg-3">
                 <h:form id="newProjectForm" styleClass="quickNewForm">
                     <p:panel header="Create new project">
                         <h:panelGrid columns="2" cellpadding="5">
@@ -44,12 +43,11 @@
                     </p:panel>
                 </h:form>
                 
-            </p:layoutUnit>
+            </div>
             
-            <p:layoutUnit position="center" resizable="true">
+            <div class="ui-g-12 ui-md-8 ui-lg-9">
                 
-                <p:panel id="mainPanel" styleClass="containerMain #{projectController.selectedProject.name == null ? 'hide' : ''}" >
-                    <h2>Selected project: #{projectController.selectedProject.name}</h2>
+                <p:panel id="mainPanel" styleClass="containerMain #{projectController.selectedProject.name == null ? 'hide' : ''}" header="Project: #{projectController.selectedProject.name}">
                     <h:form style="border: none;">
                         <h:panelGrid columns="3" style="border: none">
                             <p:outputLabel for="name" value="Name: "/>
@@ -59,9 +57,8 @@
                     </h:form>
                 </p:panel>
                 
-            </p:layoutUnit>
-            
-        </p:layout>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
 </html>
