@@ -14,8 +14,9 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface TaskRepository extends JpaRepository<ProcessingTask, Long> {
     
-    List<ProcessingTask> findAllByProject(Project p);
-    List<ProcessingTask> findAllByNode(Node n);
+    List<ProcessingTask> findAllByProject(Project project);
+    List<ProcessingTask> findAllByNode(Node node);
+    List<ProcessingTask> findAllByProjectAndNode(Project project, Node node);
     
     default List<ProcessingTask> findAllEagerFetch() {
         List<ProcessingTask> all = findAll();

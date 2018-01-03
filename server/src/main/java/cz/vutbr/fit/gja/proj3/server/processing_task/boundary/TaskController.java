@@ -28,6 +28,8 @@ import java.util.List;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import javax.annotation.PostConstruct;
+import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
@@ -61,8 +63,15 @@ public class TaskController {
     
     @Getter @Setter
     protected Project filterProject;
+    
     @Getter @Setter
     protected Node filterNode;
+    
+    @Getter
+    protected List<Project> projects;
+    
+    @Getter
+    protected List<Node> nodes;
     
     @Getter @Setter
     protected String selectedId;
@@ -76,6 +85,12 @@ public class TaskController {
         this.nodeRepository = nodeRepository;
         this.taskRestController = taskRestController;
     }
+    
+    @PostConstruct
+    public void init() {
+        projects = projectRepository.findAllEagerFetch();
+        nodes = nodeRepository.findAllEagerFetch();
+    }
 
     /**
      * Loads processing tasks on page load.
@@ -84,14 +99,15 @@ public class TaskController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        if (filterProject != null) processingTasks = taskRepository.findAllByProject(filterProject); 
-        if (filterNode != null) processingTasks = taskRepository.findAllByNode(filterNode);
+        if (filterProject != null && filterNode != null) processingTasks = taskRepository.findAllByProjectAndNode(filterProject, filterNode); 
+        else if (filterProject != null) processingTasks = taskRepository.findAllByProject(filterProject); 
+        else if (filterNode != null) processingTasks = taskRepository.findAllByNode(filterNode);
         
         if (filterProject == null && filterNode == null) 
             processingTasks = taskRepository.findAllEagerFetch();
     }
     
-    public void setFilter() {
+    public void filterChange() {
         this.loadData();
     }
     
@@ -164,19 +180,12 @@ public class TaskController {
         this.loadData();
     }
     
-    public List<Project> getProjects() {
-        return projectRepository.findAllEagerFetch();
-    }
-    
-    public List<Node> getNodes() {
-        return nodeRepository.findAllEagerFetch();
-    }
-    
+    /**
+     * Starts task command chain execution.
+     */
     public void startTaskExecution() {
-        // TODO call this from the GUI
         try {
             log.info("called");
-            // TODO add real node selection
             List<Node> allNodes = nodeRepository.findAll();
             if (allNodes.isEmpty()) {
                 log.severe("No nodes!!");

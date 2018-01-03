@@ -30,7 +30,7 @@ public class Project implements Serializable {
     private List<ProcessingTask> processingTasks;
     
     @Override
-    public String toString() {
-        return this.name;
+    public boolean equals(Object o) {
+        return o != null && o instanceof Project && ((Project)o).getId() == this.getId();
     }
 }

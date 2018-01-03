@@ -34,4 +34,9 @@ public class Node implements Serializable {
 
     @OneToMany(mappedBy = "node")
     private List<ProcessingTask> processingTasks;
+    
+    @Override
+    public boolean equals(Object o) {
+        return o != null && o instanceof Node && ((Node)o).getId() == this.getId();
+    }
 }

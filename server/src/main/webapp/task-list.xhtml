@@ -39,17 +39,17 @@
                     </p:panel>
                 </h:form>
                 
-                <h:form>    
-                    <p:selectOneMenu value="#{taskController.filterProject}">
-                        <p:ajax listener="#{taskController.setFilter}" update="tasks" />
-                        <f:selectItem itemLabel="All projects" itemValue="#{null}" noSelectionOption="true" />
-                        <f:selectItems var="project" value="#{taskController.projects}" itemLabel="#{project.name}" />
+                <h:form styleClass="filters">
+                    <p:selectOneMenu value="#{taskController.filterProject}" converter="#{projectConverter}">
+                        <f:selectItem itemLabel="All projects" noSelectionOption="true" itemValue="#{null}" />
+                        <f:selectItems var="fproj" value="#{taskController.projects}" itemValue="#{fproj}" itemLabel="#{fproj.name}" />
+                        <p:ajax listener="#{taskController.filterChange}" update="tasks" />
                     </p:selectOneMenu>
                     
-                    <p:selectOneMenu value="#{taskController.filterNode}">
-                        <p:ajax listener="#{taskController.setFilter}" update="tasks" />
-                        <f:selectItem itemLabel="All nodes" itemValue="#{null}" noSelectionOption="true" />
-                        <f:selectItems var="node" value="#{taskController.nodes}" itemValue="#{node}" itemLabel="#{node.name}" />
+                    <p:selectOneMenu value="#{taskController.filterNode}" converter="#{nodeConverter}">
+                        <f:selectItem itemLabel="All nodes" noSelectionOption="true" itemValue="#{null}" />
+                        <f:selectItems var="fnode" value="#{taskController.nodes}" itemValue="#{fnode}" itemLabel="#{fnode.name}" />
+                        <p:ajax listener="#{taskController.filterChange}" update="tasks" />
                     </p:selectOneMenu>
                 </h:form>
                 
