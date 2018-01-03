@@ -5,11 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,7 +19,7 @@ public class Node implements Serializable {
     @GeneratedValue
     private long id;
 
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String url;
     private String name;
 
