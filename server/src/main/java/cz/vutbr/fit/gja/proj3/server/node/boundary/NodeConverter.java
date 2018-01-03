@@ -19,14 +19,14 @@ import javax.faces.convert.FacesConverter;
 @ELBeanName(value = "nodeConverter")
 @RequestScoped
 @FacesConverter(value = "nodeConverter", forClass = Node.class)
-public class NodeConverter implements Converter {
+public class NodeConverter implements Converter {  
     @Autowired
     private NodeRepository repository;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
         if (string != null && !string.isEmpty()) {
-            Node node = this.repository.findOne(string);
+            Node node = this.repository.findOne(Long.parseLong(string));
             return node;
         } else {
             return null;
@@ -34,10 +34,10 @@ public class NodeConverter implements Converter {
     }
 
     @Override
-    public String getAsString(FacesContext fc, UIComponent uic, Object o) {
+    public String getAsString(FacesContext fc, UIComponent uic, Object o) {        
         if (o != null) {
             Node node = (Node) o;
-            return node.getUrl();
+            return Long.toString(node.getId());
         } else {
             return "";
         }

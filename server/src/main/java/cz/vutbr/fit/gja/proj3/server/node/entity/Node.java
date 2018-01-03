@@ -6,8 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,6 +20,10 @@ import java.util.List;
 public class Node implements Serializable {
 
     @Id
+    @GeneratedValue
+    private long id;
+
+    @NotNull
     private String url;
     private String name;
 
@@ -26,22 +32,8 @@ public class Node implements Serializable {
     @OneToMany(mappedBy = "node")
     private List<ProcessingTask> processingTasks;
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        Node node = (Node) o;
-
-        return url != null ? url.equals(node.url) : node.url == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (url != null ? url.hashCode() : 0);
-        return result;
+        return o != null && o instanceof Node && ((Node) o).getId() == this.getId();
     }
 }

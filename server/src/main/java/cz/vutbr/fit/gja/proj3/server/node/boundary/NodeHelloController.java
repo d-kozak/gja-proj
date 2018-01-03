@@ -24,15 +24,11 @@ public class NodeHelloController {
 
     @PostMapping
     public NodeReply post(@RequestBody NodeRequest nodeRequest) {
-        if (nodeRepository.findOne(nodeRequest.getDetails()) == null) {
-            Node node = new Node();
-            node.setName(nodeRequest.getDetails());
-            node.setUrl(nodeRequest.getDetails());
-            nodeRepository.save(node);
-            log.info("saving node: " + node);
-        } else {
-            log.info("Node at " + nodeRequest.getDetails() + " is already known");
-        }
+        Node node = new Node();
+        node.setName(nodeRequest.getDetails());
+        node.setUrl(nodeRequest.getDetails());
+        nodeRepository.save(node);
+        log.info("saving node: " + node);
         return new NodeReply(true);
     }
 }
