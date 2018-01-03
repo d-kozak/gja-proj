@@ -30,6 +30,8 @@ import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
@@ -108,7 +110,6 @@ public class TaskController {
             processingTasks = processingTasks.stream().filter(task -> task.getNode() != null && task.getNode().equals(filterNode)).collect(Collectors.toList());
         }
     }
-    
 
     public void filterChange() {
         this.loadData();
@@ -198,7 +199,10 @@ public class TaskController {
             }
             this.selectedNode = selectedProcessingTask.getNode();
 
+            showInfo("Started task execution.");
             taskRestController.startTaskExecution(selectedProcessingTask, selectedNode);
+            
+            loadData();
         } catch (Exception ex) {
             log.severe("exception: " + ex.getMessage());
             ex.printStackTrace();

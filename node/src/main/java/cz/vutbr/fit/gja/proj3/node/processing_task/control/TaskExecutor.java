@@ -40,8 +40,8 @@ public class TaskExecutor {
                     File[] inputFiles = directory.listFiles(file -> file.getName()
                                                                         .endsWith(".in"));
                     if (inputFiles == null) {
-                        log.severe("no input files found, skipping task");
-                        continue;
+                        log.severe("no input files found, subtask will run only once without input");
+                        inputFiles = new File[]{new File(".")};
                     }
                     OutputVerificationStrategy outputVerificationStrategy = OutputVerificationFactory.strategyFor(processingTaskUnitDTO.getOutputVerificationDTO());
 

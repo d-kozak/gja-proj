@@ -14,7 +14,7 @@
     <ui:param name="activeIndex" value="2" />
     <ui:define name="content">
         <p:layout>
-            <p:layoutUnit position="west" resizable="true" minSize="450" maxSize="450">
+            <p:layoutUnit position="west" resizable="true" minSize="350" maxSize="350">
                 
                 <h:form id="newTaskForm" styleClass="quickNewForm">
                     <p:panel header="Create new task">
@@ -56,11 +56,13 @@
                 <h:form id="tasks">
                     <p:panel style="border: none" styleClass="tableList">
                         <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
-                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}">
+                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}"
+                                     paginator="true" rows="10" 
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
-                            <p:column filterBy="#{task.name}">
+                            <p:column filterBy="#{task.name}" headerText="Task name">
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                             
@@ -105,11 +107,17 @@
                             </h:form>
 
                             <h:form>
-                                <h:panelGrid columns="4" style="margin-top: 20px;">
+                                <h:panelGrid columns="6" style="margin-top: 20px;">
                                     <p:inputText id="directory" value="#{taskController.newTaskUnit.directory}" placeholder="Directory" />
-                                    <p:inputText id="command" value="#{taskController.newTaskUnit.command}" placeholder="Command" required="true" />
+                                    <p:inputText id="command" value="#{taskController.newTaskUnit.command}" placeholder="Command" required="true" requiredMessage="Command is required." />
                                     <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" placeholder="Arguments" />
+                                    <p:inputText id="indirectory" value="#{taskController.newTaskUnit.inputDirectory}" placeholder="Input files directory" />
+                                    <p:inputText id="infile" value="#{taskController.newTaskUnit.inputFileRegex}" placeholder="Input file regex" />
                                     <p:commandButton value="Add command" ajax="true" action="#{taskController.addCommand}" icon="fa fa-fw fa-plus" update="mainPanel" />
+                                    <p:tooltip id="argumentsTooltip" for="arguments" position="bottom" showEvent="focus" hideEvent="blur" >
+                                        To specify the input file argument, you can use the <code>{INPUT}</code> keyword.<br />
+                                        Example: <code>--infile {INPUT}</code>
+                                    </p:tooltip>
                                 </h:panelGrid>
                             </h:form>
 
