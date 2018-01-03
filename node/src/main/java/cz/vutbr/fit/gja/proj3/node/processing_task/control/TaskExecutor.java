@@ -36,9 +36,9 @@ public class TaskExecutor {
                 notifyTaskStarted(processingTaskDTO, remoteHost, remotePort);
                 for (ProcessingTaskUnitDTO processingTaskUnitDTO : processingTaskDTO.getProcessingTaskUnitDTOS()) {
                     notifySubtaskStarted(processingTaskUnitDTO, remoteHost, remotePort);
-                    File directory = new File(processingTaskUnitDTO.getDirectory());
+                    File directory = new File(processingTaskUnitDTO.getInputDirectory());
                     File[] inputFiles = directory.listFiles(file -> file.getName()
-                                                                        .endsWith(".in"));
+                                                                        .matches(processingTaskUnitDTO.getInputFileRegex()));
                     if (inputFiles == null) {
                         log.severe("no input files found, subtask will run only once without input");
                         inputFiles = new File[]{new File(".")};
@@ -56,7 +56,7 @@ public class TaskExecutor {
                             File inputFile = inputFiles[fileNum];
                             log.info("processing input file " + inputFile);
                             List<String> arguments = Stream.of(processingTaskUnitDTO.getArguments()
-                                                                                    .split("\\w*"))
+                                                                                    .split("\\W*"))
                                                            .collect(toList());
                             Optional<String> first = arguments.stream()
                                                               .filter(argument -> argument.contains("{input}"))
