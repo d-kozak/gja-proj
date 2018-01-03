@@ -9,8 +9,6 @@ import cz.vutbr.fit.gja.proj3.server.project.entity.Project;
 import cz.vutbr.fit.gja.proj3.server.utils.GuiUtils;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.getParam;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.java.Log;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -26,14 +24,8 @@ import javax.faces.bean.ViewScoped;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
-<<<<<<< HEAD
-=======
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
->>>>>>> local
-import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.RowEditEvent;
