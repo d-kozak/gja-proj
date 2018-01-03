@@ -29,6 +29,10 @@ public class ProcessingTaskUnit {
 
     private String arguments;
 
+    private String inputDirectory = ".";
+
+    private String inputFileRegex = "\\w*.in";
+
     private OutputVerification outputVerification;
 
     @ManyToOne
@@ -40,6 +44,8 @@ public class ProcessingTaskUnit {
                                     .command(getCommand())
                                     .arguments(getArguments())
                                     .directory(getDirectory())
+                                    .inputFileRegex(getInputFileRegex() != null ? getInputFileRegex() : "\\w*.in")
+                                    .inputDirectory(getInputDirectory() != null ? getInputDirectory() : ".")
                                     .outputVerificationDTO(getOutputVerification().toDTO())
                                     .build();
     }

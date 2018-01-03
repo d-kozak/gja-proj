@@ -31,7 +31,6 @@ public class ExecutionTaskController {
         String remoteHost = request.getRemoteHost();
         int remotePort = 8080;
 
-
         if (binding.hasErrors()) {
             return new NodeReply(false, binding.getAllErrors()
                                                .toString());

@@ -22,5 +22,9 @@ public class ProcessingTaskUnitDTO {
 
     private String arguments;
 
+    private String inputDirectory = ".";
+
+    private String inputFileRegex = "\\w*.in";
+
     private OutputVerificationDTO outputVerificationDTO;
 }
