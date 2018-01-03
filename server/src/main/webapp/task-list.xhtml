@@ -14,7 +14,7 @@
     <ui:param name="activeIndex" value="2" />
     <ui:define name="content">
         <p:layout>
-            <p:layoutUnit position="west" resizable="true" minSize="450" maxSize="450">
+            <p:layoutUnit position="west" resizable="true" minSize="350" maxSize="350">
                 
                 <h:form id="newTaskForm" styleClass="quickNewForm">
                     <p:panel header="Create new task">
@@ -57,12 +57,12 @@
                     <p:panel style="border: none" styleClass="tableList">
                         <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
                                      selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}"
-                                     paginator="true" rows="10"  rowsPerPageTemplate="10,20,30"
+                                     paginator="true" rows="10" 
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
-                            <p:column filterBy="#{task.name}" headerText="Task name" colspan="2">
+                            <p:column filterBy="#{task.name}" headerText="Task name">
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                             
@@ -84,7 +84,7 @@
                     <h2>Selected task: #{taskController.selectedProcessingTask.name}</h2>
                     
                     <h:form id="taskDetails" style="border: none; margin-bottom: 20px; border-bottom: solid black 1px; padding-bottom: 10px;">
-                        <h:panelGrid columns="2" style="border: none">
+                        <h:panelGrid columns="2" style="border: none" cellpadding="5">
                             <p:outputLabel for="name" value="Name: "/>
                             <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}" required="true" />
 
@@ -104,7 +104,7 @@
                     </h:form>
 
                     <h:form>
-                        <h:panelGrid columns="4" style="margin-top: 20px;">
+                        <h:panelGrid columns="4" style="margin-top: 20px;" cellpadding="5">
                             <p:inputText id="directory" value="#{taskController.newTaskUnit.directory}" placeholder="Directory" />
                             <p:inputText id="command" value="#{taskController.newTaskUnit.command}" placeholder="Command" required="true" />
                             <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" placeholder="Arguments" />

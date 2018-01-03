@@ -26,7 +26,8 @@
                         <p:dataTable id="table" var="node" value="#{nodeController.nodes}"
                                      selectionMode="single" selection="#{nodeController.selectedNode}"
                                      rowKey="#{node.id}" styleClass="nodeTable"
-                                     paginator="true" rows="10">
+                                     paginator="true" rows="10"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
