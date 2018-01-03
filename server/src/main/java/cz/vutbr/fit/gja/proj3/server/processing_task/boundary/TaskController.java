@@ -212,16 +212,7 @@ public class TaskController {
      * @return List of all projects; filtered if query is not empty
      */
     public List<Project> projectList(String query) {
-        List<Project> projects = this.projectRepository.findAll();
-        List<Project> filtered = new ArrayList<>();
-        
-        for (Project project : projects) {
-            if (project.getName().toLowerCase().startsWith(query)) {
-                filtered.add(project);
-            }
-        }
-        
-        return filtered;
+        return projects.stream().filter((project) -> (project.getName().toLowerCase().startsWith(query.toLowerCase()))).collect(Collectors.toList());
     }
 
     /**
@@ -229,16 +220,7 @@ public class TaskController {
      * @param query Searching query
      * @return List of all nodes; filtered if query is not empty
      */
-    public List<Node> nodeList(String query) {
-        List<Node> nodes = this.nodeRepository.findAll();
-        List<Node> filtered = new ArrayList<>();
-        
-        for (Node node : nodes) {
-            if (node.getName().toLowerCase().startsWith(query)) {
-                filtered.add(node);
-            }
-        }
-        
-        return filtered;
+    public List<Node> nodeList(String query) {        
+        return nodes.stream().filter((node) -> (node.getName().toLowerCase().startsWith(query.toLowerCase()))).collect(Collectors.toList());
     }
 }
