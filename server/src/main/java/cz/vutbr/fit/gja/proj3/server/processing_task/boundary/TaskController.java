@@ -28,11 +28,8 @@ import java.util.List;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-<<<<<<< HEAD
-=======
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
->>>>>>> local
 import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
 import lombok.Setter;
@@ -110,7 +107,6 @@ public class TaskController {
             processingTasks = processingTasks.stream().filter(task -> task.getNode() != null && task.getNode().equals(filterNode)).collect(Collectors.toList());
         }
     }
-    
 
     public void filterChange() {
         this.loadData();

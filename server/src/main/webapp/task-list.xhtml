@@ -56,11 +56,13 @@
                 <h:form id="tasks">
                     <p:panel style="border: none" styleClass="tableList">
                         <p:dataTable id="table" var="task" value="#{taskController.processingTasks}"
-                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}">
+                                     selectionMode="single" selection="#{taskController.selectedProcessingTask}" rowKey="#{task.id}"
+                                     paginator="true" rows="10"  rowsPerPageTemplate="10,20,30"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             
                             <p:ajax event="rowSelect" update="mainPanel" oncomplete="showMain();"/>
                             
-                            <p:column filterBy="#{task.name}">
+                            <p:column filterBy="#{task.name}" headerText="Task name" colspan="2">
                                 <h:outputText value="#{task.name}"/>
                             </p:column>
                             
