@@ -69,3 +69,11 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.filters {
+    margin: 15px 0 0 0;
+}
+
+.filters .ui-selectonemenu {
+    margin-right: 15px;
+}
