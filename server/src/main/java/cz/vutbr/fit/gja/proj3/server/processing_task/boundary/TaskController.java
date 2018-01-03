@@ -28,6 +28,7 @@ import java.util.List;
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.event.AjaxBehaviorEvent;
 import lombok.Getter;
@@ -85,12 +86,6 @@ public class TaskController {
         this.nodeRepository = nodeRepository;
         this.taskRestController = taskRestController;
     }
-    
-    @PostConstruct
-    public void init() {
-        projects = projectRepository.findAllEagerFetch();
-        nodes = nodeRepository.findAllEagerFetch();
-    }
 
     /**
      * Loads processing tasks on page load.
@@ -99,12 +94,18 @@ public class TaskController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        if (filterProject != null && filterNode != null) processingTasks = taskRepository.findAllByProjectAndNode(filterProject, filterNode); 
-        else if (filterProject != null) processingTasks = taskRepository.findAllByProject(filterProject); 
-        else if (filterNode != null) processingTasks = taskRepository.findAllByNode(filterNode);
+        projects = projectRepository.findAllEagerFetch();
+        nodes = nodeRepository.findAllEagerFetch();
+
+        processingTasks = taskRepository.findAllEagerFetch();
         
-        if (filterProject == null && filterNode == null) 
-            processingTasks = taskRepository.findAllEagerFetch();
+        if (filterProject != null) {
+            processingTasks = processingTasks.stream().filter(task -> task.getProject() != null && task.getProject().equals(filterProject)).collect(Collectors.toList());
+        }
+        
+        if (filterNode != null) {
+            processingTasks = processingTasks.stream().filter(task -> task.getNode() != null && task.getNode().equals(filterNode)).collect(Collectors.toList());
+        }
     }
     
     public void filterChange() {
