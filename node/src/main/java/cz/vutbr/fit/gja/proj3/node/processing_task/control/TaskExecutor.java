@@ -39,7 +39,7 @@ public class TaskExecutor {
                     File directory = new File(processingTaskUnitDTO.getInputDirectory());
                     File[] inputFiles = directory.listFiles(file -> file.getName()
                                                                         .matches(processingTaskUnitDTO.getInputFileRegex()));
-                    if (inputFiles == null) {
+                    if (inputFiles == null || inputFiles.length == 0) {
                         log.severe("no input files found, subtask will run only once without input");
                         inputFiles = new File[]{new File(".")};
                     }

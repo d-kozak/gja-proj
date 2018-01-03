@@ -10,11 +10,13 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface NodeRepository extends JpaRepository<Node, String> {
+public interface NodeRepository extends JpaRepository<Node, Long> {
 
     List<Node> findAllByActiveIsTrue();
 
     List<Node> findAllByActiveIsFalse();
+
+    Node findByUrl(String url);
 
     default List<Node> findAllEagerFetch() {
         List<Node> all = findAll();

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,8 @@ public class ProcessingTaskResult {
     @Id
     @GeneratedValue
     private long id;
+
+    private Date submittedAt = new Date();
 
     private TaskState taskState = TaskState.CREATED;
 
