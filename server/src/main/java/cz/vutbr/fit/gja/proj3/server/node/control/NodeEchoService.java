@@ -7,6 +7,9 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Used to probe nodes to see if they are active
+ */
 @Log
 @Service
 public class NodeEchoService {

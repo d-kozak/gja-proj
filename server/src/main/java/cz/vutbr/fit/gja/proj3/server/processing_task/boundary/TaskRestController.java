@@ -16,6 +16,10 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+
+/**
+ * This controller handles all tasks requests on the server
+ */
 @RestController
 @RequestMapping("/api/task")
 @Log
@@ -39,6 +43,12 @@ public class TaskRestController {
         return all;
     }
 
+
+    /**
+     * called from node when task is finished
+     *
+     * @param processingTaskUnitResultDTO result info of the task
+     */
     @PostMapping
     @RequestMapping("/subtask/result")
     public NodeReply taskFinished(@RequestBody ProcessingTaskUnitResultDTO processingTaskUnitResultDTO) {
@@ -89,6 +99,11 @@ public class TaskRestController {
         return new NodeReply(true);
     }
 
+    /**
+     * called to start given task at specified node
+     * @param processingTask given task
+     * @param node node where to run the task
+     */
     public NodeReply startTaskExecution(ProcessingTask processingTask, Node node) {
         log.info("Starting execution of " + processingTask.getName() + " on node " + node.getName());
         RestTemplate restTemplate = new RestTemplate();

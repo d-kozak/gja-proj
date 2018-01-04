@@ -13,6 +13,9 @@ import java.util.List;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Periodically probes all nodes and marks them as active, if they reply, false otherwise
+ */
 @Log
 @Service
 public class NodeChecker {
@@ -34,11 +37,11 @@ public class NodeChecker {
                                                  .stream()
                                                  .filter(node -> !nodeEchoService.isNodeRunning(node))
                                                  .collect(toList());
-        
+
         List<Node> activeNodes = nodeRepository.findAllByActiveIsFalse()
-                                                 .stream()
-                                                 .filter(node -> nodeEchoService.isNodeRunning(node))
-                                                 .collect(toList());
+                                               .stream()
+                                               .filter(node -> nodeEchoService.isNodeRunning(node))
+                                               .collect(toList());
 
         if (!inactiveNodes.isEmpty()) {
             log.severe("\nFound inactive nodes: \n" + inactiveNodes.stream()
@@ -52,11 +55,11 @@ public class NodeChecker {
 
             log.severe("Nodes marked as inactive");
         }
-        
+
         if (!activeNodes.isEmpty()) {
             log.severe("\nFound active nodes: \n" + activeNodes.stream()
-                                                                   .map(Node::toString)
-                                                                   .collect(joining("\n")) + "\n");
+                                                               .map(Node::toString)
+                                                               .collect(joining("\n")) + "\n");
 
             activeNodes.forEach(node -> {
                 node.setActive(true);
@@ -65,7 +68,7 @@ public class NodeChecker {
 
             log.severe("Nodes marked as active");
         }
-        
+
         log.info("finished");
     }
 }
