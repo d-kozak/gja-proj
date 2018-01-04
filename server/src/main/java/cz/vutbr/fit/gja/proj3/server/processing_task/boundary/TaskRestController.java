@@ -16,7 +16,6 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-
 /**
  * This controller handles all tasks requests on the server
  */

@@ -5,6 +5,9 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Task command entity repository.
+ */
 @Repository
 @Transactional
 public interface TaskUnitRepository extends JpaRepository<ProcessingTaskUnit, Long> {

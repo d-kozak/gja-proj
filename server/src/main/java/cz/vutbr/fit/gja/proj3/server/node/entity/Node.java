@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Node database entity.
+ */
 @Entity
 @Data
 @AllArgsConstructor

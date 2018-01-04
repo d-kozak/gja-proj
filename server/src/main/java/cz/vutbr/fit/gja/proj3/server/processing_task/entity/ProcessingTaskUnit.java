@@ -14,6 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+/**
+ * Task command entity.
+ */
 @Entity
 @Data
 @AllArgsConstructor

@@ -14,6 +14,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Attached to every view of authorized section, provides basic functionality.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "mainController")

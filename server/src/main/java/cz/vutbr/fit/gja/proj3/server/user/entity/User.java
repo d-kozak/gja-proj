@@ -11,6 +11,9 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * User entity.
+ */
 @Entity
 @Data
 @AllArgsConstructor

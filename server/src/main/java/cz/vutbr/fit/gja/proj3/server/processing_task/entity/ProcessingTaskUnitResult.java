@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Task command result entity.
+ */
 @Entity
 @Data
 @AllArgsConstructor

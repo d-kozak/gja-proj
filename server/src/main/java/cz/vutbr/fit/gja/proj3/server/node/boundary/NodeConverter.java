@@ -13,6 +13,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Converter for Node UI section.
+ */
 @Log
 @ManagedBean(name = "nodeConverter")
 @Component(value = "nodeConverter")

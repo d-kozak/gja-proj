@@ -19,6 +19,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * User edit section backend bean.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "userEditController")
@@ -28,8 +31,7 @@ import org.springframework.stereotype.Component;
 @ManagedBean(name = "userEditController")
 @ViewScoped
 public class UserEditController extends UserController {
-    @Getter
-    @Setter
+    @Getter @Setter
     private String id;
     
     public UserEditController(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
@@ -37,7 +39,10 @@ public class UserEditController extends UserController {
         this.oldPasswordRequired = false;
     }
     
-     public String onload() {
+    /**
+     * Handles URL parameter.
+     */ 
+    public String onload() {
         if (getParam("id") == null) {
             id = null;
         }

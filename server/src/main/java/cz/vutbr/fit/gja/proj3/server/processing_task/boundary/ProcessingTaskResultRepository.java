@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * ProcessingTaskResult entity repository.
+ */
 @Repository
 @Transactional
 public interface ProcessingTaskResultRepository extends JpaRepository<ProcessingTaskResult, Long> {

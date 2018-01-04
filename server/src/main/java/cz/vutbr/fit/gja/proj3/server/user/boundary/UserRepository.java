@@ -6,6 +6,9 @@ import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * User entity repository.
+ */
 public interface UserRepository extends JpaRepository<User, Long> {
     public static final Map<String, String> ROLES = new HashMap<String, String>(){{;
         put("ROLE_USER", "User");

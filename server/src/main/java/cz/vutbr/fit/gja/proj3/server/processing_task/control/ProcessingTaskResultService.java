@@ -16,6 +16,9 @@ import javax.transaction.Transactional;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * ProcessingTaskResult entity service.
+ */
 @Log
 @Service
 @Transactional

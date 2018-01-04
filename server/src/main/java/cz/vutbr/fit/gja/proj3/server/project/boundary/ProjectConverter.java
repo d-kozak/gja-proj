@@ -13,6 +13,9 @@ import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Project UI section converter.
+ */
 @Log
 @ManagedBean(name = "projectConverter")
 @Component(value = "projectConverter")

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Logout section backend controller.
+ */
 @Log
 @Controller
 @RequestMapping("/logout")

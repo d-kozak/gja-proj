@@ -15,6 +15,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 
+/**
+ * Project entity.
+ */
 @Entity
 @Data
 @AllArgsConstructor

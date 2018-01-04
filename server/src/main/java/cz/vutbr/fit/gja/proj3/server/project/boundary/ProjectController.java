@@ -23,6 +23,9 @@ import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Projects section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "projectController")
@@ -35,16 +38,13 @@ public class ProjectController {
 
     private final ProjectRepository projectRepository;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private List<Project> projects;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private Project selectedProject = new Project();
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private Project newProject = new Project();
 
     @Autowired
@@ -52,6 +52,9 @@ public class ProjectController {
         this.projectRepository = projectRepository;
     }
     
+    /**
+     * Loads database data on page load.
+     */
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -59,6 +62,9 @@ public class ProjectController {
         projects = projectRepository.findAllEagerFetch();
     }
 
+    /**
+     * Adds new project to database based on filled information.
+     */
     public void addNewProject() {
         projectRepository.save(newProject);
         this.loadData();
@@ -66,12 +72,19 @@ public class ProjectController {
         this.newProject = new Project();
     }
 
+    /**
+     * Updates selected project.
+     */
     public void update() {
         projectRepository.save(selectedProject);
         this.loadData();
         showInfo("Project updated.");
     }
     
+    /**
+     * Removes specifed project.
+     * @param p Project entity to be removed
+     */
     public void remove(Project p) {
         showInfo("Project " + p.getName() + " removed.");
         if (p == this.selectedProject) {

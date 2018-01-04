@@ -13,6 +13,9 @@ import javax.persistence.FetchType;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * Task Output verification entity.
+ */
 @Embeddable
 @Data
 @AllArgsConstructor

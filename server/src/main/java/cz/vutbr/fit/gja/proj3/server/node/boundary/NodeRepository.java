@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Node entity repository.
+ */
 @Repository
 @Transactional
 public interface NodeRepository extends JpaRepository<Node, Long> {

@@ -9,6 +9,9 @@ import java.util.Collection;
 import static java.util.stream.Collectors.toList;
 import lombok.Getter;
 
+/**
+ * User principal for Spring Security.
+ */
 public class CustomUserPrincipal implements UserDetails {
     @Getter
     private final User user;
