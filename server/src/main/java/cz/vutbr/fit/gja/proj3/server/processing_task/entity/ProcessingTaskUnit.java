@@ -1,7 +1,9 @@
 package cz.vutbr.fit.gja.proj3.server.processing_task.entity;
 
 import cz.vutbr.fit.gja.proj3.common.processing_task.control.CommandConstraint;
+import cz.vutbr.fit.gja.proj3.common.processing_task.entity.OutputType;
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskUnitDTO;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +35,10 @@ public class ProcessingTaskUnit {
 
     private String inputFileRegex = "\\w*.in";
 
-    private OutputVerification outputVerification;
+    private OutputVerification outputVerification = new OutputVerification(){{
+        setOutputType(OutputType.NO_CHECK);
+        setExpectedOutput(new ArrayList<String>());
+    }};
 
     @ManyToOne
     private ProcessingTask processingTask;

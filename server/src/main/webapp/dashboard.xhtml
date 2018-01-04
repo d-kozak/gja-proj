@@ -4,20 +4,36 @@
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition template="layout-main.xhtml">
     <ui:param name="activeIndex" value="0" />
     <ui:define name="content">
         <p:panel header="Dashboard">
             <p:dashboard model="#{dashboardController.model}" style="height:250px" disabled="true">
                 <p:panel id="running_tasks" header="Currenty running tasks">
-                   Some content here...
+                   <p:dataTable value="#{dashboardController.runningTasks}" var="rtask" tableStyle="width:auto">
+                        <p:column headerText="Name">
+                            <p:link value="#{rtask.processingTask.name}" outcome="task-list">
+                                <f:param name="id" value="#{rtask.processingTask.id}" />
+                            </p:link>
+                        </p:column>
+                       <p:column headerText="Started">
+                            <h:outputText value="#{rtask.submittedAt}" />
+                        </p:column>
+                       <p:column headerText="Node">
+                            <h:outputText value="#{rtask.processingTask.node.name}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:panel>
 
-                <p:panel id="inactive_nodes" header="Inactive Nodes" style="margin-left: 10px">
+                <p:panel id="inactive_nodes" header="Unavailable Nodes" style="margin-left: 10px">
                     <p:dataTable value="#{dashboardController.inactiveNodes}" var="inode" tableStyle="width:auto">
                         <p:column headerText="Name">
-                            <h:outputText value="#{inode.getName()}" />
+                            <h:outputText value="#{inode.name}" />
+                        </p:column>
+                        <p:column headerText="URL">
+                            <h:outputText value="#{inode.url}" />
                         </p:column>
                     </p:dataTable>
                 </p:panel>                
