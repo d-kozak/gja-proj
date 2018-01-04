@@ -2,6 +2,10 @@ package cz.vutbr.fit.gja.proj3.server.dashboard;
 
 import cz.vutbr.fit.gja.proj3.server.node.boundary.NodeRepository;
 import cz.vutbr.fit.gja.proj3.server.node.entity.Node;
+import cz.vutbr.fit.gja.proj3.server.processing_task.boundary.ProcessingTaskResultRepository;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTask;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.ProcessingTaskResult;
+import cz.vutbr.fit.gja.proj3.server.processing_task.entity.TaskState;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.extern.java.Log;
@@ -33,16 +37,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DashboardController {
     
     private final NodeRepository nodeRepository;
+    private final ProcessingTaskResultRepository taskResultRepository;
     
-    @Getter @Setter
+    @Getter
     private DashboardModel model;
     
-    @Getter @Setter
+    @Getter
     private List<Node> inactiveNodes;
     
+    @Getter
+    private List<ProcessingTaskResult> runningTasks;
+    
     @Autowired
-    public DashboardController(NodeRepository nodeRepository) {
+    public DashboardController(NodeRepository nodeRepository, ProcessingTaskResultRepository taskResultRepository) {
         this.nodeRepository = nodeRepository;
+        this.taskResultRepository = taskResultRepository;
     }
     
     @RequestAction
@@ -50,6 +59,7 @@ public class DashboardController {
     @Deferred
     public void loadData() {
         inactiveNodes = nodeRepository.findAllByActiveIsFalse();
+        runningTasks = taskResultRepository.findAllByTaskState(TaskState.RUNNING);
     }
     
     @PostConstruct

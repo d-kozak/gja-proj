@@ -84,7 +84,7 @@
                     
                             <div class="ui-g">
                                 <h:form id="taskDetails" styleClass="ui-g-12 ui-md-12 ui-lg-6">
-                                    <p:fieldset legend="Task Details" toggleable="true">
+                                    <p:fieldset legend="Task Details" toggleable="true" collapsed="true">
                                         <h:panelGrid columns="2" cellpadding="5">
                                             <p:outputLabel for="name" value="Name: "/>
                                             <p:inputText id="name" value="#{taskController.selectedProcessingTask.name}" required="true" />
@@ -114,14 +114,29 @@
                                             <p:inputText id="arguments" value="#{taskController.newTaskUnit.arguments}" />
                                             <p:outputLabel for="indirectory" value="Input files directory" />
                                             <p:inputText id="indirectory" value="#{taskController.newTaskUnit.inputDirectory}" />
-
                                             <p:outputLabel for="infile" value="Input file regex:" />
                                             <p:inputText id="infile" value="#{taskController.newTaskUnit.inputFileRegex}" />
+                                            
+                                            <p:outputLabel for="output_type" value="Output verification:" />
+                                            <p:selectOneMenu value="#{taskController.newTaskUnit.outputVerification.outputType}" id="output_type" onchange="toggleOVInput(this)">
+                                                <f:selectItems value="#{taskController.constOutputTypes.entrySet()}" var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+                                            </p:selectOneMenu>
+                                           
+                                            <p:outputLabel for="output_value" value="Output verification values:" styleClass="nd" />
+                                            <p:inputText id="output_value" value="#{taskController.outputValue}" styleClass="nd" widgetVar="ovInput" />
 
                                             <p:commandButton value="Add command" ajax="true" action="#{taskController.addCommand}" icon="fa fa-fw fa-plus" update="mainPanel" />
-                                            <p:tooltip id="argumentsTooltip" for="arguments" position="right" showEvent="focus" hideEvent="blur" >
+                                            <p:tooltip id="argumentsTooltip" for="arguments" position="bottom" showEvent="focus" hideEvent="blur" >
                                                 To specify the input file argument, you can use the <code>{input}</code> keyword.<br />
                                                 Example: <code>--infile {input}</code>
+                                            </p:tooltip>
+                                            
+                                            <p:tooltip id="ovTooltip" for="output_value" position="bottom" showEvent="focus" hideEvent="blur" >
+                                                Enter value(s) based on selected verification method:<br />
+                                                <strong>Single file:</strong> Only single file creation is expected.<br />
+                                                <strong>File list:</strong> Enter comma-separated list of expected files to be created.<br />
+                                                <strong>Regex:</strong> Created file names will be checked against this regular expression.<br />
+                                                <strong>No checking:</strong> No output expected.
                                             </p:tooltip>
                                         </h:panelGrid>
                                     </p:fieldset>
@@ -160,6 +175,19 @@
                                             <p:cellEditor>
                                                 <f:facet name="output"><h:outputText value="#{taskUnit.directory}" /></f:facet>
                                                 <f:facet name="input"><p:inputText id="directory" value="#{taskUnit.directory}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Input dir">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{taskUnit.inputDirectory}" /></f:facet>
+                                                <f:facet name="input"><p:inputText id="indirectory" value="#{taskUnit.inputDirectory}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>       
+                                        <p:column headerText="Input Regex">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{taskUnit.inputFileRegex}" /></f:facet>
+                                                <f:facet name="input"><p:inputText id="inregex" value="#{taskUnit.inputFileRegex}" style="width:100%"/></f:facet>
                                             </p:cellEditor>
                                         </p:column>       
 

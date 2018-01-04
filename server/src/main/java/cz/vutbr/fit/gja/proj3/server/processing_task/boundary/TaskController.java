@@ -27,6 +27,7 @@ import javax.faces.bean.ViewScoped;
 import java.util.List;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showInfo;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -79,6 +80,9 @@ public class TaskController {
     
     @Getter @Setter
     protected String selectedId;
+    
+    @Getter @Setter
+    protected String outputValue;
     
     private Node selectedNode;
 
@@ -152,13 +156,24 @@ public class TaskController {
 
     public void addCommand() {
         newTaskUnit.setProcessingTask(selectedProcessingTask);
-        OutputVerification ov = new OutputVerification();
-        ov.setOutputType(OutputType.NO_CHECK);
-        newTaskUnit.setOutputVerification(ov);
+        
+        switch (newTaskUnit.getOutputVerification().getOutputType()) {
+            case SINGLE_FILE:
+            case REGEX:
+                newTaskUnit.getOutputVerification().getExpectedOutput().add(outputValue);
+                break;
+            case ENUMERATED_LIST:
+                newTaskUnit.getOutputVerification().setExpectedOutput(Arrays.asList(outputValue.split(",")));
+                break;
+            default:
+                break;
+        }
+        
         selectedProcessingTask.getProcessingTaskUnits().add(newTaskUnit);
         selectedProcessingTask = service.save(selectedProcessingTask);
         showInfo("Command created.");
         newTaskUnit = new ProcessingTaskUnit();
+        outputValue = "";
     }
 
     public void addNewTask() {
@@ -243,5 +258,9 @@ public class TaskController {
     
     public Map<TaskState, String> getConstStates() {
         return TaskRepository.STATES;
+    }
+    
+    public Map<OutputType, String> getConstOutputTypes() {
+        return TaskRepository.OUTPUT_TYPES;
     }
 }

@@ -5,11 +5,17 @@
 .ui-panel.containerMain {
 }
 
+.nd {
+    display: none;
+}
+
 footer.ui-widget {
     font-size: 90%;
     color: #777;
     text-align: center;
     padding: 15px;
+    border-top: 1px solid #eee;
+    margin-top: 15px;
 }
 
 .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-icon {
