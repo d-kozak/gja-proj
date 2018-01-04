@@ -22,6 +22,9 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Executes specified task and notify the server about the execution of the task
+ */
 @Service
 @Log
 public class TaskExecutor {

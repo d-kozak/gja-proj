@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+/**
+ * This controller accepts tasks send from the server on url /task
+ */
 @RestController
 @RequestMapping("/task")
 @Log
@@ -26,6 +29,9 @@ public class ExecutionTaskController {
         this.taskExecutor = taskExecutor;
     }
 
+    /**
+     * Method accepts processingTaskDTOs sent from the server and delegates their execution to TaskExecutor
+     */
     @PostMapping
     public NodeReply start(HttpServletRequest request, @RequestBody @Valid ProcessingTaskDTO processingTaskDTO, BindingResult binding) {
         String remoteHost = request.getRemoteHost();

@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * url /hello is periodically pinged by the server to check if the node is still active
+ */
 @RestController
 @Log
 public class HelloController {

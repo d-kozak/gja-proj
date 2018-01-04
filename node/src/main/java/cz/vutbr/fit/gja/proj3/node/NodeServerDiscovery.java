@@ -13,6 +13,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.InetAddress;
 
+/**
+ * When the node starts, it sends a hello request to the server
+ */
 @Configuration
 @Log
 public class NodeServerDiscovery implements ApplicationListener<EmbeddedServletContainerInitializedEvent> {
@@ -28,6 +31,9 @@ public class NodeServerDiscovery implements ApplicationListener<EmbeddedServletC
                           .getPort();
     }
 
+    /**
+     * Notifies the server that the node has started running
+     */
     @Bean
     public CommandLineRunner echoToServer() {
         return args -> {
