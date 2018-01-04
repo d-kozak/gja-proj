@@ -1,7 +1,7 @@
 package cz.vutbr.fit.gja.proj3.node.processing_task.control;
 
 import cz.vutbr.fit.gja.proj3.common.node.entity.NodeReply;
-import cz.vutbr.fit.gja.proj3.common.processing_task.OutputVerificationFactory;
+import cz.vutbr.fit.gja.proj3.common.processing_task.control.OutputVerificationFactory;
 import cz.vutbr.fit.gja.proj3.common.processing_task.control.OutputVerificationStrategy;
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskDTO;
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskUnitDTO;

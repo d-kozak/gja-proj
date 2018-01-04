@@ -1,6 +1,5 @@
-package cz.vutbr.fit.gja.proj3.common.processing_task;
+package cz.vutbr.fit.gja.proj3.common.processing_task.control;
 
-import cz.vutbr.fit.gja.proj3.common.processing_task.control.OutputVerificationStrategy;
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.OutputVerificationDTO;
 
 import java.io.File;
