@@ -6,6 +6,7 @@ import cz.vutbr.fit.gja.proj3.common.processing_task.control.OutputVerificationS
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskDTO;
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskUnitDTO;
 import cz.vutbr.fit.gja.proj3.common.processing_task.entity.ProcessingTaskUnitResultDTO;
+import cz.vutbr.fit.gja.proj3.node.NodeServerDiscovery;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -170,7 +171,7 @@ public class TaskExecutor {
     }
 
     private String getServerUrl(String remoteHost, int remotePort) {
-        return "http://" + remoteHost + ":" + remotePort;
+        return NodeServerDiscovery.serverUrl;
     }
 
 }

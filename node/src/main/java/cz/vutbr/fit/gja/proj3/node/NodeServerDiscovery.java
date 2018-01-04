@@ -18,7 +18,7 @@ import java.net.InetAddress;
 public class NodeServerDiscovery implements ApplicationListener<EmbeddedServletContainerInitializedEvent> {
 
     @Value("${cz.vutbr.fit.gja.proj3.node.ServerNotifier.server_url}")
-    private String serverUrl;
+    public static String serverUrl;
 
     private int serverPort = -1;
 
