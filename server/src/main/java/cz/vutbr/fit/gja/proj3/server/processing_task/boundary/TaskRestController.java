@@ -16,6 +16,9 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Server-Node Task transfer REST controller.
+ */
 @RestController
 @RequestMapping("/api/task")
 @Log

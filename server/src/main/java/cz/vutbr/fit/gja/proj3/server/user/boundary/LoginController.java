@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+/**
+ * Login section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "loginController")

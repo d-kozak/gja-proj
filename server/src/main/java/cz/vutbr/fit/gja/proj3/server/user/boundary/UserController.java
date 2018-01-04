@@ -21,6 +21,9 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import lombok.Setter;
 
+/**
+ * User creation section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "userController")
@@ -30,12 +33,10 @@ import lombok.Setter;
 @ManagedBean(name = "userController")
 @ViewScoped
 public class UserController {
-    @Getter
-    @Setter
+    @Getter @Setter
     User user = new User();
     
-    @Getter
-    @Setter
+    @Getter @Setter
     private String oldPassword;
     
     boolean oldPasswordRequired = true;
@@ -56,6 +57,10 @@ public class UserController {
         user.setRoles(new HashSet<String>(Arrays.asList("ROLE_USER")));
     }
 
+    /**
+     * Saves new user into database.
+     * @return Redirect URL
+     */
     public String save() {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (customUserDetailsService.saveUser(user)) {
@@ -71,6 +76,9 @@ public class UserController {
         }
     }
     
+    /**
+     * Updates existing user.
+     */
     public void update() {
         User oldUser = userRepository.findOne(user.getId());
         
@@ -102,6 +110,10 @@ public class UserController {
         }
     }
     
+    /**
+     * Retrieves user roles constant.
+     * @return Map of role names and descriptions
+     */
     public Map<String, String> getConstRoles() {
         return UserRepository.ROLES;
     }

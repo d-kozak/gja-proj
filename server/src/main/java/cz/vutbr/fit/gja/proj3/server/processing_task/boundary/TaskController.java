@@ -38,6 +38,9 @@ import lombok.Setter;
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.RowEditEvent;
 
+/**
+ * Task section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "taskController")
@@ -116,10 +119,16 @@ public class TaskController {
         }
     }
 
+    /**
+     * Reloads database data on filter change.
+     */
     public void filterChange() {
         this.loadData();
     }
     
+    /**
+     * Handles URL parameters.
+     */
     public String onload() {
         if (getParam("id") == null) 
             selectedId = null;
@@ -145,15 +154,26 @@ public class TaskController {
         return null;
     }
     
+    /**
+     * Updates task units.
+     * @param event Edit event
+     */
     public void onRowEditTaskUnit(RowEditEvent event) {
         updateSelectedTask();
         showInfo("Task command updated.");
     }
     
+    /**
+     * Updates task units ordering.
+     * @param event Ordering event
+     */
     public void onRowReorderTaskUnit(ReorderEvent event) {
         updateSelectedTask();
     }
 
+    /**
+     * Adds new command (task unit) to database based on filled information.
+     */
     public void addCommand() {
         newTaskUnit.setProcessingTask(selectedProcessingTask);
         
@@ -176,6 +196,9 @@ public class TaskController {
         outputValue = "";
     }
 
+    /**
+     * Adds new task to database based on filled information.
+     */
     public void addNewTask() {
         newTask.setUser(GuiUtils.getLoggedUser());
         taskRepository.save(newTask);
@@ -184,6 +207,9 @@ public class TaskController {
         newTask = new ProcessingTask();
     }
 
+    /**
+     * Updates selected task.
+     */
     public void update() {
         updateSelectedTask();
         showInfo("Task " + selectedProcessingTask.getName() + " updated.");
@@ -194,6 +220,10 @@ public class TaskController {
         this.loadData();
     }
     
+    /**
+     * Removes specified task from database.
+     * @param pt Task entity to be removed
+     */
     public void remove(ProcessingTask pt) {
         showInfo("Task " + pt.getName() + " removed.");
         if (pt == this.selectedProcessingTask) {
@@ -203,6 +233,10 @@ public class TaskController {
         this.loadData();
     }
     
+    /**
+     * Removes specified task command from database.
+     * @param ptu Task command to be removed
+     */
     public void removeTaskUnit(ProcessingTaskUnit ptu) {
         showInfo("Command was removed from task.");
         this.selectedProcessingTask.getProcessingTaskUnits().remove(ptu);
@@ -256,10 +290,18 @@ public class TaskController {
         return nodes.stream().filter((node) -> (node.getName().toLowerCase().startsWith(query.toLowerCase()))).collect(Collectors.toList());
     }
     
+    /**
+     * Retrieves Task states constant.
+     * @return Map of constants and descriptions
+     */
     public Map<TaskState, String> getConstStates() {
         return TaskRepository.STATES;
     }
     
+    /**
+     * Retrieves output verification types constant.
+     * @return Map of constants and descriptions
+     */
     public Map<OutputType, String> getConstOutputTypes() {
         return TaskRepository.OUTPUT_TYPES;
     }

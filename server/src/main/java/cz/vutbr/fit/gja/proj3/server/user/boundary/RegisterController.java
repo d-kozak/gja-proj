@@ -15,7 +15,12 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import static cz.vutbr.fit.gja.proj3.server.utils.GuiUtils.showError;
+import lombok.Getter;
+import lombok.Setter;
 
+/**
+ * Registration section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "registerController")
@@ -27,10 +32,20 @@ public class RegisterController {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
+    
+    @Getter @Setter
     private String login;
+    
+    @Getter @Setter
     private String firstName;
+    
+    @Getter @Setter
     private String lastName;
+    
+    @Getter @Setter
     private String password;
+    
+    @Getter @Setter
     private String passwordCheck;
 
     @Autowired
@@ -39,6 +54,10 @@ public class RegisterController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Registers user and saves him into database.
+     * @return Redirect URL
+     */
     public String register() {
         log.info("called with " + this);
         User newUser = User.builder()
@@ -57,46 +76,6 @@ public class RegisterController {
             log.severe("registration failed");
             return null;
         }
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordCheck() {
-        return passwordCheck;
-    }
-
-    public void setPasswordCheck(String passwordCheck) {
-        this.passwordCheck = passwordCheck;
     }
 
     @Override

@@ -27,6 +27,9 @@ import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Dashboard section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "dashboardController")
@@ -54,6 +57,9 @@ public class DashboardController {
         this.taskResultRepository = taskResultRepository;
     }
     
+    /**
+     * Loads database data on page load.
+     */
     @RequestAction
     @IgnorePostback
     @Deferred
@@ -62,6 +68,9 @@ public class DashboardController {
         runningTasks = taskResultRepository.findAllByTaskState(TaskState.RUNNING);
     }
     
+    /**
+     * Post-construct initialization method.
+     */
     @PostConstruct
     public void init() {
         model = new DefaultDashboardModel();

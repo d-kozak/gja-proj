@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * User list section backend bean.
+ */
 @Scope(value = "session")
 @Component(value = "userListController")
 @ELBeanName(value = "userListController")
@@ -20,6 +23,7 @@ import java.util.List;
 public class UserListController {
 
     private final UserRepository userRepository;
+    
     @Getter
     private List<User> users;
 
@@ -28,6 +32,9 @@ public class UserListController {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Loads database data on page load.
+     */
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -35,6 +42,11 @@ public class UserListController {
         users = userRepository.findAll();
     }
     
+    /**
+     * Removes user from database.
+     * @param u User entity to be removed
+     * @return URL redirect
+     */
     public String remove(User u) {
         userRepository.delete(u);
         return "/user-list.xhml?faces-redirect=true";

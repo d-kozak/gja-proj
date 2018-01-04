@@ -17,6 +17,9 @@ import java.util.EnumSet;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * Core launcher of Spring Boot application.
+ */
 @Log
 @SpringBootApplication
 @EnableTransactionManagement

@@ -21,6 +21,9 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Node section backend controller.
+ */
 @Log
 @Scope(value = "session")
 @Component(value = "nodeController")
@@ -50,6 +53,9 @@ public class NodeController {
         this.nodeEchoService = nodeEchoService;
     }
 
+    /**
+     * Loads database data on page load.
+     */
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -57,8 +63,10 @@ public class NodeController {
         nodes = nodeRepository.findAllEagerFetch();
     }
 
+    /**
+     * Updates selected node data.
+     */
     public void update() {
-        log.info("called for node " + selectedNode);
         if (!nodeEchoService.isNodeRunning(selectedNode)) {
             log.severe("Node is not running.");
             showError("Node is not running."); 
@@ -69,23 +77,27 @@ public class NodeController {
         }
     }
 
+    /**
+     * Creates node from filled information.
+     */
     public void addNewNode() {
         showInfo("Sending echo to node. Please wait."); 
-        log.info("creating: "+newNode);
         
         if (!nodeEchoService.isNodeRunning(newNode)) {
             log.severe("Node is not running.");
             showError("Node is not running."); 
         }else{
-            log.info("node running, saving "+newNode);
             nodeRepository.save(newNode);
-            log.info("node saved");
             this.loadData();
             showInfo("Node " + newNode.getName() + " created."); 
             this.newNode = new Node();
         }
     }
     
+    /**
+     * Removes Node from database.
+     * @param n Node entity to be removed
+     */
     public void remove(Node n) {
         showInfo("Node " + n.getName() + " removed.");
         if (n == this.selectedNode) {

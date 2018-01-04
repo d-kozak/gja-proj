@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Task result entity.
+ */
 @Entity
 @Data
 @AllArgsConstructor

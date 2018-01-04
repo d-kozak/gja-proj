@@ -13,6 +13,9 @@ import java.util.List;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Provides node probing/status checking functionality.
+ */
 @Log
 @Service
 public class NodeChecker {

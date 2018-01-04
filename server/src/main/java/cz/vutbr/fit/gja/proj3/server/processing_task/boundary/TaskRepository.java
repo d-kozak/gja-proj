@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Task entity repository.
+ */
 @Repository
 @Transactional
 public interface TaskRepository extends JpaRepository<ProcessingTask, Long> {
